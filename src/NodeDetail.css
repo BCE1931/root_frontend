@@ -431,8 +431,47 @@
 
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .node-detail-content { padding: 24px 20px; }
-  .detail-title { font-size: 22px; }
+  .node-detail-container { padding: 16px 14px 50px; }
+  .node-detail-content   { padding: 22px 18px; }
+  .detail-title          { font-size: 22px; }
+  .detail-title-row {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+  }
   .children-grid { grid-template-columns: 1fr; }
-  .detail-title-row { flex-direction: column; }
+  .edit-desc-container textarea { min-height: 260px; font-size: 13px; }
+  .desc-body,
+  .desc-para,
+  .desc-bullets li { font-size: 14.5px; }
+  .desc-code { font-size: 12.5px; padding: 10px 12px; }
+}
+
+@media (max-width: 480px) {
+  .node-detail-container { padding: 12px 10px 50px; }
+  .node-detail-content   { padding: 16px 14px; }
+  .detail-title          { font-size: 19px; }
+  .detail-title-row      { margin-bottom: 16px; padding-bottom: 12px; }
+  .detail-child-badge    { font-size: 11px; padding: 3px 9px; }
+  .breadcrumb            { font-size: 11px; padding: 7px 10px; }
+  .btn-back              { font-size: 13px; padding: 7px 12px; margin-bottom: 14px; }
+
+  .desc-body,
+  .desc-para,
+  .desc-bullets li { font-size: 14px; }
+  .desc-code   { font-size: 12px; padding: 9px 10px; }
+  .desc-link   { font-size: 12px; padding: 3px 8px; }
+  .desc-ref-line { font-size: 13px; padding: 7px 10px; gap: 6px; }
+
+  .edit-desc-container textarea { min-height: 220px; }
+  .children-grid { gap: 7px; }
+  .child-card    { padding: 11px 12px; }
+  .child-card-name { font-size: 13px; }
+}
+
+@media (max-width: 360px) {
+  .node-detail-container { padding: 10px 8px 50px; }
+  .node-detail-content   { padding: 14px 12px; }
+  .detail-title          { font-size: 17px; }
 }

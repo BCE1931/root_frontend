@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, ArrowDown } from "lucide-react";
 import TreeNode from "./TreeNode";
 import NodeDetail from "./NodeDetail";
 import Header from "./Header";
@@ -312,6 +312,23 @@ export default function App() {
               />
             )}
             <div className="page-content">
+              {/* Layout toggle — hidden on desktop, shown on mobile */}
+              <div className="mobile-layout-bar">
+                <div className="layout-pill">
+                  <button
+                    className={`pill-btn${layout === "horizontal" ? " active" : ""}`}
+                    onClick={() => setLayout("horizontal")}
+                  >
+                    <ArrowRight size={13} /> Horizontal
+                  </button>
+                  <button
+                    className={`pill-btn${layout === "vertical" ? " active" : ""}`}
+                    onClick={() => setLayout("vertical")}
+                  >
+                    <ArrowDown size={13} /> Vertical
+                  </button>
+                </div>
+              </div>
               <div className="app-container">
                 {isLoading ? (
                   <div className="tree-loading">
