@@ -1,0 +1,1144 @@
+// seed-sql-direct.cjs
+// Inserts subtopics for Computer Vision Advanced + MLOps directly into MySQL
+// Run: node seed-sql-direct.cjs
+const mysql = require("mysql2/promise");
+
+// ── DB config (matches application.properties) ────────────────────────────
+const DB = { host: "127.0.0.1", port: 330, user: "root", password: "root", database: "root" };
+
+// ── Node definitions (no SQL escaping needed — fully parameterised) ────────
+const nodes = [
+
+  // ═══════════════════════════════════════════════════════════════════════
+  //  COMPUTER VISION ADVANCED  (parent: cv-advanced)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  {
+    id: "cv-object-detection",
+    parentId: "cv-advanced",
+    text: "Object Detection",
+    sortOrder: 0,
+    description: `Locate AND classify multiple objects in an image simultaneously.
+Output = list of (class_label, confidence, bounding_box [x,y,w,h]).
+
+━━━━━ TASK DEFINITION ━━━━━
+
+Classification answers "what is in the image?"
+Detection answers "what is in the image AND where is it?"
+
+Each detected object gets:
+  Class label  — "dog", "car", "person"
+  Confidence   — probability score (0–1)
+  Bounding box — [x_min, y_min, x_max, y_max] in pixels
+
+━━━━━ YOLO FAMILY (You Only Look Once) ━━━━━
+
+ONE-STAGE: entire image → backbone CNN → detect all boxes in one forward pass.
+Fast enough for real-time video (30+ FPS on GPU).
+
+YOLO EVOLUTION:
+  YOLOv1 (2016)  — original, fast but inaccurate on small objects
+  YOLOv5 (2020)  — PyTorch, widely adopted
+  YOLOv8 (2023)  — current standard, easiest API, best accuracy/speed
+
+YOLOV8 — 3 LINES OF CODE:
+  from ultralytics import YOLO
+  model = YOLO("yolov8n.pt")            # nano (fastest), also s/m/l/x
+  results = model("image.jpg")          # inference
+  results[0].show()                     # draw boxes
+
+TRAINING ON CUSTOM DATA:
+  model = YOLO("yolov8n.pt")
+  model.train(data="dataset.yaml", epochs=100, imgsz=640, batch=16)
+  model.val()
+  model.export(format="onnx")           # deploy to edge devices
+
+Dataset YAML format:
+  path: /data/my_dataset
+  train: images/train
+  val:   images/val
+  names: {0: "cat", 1: "dog", 2: "car"}
+
+━━━━━ FASTER R-CNN (TWO-STAGE) ━━━━━
+
+Stage 1 — Region Proposal Network (RPN): proposes candidate boxes.
+Stage 2 — ROI Pooling + classifier: refines boxes and classifies each.
+
+More accurate than YOLO but slower (cannot do real-time on CPU).
+Standard choice for research benchmarks and medical imaging.
+
+  import torchvision
+  model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+  model.eval()
+  with torch.no_grad():
+      preds = model([image_tensor])
+  boxes  = preds[0]["boxes"]     # Tensor[N, 4]
+  labels = preds[0]["labels"]    # Tensor[N]
+  scores = preds[0]["scores"]    # Tensor[N]
+
+━━━━━ DETR (Detection Transformer, 2020) ━━━━━
+
+Facebook Research. First end-to-end Transformer-based detector.
+No hand-crafted components (no anchors, no NMS post-processing).
+Treats detection as a SET PREDICTION problem.
+
+Encoder: processes image features.
+Decoder: N object queries attend to encoder outputs → N box predictions.
+Hungarian matching loss: matches predictions to ground truth.
+
+Slower to train than YOLO but simpler architecture.
+
+━━━━━ KEY CONCEPTS ━━━━━
+
+ANCHOR BOXES: pre-defined aspect ratios that the model adjusts.
+  YOLO, SSD use anchors. DETR, FCOS are anchor-free.
+
+IOU (Intersection over Union):
+  IOU = area(pred ∩ gt) / area(pred ∪ gt)
+  Good detection: IOU > 0.5
+
+NMS (Non-Maximum Suppression):
+  Remove duplicate boxes: keep highest-confidence box, discard overlapping boxes.
+
+mAP (mean Average Precision):
+  Standard detection metric. mAP@0.5 = mean AP at IOU threshold 0.5.
+
+FPN (Feature Pyramid Network):
+  Detect objects at multiple scales by merging features from different depths.
+  Used in Faster R-CNN, YOLO, RetinaNet.
+
+━━━━━ ANNOTATION TOOLS ━━━━━
+
+  Label Studio: https://labelstud.io/  (free, web-based, all task types)
+  Roboflow:     https://roboflow.com/  (annotation + augmentation + export)
+  CVAT:         https://cvat.ai/       (open-source, professional)
+
+━━━━━ BENCHMARKS ━━━━━
+
+  COCO     — 80 classes, 330K images, standard benchmark
+  Pascal VOC — 20 classes, classic benchmark
+  LVIS     — 1200+ categories, long-tail distribution challenge
+
+📄 YOLO paper (Redmon et al., 2016): https://arxiv.org/abs/1506.02640
+📄 Faster R-CNN paper: https://arxiv.org/abs/1506.01497
+📄 DETR paper (Carion et al., 2020): https://arxiv.org/abs/2005.12872
+🎥 YOLO explained (Computerphile): https://www.youtube.com/watch?v=ag3DLKsl2vk
+🎥 Object Detection overview (Andrej Karpathy): https://www.youtube.com/watch?v=LxfUGhug-iQ
+🛠️ YOLOv8 docs (Ultralytics): https://docs.ultralytics.com/
+🛠️ Roboflow (datasets + annotation): https://roboflow.com/`,
+  },
+
+  {
+    id: "cv-segmentation",
+    parentId: "cv-advanced",
+    text: "Image Segmentation",
+    sortOrder: 1,
+    description: `Segmentation assigns a label to EVERY pixel in the image.
+Finer-grained than detection — you know exactly which pixels belong to each object.
+
+━━━━━ THREE TYPES ━━━━━
+
+SEMANTIC SEGMENTATION:
+  Every pixel gets a class label. Pixels of the SAME class are not distinguished.
+  "All road pixels = road, all car pixels = car"
+  Output: mask of shape [H, W] with class index per pixel.
+
+INSTANCE SEGMENTATION:
+  Separate individual instances of the same class.
+  "Car #1 pixels vs Car #2 pixels" — each gets its own mask.
+  Output: N masks + N class labels + N bounding boxes.
+
+PANOPTIC SEGMENTATION:
+  Combines both: semantic labels for background (road, sky) +
+  instance separation for foreground objects (each car, each person).
+
+━━━━━ U-NET (Semantic, 2015) ━━━━━
+
+Architecture: Encoder-Decoder with SKIP CONNECTIONS.
+
+Encoder (contracting path):
+  Repeated [Conv → ReLU → MaxPool] blocks → extract features, reduce resolution.
+
+Bottleneck: deepest features.
+
+Decoder (expanding path):
+  Repeated [Upsample → Conv → ReLU] blocks → restore resolution.
+
+Skip connections: copy encoder feature maps → concatenate with decoder maps.
+  This preserves fine spatial detail lost during downsampling.
+
+Why it works: decoder knows WHERE (via skip) and WHAT (via bottleneck).
+
+  import segmentation_models_pytorch as smp
+
+  model = smp.Unet(
+      encoder_name="resnet34",
+      encoder_weights="imagenet",
+      in_channels=3,
+      classes=1,              # binary segmentation
+  )
+  pred_mask = model(image)   # shape: [B, 1, H, W]
+
+Originally designed for medical images. Works extremely well with small datasets.
+Used in: medical imaging, satellite imagery, road segmentation.
+
+━━━━━ MASK R-CNN (Instance, 2017) ━━━━━
+
+Extends Faster R-CNN with a third branch:
+  1. Region proposal (RPN)
+  2. Classification + box regression
+  3. Mask prediction (small FCN per ROI)
+
+  import torchvision
+  model = torchvision.models.detection.maskrcnn_resnet50_fpn(pretrained=True)
+  preds = model([img])
+  masks  = preds[0]["masks"]   # [N, 1, H, W]
+  labels = preds[0]["labels"]
+  scores = preds[0]["scores"]
+
+━━━━━ SAM (Segment Anything Model, Meta 2023) ━━━━━
+
+Zero-shot segmentation — segments ANY object given a prompt:
+  Point prompt: click on object → get mask
+  Box prompt:   draw rough bbox → get precise mask
+  Text prompt:  (SAM 2 + Grounding DINO)
+
+Trained on 1 BILLION masks. Foundation model for segmentation.
+
+  pip install segment-anything
+  from segment_anything import sam_model_registry, SamPredictor
+
+  sam = sam_model_registry["vit_h"](checkpoint="sam_vit_h.pth")
+  predictor = SamPredictor(sam)
+  predictor.set_image(image_np)
+  masks, scores, _ = predictor.predict(
+      point_coords=np.array([[500, 375]]),
+      point_labels=np.array([1]),          # 1=foreground
+  )
+
+━━━━━ TRAINING A SEGMENTATION MODEL ━━━━━
+
+LOSS FUNCTIONS:
+  Binary Cross-Entropy: pixel-wise BCE between pred and target mask.
+  Dice Loss: 2*|P∩G| / (|P|+|G|)  — handles class imbalance well.
+  Combined: BCE + Dice (most common in practice).
+
+METRICS:
+  IoU (Jaccard Index): intersection/union per class, then average.
+  Dice Score (F1): 2*TP / (2TP + FP + FN)
+  Pixel Accuracy: correct pixels / total pixels.
+
+DATASET FORMAT:
+  Each image has a corresponding mask image (same size).
+  Mask pixel value = class index (0=background, 1=road, 2=car...).
+
+  DATASET TOOLS:
+  from torchvision.datasets import VOCSegmentation
+  import albumentations as A  # augmentation for image+mask pairs
+
+📄 U-Net paper (Ronneberger et al., 2015): https://arxiv.org/abs/1505.04597
+📄 Mask R-CNN paper: https://arxiv.org/abs/1703.06870
+📄 SAM paper (Kirillov et al., 2023): https://arxiv.org/abs/2304.02643
+🎥 U-Net explained (DigitalSreeni): https://www.youtube.com/watch?v=NhdzGfB1q74
+🎥 SAM demo (Meta AI): https://www.youtube.com/watch?v=A-YgxGDZ_5o
+🛠️ segmentation_models_pytorch: https://github.com/qubvel/segmentation_models.pytorch`,
+  },
+
+  {
+    id: "cv-transfer-learning",
+    parentId: "cv-advanced",
+    text: "Transfer Learning & Fine-tuning",
+    sortOrder: 2,
+    description: `Transfer learning lets you reuse a model trained on millions of images for
+YOUR task — even if you only have a few hundred labelled images.
+
+━━━━━ THE CORE IDEA ━━━━━
+
+Training a CNN from scratch on ImageNet took weeks and millions of dollars.
+You do not need to repeat this. Download the weights, reuse the features.
+
+Lower layers → detect edges, colours, textures (universal, reusable)
+Upper layers → detect class-specific patterns (replace for your task)
+
+━━━━━ THREE STRATEGIES ━━━━━
+
+FEATURE EXTRACTION (your dataset is small, <1000 images):
+  Freeze ALL pretrained layers.
+  Only train the new classification head you added.
+  Fast, cheap, works even on CPU.
+
+  model = torchvision.models.resnet50(weights="IMAGENET1K_V2")
+  for param in model.parameters():
+      param.requires_grad = False        # freeze everything
+
+  model.fc = nn.Linear(2048, num_classes)  # replace head
+  # Only model.fc parameters will be updated
+
+FINE-TUNING (your dataset is medium, 1K–10K images):
+  Freeze early layers, unfreeze later layers + head.
+  Later layers capture task-specific patterns.
+
+  for name, param in model.named_parameters():
+      if "layer4" in name or "fc" in name:
+          param.requires_grad = True     # unfreeze last block + head
+      else:
+          param.requires_grad = False
+
+  Use a LOWER learning rate for pretrained layers (1e-5) vs new head (1e-3).
+  Use different param groups:
+
+  optimizer = torch.optim.Adam([
+      {"params": model.layer4.parameters(), "lr": 1e-5},
+      {"params": model.fc.parameters(),     "lr": 1e-3},
+  ])
+
+FULL FINE-TUNE (your dataset is large, >10K images):
+  Unfreeze all layers, train end-to-end.
+  Start with low lr, use lr warmup.
+
+━━━━━ MODEL ZOO ━━━━━
+
+torchvision.models has 70+ pretrained models:
+  model = torchvision.models.resnet50(weights="IMAGENET1K_V2")
+  model = torchvision.models.efficientnet_b3(weights="IMAGENET1K_V1")
+  model = torchvision.models.vit_b_16(weights="IMAGENET1K_V1")    # Vision Transformer
+  model = torchvision.models.convnext_base(weights="IMAGENET1K_V1")
+
+TIMM library (thousands of pretrained models):
+  pip install timm
+  import timm
+  model = timm.create_model("efficientnet_b4", pretrained=True, num_classes=10)
+  model = timm.create_model("vit_base_patch16_224", pretrained=True, num_classes=5)
+
+━━━━━ PRACTICAL CHECKLIST ━━━━━
+
+✓ Resize images to model's expected size (224x224 for ResNet, 384x384 for ViT)
+✓ Normalize with ImageNet stats: mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225]
+✓ Use data augmentation aggressively (RandomHorizontalFlip, ColorJitter, RandomCrop)
+✓ Use class weighting if dataset is imbalanced
+✓ Try EfficientNet-B0/B3 first — best accuracy/speed tradeoff
+✓ Use mixed precision (torch.cuda.amp) for faster training
+
+━━━━━ DATA AUGMENTATION ━━━━━
+
+  from torchvision import transforms
+  train_tf = transforms.Compose([
+      transforms.RandomHorizontalFlip(p=0.5),
+      transforms.RandomRotation(15),
+      transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.2),
+      transforms.RandomResizedCrop(224, scale=(0.7, 1.0)),
+      transforms.ToTensor(),
+      transforms.Normalize([0.485,0.456,0.406], [0.229,0.224,0.225]),
+  ])
+
+  Albumentations (faster, more options):
+  pip install albumentations
+  import albumentations as A
+  transform = A.Compose([
+      A.HorizontalFlip(p=0.5),
+      A.ShiftScaleRotate(p=0.5),
+      A.RandomBrightnessContrast(p=0.3),
+      A.CoarseDropout(p=0.3),           # randomly mask out patches (Cutout)
+  ])
+
+🎥 Transfer learning PyTorch (official tutorial): https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html
+🎥 Fine-tuning explained (fast.ai lesson 1): https://course.fast.ai/
+🛠️ timm model zoo: https://huggingface.co/docs/timm/
+📄 EfficientNet paper: https://arxiv.org/abs/1905.11946`,
+  },
+
+  {
+    id: "cv-opencv",
+    parentId: "cv-advanced",
+    text: "OpenCV — Image Processing",
+    sortOrder: 3,
+    description: `OpenCV is the standard library for classical computer vision and image/video
+processing. Used for preprocessing before ML and for post-processing output.
+
+━━━━━ INSTALLATION & BASICS ━━━━━
+
+  pip install opencv-python
+
+  import cv2
+  import numpy as np
+
+  img = cv2.imread("image.jpg")           # BGR order (not RGB!)
+  img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)  # convert for matplotlib
+  h, w, c = img.shape                     # height, width, channels
+  cv2.imshow("window", img)
+  cv2.waitKey(0)
+  cv2.destroyAllWindows()
+
+IMPORTANT: OpenCV reads images in BGR order, but PyTorch/matplotlib expect RGB.
+Always convert before passing to a neural network.
+
+━━━━━ CORE OPERATIONS ━━━━━
+
+RESIZE:
+  resized = cv2.resize(img, (224, 224))
+  resized = cv2.resize(img, None, fx=0.5, fy=0.5)  # scale by factor
+
+CROP:
+  crop = img[y1:y2, x1:x2]              # NumPy slicing
+
+COLOUR SPACES:
+  gray  = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+  hsv   = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)   # useful for colour masking
+  lab   = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+
+DRAW ON IMAGE:
+  cv2.rectangle(img, (x1,y1), (x2,y2), (0,255,0), 2)    # draw bounding box
+  cv2.putText(img, "Dog 95%", (x1,y1-10), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,255,0), 2)
+  cv2.circle(img, (cx, cy), radius=5, color=(0,0,255), thickness=-1)
+
+━━━━━ FILTERING & BLUR ━━━━━
+
+  blur   = cv2.GaussianBlur(img, (5,5), 0)   # smooth, remove noise
+  sharp  = cv2.filter2D(img, -1, kernel)      # custom kernel
+  edges  = cv2.Canny(gray, 100, 200)          # edge detection
+
+━━━━━ THRESHOLDING & MASKS ━━━━━
+
+  _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+  adaptive  = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                     cv2.THRESH_BINARY, 11, 2)
+
+  HSV masking (detect red objects):
+  lower_red = np.array([0, 100, 100])
+  upper_red = np.array([10, 255, 255])
+  mask = cv2.inRange(hsv, lower_red, upper_red)
+  result = cv2.bitwise_and(img, img, mask=mask)
+
+━━━━━ VIDEO CAPTURE ━━━━━
+
+  cap = cv2.VideoCapture(0)              # 0 = webcam, or pass video file path
+
+  while True:
+      ret, frame = cap.read()
+      if not ret: break
+      # process frame here (run YOLO, etc.)
+      cv2.imshow("Live", frame)
+      if cv2.waitKey(1) == ord("q"): break
+
+  cap.release()
+  cv2.destroyAllWindows()
+
+━━━━━ PREPROCESSING FOR DEEP LEARNING ━━━━━
+
+  def preprocess(img_bgr):
+      img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
+      img_resized = cv2.resize(img_rgb, (224, 224))
+      tensor = torch.from_numpy(img_resized).permute(2,0,1).float() / 255.0
+      mean = torch.tensor([0.485, 0.456, 0.406]).view(3,1,1)
+      std  = torch.tensor([0.229, 0.224, 0.225]).view(3,1,1)
+      return ((tensor - mean) / std).unsqueeze(0)  # add batch dim
+
+📚 OpenCV Python tutorials: https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html
+🎥 OpenCV crash course (freeCodeCamp): https://www.youtube.com/watch?v=oXlwWbU8l2o
+🎥 OpenCV + YOLO real-time detection: https://www.youtube.com/watch?v=HXDD7-EnGBY`,
+  },
+
+  {
+    id: "cv-evaluation",
+    parentId: "cv-advanced",
+    text: "CV Metrics & Datasets",
+    sortOrder: 4,
+    description: `Evaluating computer vision models requires task-specific metrics. Knowing the
+standard datasets and benchmarks is essential for research and competitions.
+
+━━━━━ CLASSIFICATION METRICS ━━━━━
+
+Top-1 Accuracy: fraction where the model's top prediction is correct.
+Top-5 Accuracy: fraction where the correct class is in top 5 predictions.
+
+Standard on ImageNet:
+  ResNet-50:      76.1% top-1
+  EfficientNet-B4: 83.0% top-1
+  ViT-B/16:       81.9% top-1
+  ConvNeXt-B:     83.8% top-1
+
+━━━━━ DETECTION METRICS ━━━━━
+
+IOU (Intersection over Union):
+  IOU = area(pred_box ∩ gt_box) / area(pred_box ∪ gt_box)
+  Good match: IOU > 0.5
+
+Precision and Recall (per class):
+  True Positive (TP): detected box with IOU > threshold and correct class.
+  False Positive (FP): detected box with wrong class or low IOU.
+  False Negative (FN): ground truth box with no matching detection.
+
+AP (Average Precision):
+  Area under the Precision-Recall curve for one class.
+  mAP (mean AP): average AP across all classes.
+  mAP@0.5: compute at IOU threshold 0.5
+  mAP@0.5:0.95: average mAP over IOU thresholds 0.5, 0.55, ..., 0.95 (COCO standard)
+
+━━━━━ SEGMENTATION METRICS ━━━━━
+
+Pixel Accuracy: (correctly classified pixels) / (total pixels)
+IoU per class: |pred ∩ gt| / |pred ∪ gt| for each class
+mIoU (mean IoU): average IoU across all classes. Primary metric for segmentation.
+Dice Score: 2 * |pred ∩ gt| / (|pred| + |gt|) — same as F1, popular in medical imaging.
+
+━━━━━ STANDARD DATASETS ━━━━━
+
+IMAGENET (classification):
+  1.28M training images, 50K validation, 1000 classes.
+  The benchmark for classification since 2010.
+  Download: https://image-net.org/
+
+COCO (detection + segmentation):
+  330K images, 80 object categories, 1.5M object instances.
+  Annotations: bounding boxes, instance masks, keypoints, captions.
+  Download: https://cocodataset.org/
+
+PASCAL VOC (detection + segmentation):
+  20 categories, ~11K images.
+  Simpler than COCO, good for prototyping.
+
+CITYSCAPES (autonomous driving, segmentation):
+  5K high-res images of urban street scenes.
+  19 semantic classes (road, sidewalk, car, pedestrian...).
+  https://www.cityscapes-dataset.com/
+
+OPEN IMAGES (Google):
+  9M images, 600+ classes, detection + segmentation + relationships.
+  Huge but harder to work with. https://storage.googleapis.com/openimages/web/index.html
+
+MEDICAL DATASETS:
+  CheXpert (chest X-rays): https://stanfordmlgroup.github.io/competitions/chexpert/
+  ISIC (skin lesions):     https://www.isic-archive.com/
+
+━━━━━ USING KAGGLE DATASETS ━━━━━
+
+  pip install kaggle
+  kaggle datasets download -d username/dataset-name
+  kaggle competitions download -c competition-name
+
+  Or use HuggingFace Datasets:
+  from datasets import load_dataset
+  ds = load_dataset("imagenet-1k", split="train")
+
+━━━━━ ANNOTATION TOOLS ━━━━━
+
+  Roboflow:     https://roboflow.com/          — annotate, augment, export YOLO/COCO
+  Label Studio: https://labelstud.io/          — multi-task, open-source
+  CVAT:         https://cvat.ai/               — professional, open-source
+  LabelImg:     pip install labelImg           — simple bbox annotation
+
+🎥 mAP explained (Ranga Ntulanga): https://www.youtube.com/watch?v=FppOzcDvaDI
+📚 COCO dataset: https://cocodataset.org/
+🛠️ Roboflow Universe (100K+ open datasets): https://universe.roboflow.com/`,
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════
+  //  MLOPS & MODEL DEPLOYMENT  (parent: mlops)
+  // ═══════════════════════════════════════════════════════════════════════
+
+  {
+    id: "mlops-mlflow",
+    parentId: "mlops",
+    text: "MLflow — Experiment Tracking",
+    sortOrder: 0,
+    description: `MLflow is an open-source platform for managing the entire ML lifecycle:
+experiment tracking, model registry, and deployment.
+
+━━━━━ WHY EXPERIMENT TRACKING? ━━━━━
+
+Without tracking, you will forget:
+  - Which hyperparameters gave that 94% accuracy last Tuesday
+  - Whether the model with dropout or without was better
+  - Which dataset version was used for the production model
+
+MLflow solves this by logging everything automatically.
+
+━━━━━ INSTALLATION ━━━━━
+
+  pip install mlflow
+  mlflow ui                    # start dashboard at http://localhost:5000
+
+━━━━━ CORE CONCEPTS ━━━━━
+
+RUN: a single execution of your training script.
+EXPERIMENT: a named collection of runs (e.g. "ResNet Tuning").
+ARTIFACT: any file saved with the run (model weights, plots, configs).
+METRIC: a numeric value tracked over time (loss, accuracy per epoch).
+PARAMETER: a key-value config for the run (learning_rate, batch_size).
+
+━━━━━ BASIC USAGE ━━━━━
+
+  import mlflow
+  import mlflow.pytorch
+
+  mlflow.set_experiment("my-cnn-experiment")
+
+  with mlflow.start_run(run_name="resnet50-lr0.001"):
+      # Log hyperparameters
+      mlflow.log_param("model", "resnet50")
+      mlflow.log_param("lr", 0.001)
+      mlflow.log_param("batch_size", 32)
+      mlflow.log_param("epochs", 20)
+
+      for epoch in range(20):
+          train_loss, val_acc = train_epoch(...)
+          mlflow.log_metric("train_loss", train_loss, step=epoch)
+          mlflow.log_metric("val_acc", val_acc, step=epoch)
+
+      # Save the model to MLflow
+      mlflow.pytorch.log_model(model, "model")
+
+      # Save any file as artifact
+      mlflow.log_artifact("confusion_matrix.png")
+      mlflow.log_artifact("config.yaml")
+
+━━━━━ MODEL REGISTRY ━━━━━
+
+Register models and manage versions:
+  mlflow.register_model("runs:/abc123/model", "MyClassifier")
+
+Transition stages: None → Staging → Production → Archived.
+Load registered model:
+  model = mlflow.pytorch.load_model("models:/MyClassifier/Production")
+
+━━━━━ AUTO-LOGGING ━━━━━
+
+  mlflow.sklearn.autolog()       # auto-logs sklearn fit() params+metrics
+  mlflow.pytorch.autolog()       # logs loss, lr, gradients automatically
+
+━━━━━ COMPARE RUNS ━━━━━
+
+  In the MLflow UI (http://localhost:5000):
+  - Select multiple runs → Compare
+  - Parallel coordinates plot for hyperparameter importance
+  - Metric charts over time
+  - Download as CSV
+
+━━━━━ INTEGRATION WITH OPTUNA (HYPERPARAMETER SEARCH) ━━━━━
+
+  import optuna
+  import mlflow
+
+  def objective(trial):
+      lr = trial.suggest_float("lr", 1e-5, 1e-2, log=True)
+      n_layers = trial.suggest_int("n_layers", 1, 4)
+
+      with mlflow.start_run():
+          mlflow.log_params(trial.params)
+          acc = train_model(lr=lr, n_layers=n_layers)
+          mlflow.log_metric("val_acc", acc)
+      return acc
+
+  study = optuna.create_study(direction="maximize")
+  study.optimize(objective, n_trials=50)
+
+📚 MLflow documentation: https://mlflow.org/docs/latest/index.html
+🎥 MLflow tutorial (Krish Naik): https://www.youtube.com/watch?v=kshjh3gMNow
+🛠️ MLflow GitHub: https://github.com/mlflow/mlflow`,
+  },
+
+  {
+    id: "mlops-fastapi",
+    parentId: "mlops",
+    text: "FastAPI Model Serving",
+    sortOrder: 1,
+    description: `FastAPI is the best Python framework for serving ML models as REST APIs.
+Fast, async, auto-generates docs, production-ready.
+
+━━━━━ WHY FASTAPI? ━━━━━
+
+  Flask       — simple but slow, no async, no auto-validation
+  Django      — too heavy for just serving a model
+  FastAPI     — fast (Starlette+Uvicorn), type-safe, auto-docs, async support
+
+FastAPI uses Python type hints to:
+  Auto-validate request/response bodies (Pydantic)
+  Auto-generate interactive docs at /docs (Swagger UI) and /redoc
+
+━━━━━ INSTALLATION ━━━━━
+
+  pip install fastapi uvicorn pydantic
+
+━━━━━ BASIC MODEL SERVER ━━━━━
+
+  # app.py
+  from fastapi import FastAPI
+  from pydantic import BaseModel
+  import torch, numpy as np
+
+  app = FastAPI(title="My ML Model API", version="1.0")
+
+  # Load model at startup (not per-request!)
+  model = torch.load("model.pt", map_location="cpu")
+  model.eval()
+
+  class PredictRequest(BaseModel):
+      features: list[float]    # input validation auto-handled by Pydantic
+
+  class PredictResponse(BaseModel):
+      prediction: int
+      confidence: float
+
+  @app.post("/predict", response_model=PredictResponse)
+  async def predict(req: PredictRequest):
+      x = torch.tensor(req.features).unsqueeze(0)
+      with torch.no_grad():
+          logits = model(x)
+          probs  = torch.softmax(logits, dim=1)
+          pred   = int(probs.argmax())
+          conf   = float(probs.max())
+      return {"prediction": pred, "confidence": conf}
+
+  @app.get("/health")
+  async def health():
+      return {"status": "ok"}
+
+  # Run:
+  # uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+
+━━━━━ IMAGE ENDPOINT ━━━━━
+
+  from fastapi import UploadFile, File
+  from PIL import Image
+  import io
+
+  @app.post("/predict-image")
+  async def predict_image(file: UploadFile = File(...)):
+      image = Image.open(io.BytesIO(await file.read())).convert("RGB")
+      tensor = preprocess(image)
+      with torch.no_grad():
+          pred = model(tensor)
+      return {"class": classes[pred.argmax()], "confidence": float(pred.max())}
+
+━━━━━ LIFECYCLE EVENTS (load model once) ━━━━━
+
+  from contextlib import asynccontextmanager
+
+  @asynccontextmanager
+  async def lifespan(app: FastAPI):
+      global model
+      model = torch.load("model.pt")
+      model.eval()
+      yield                          # app runs here
+      del model                      # cleanup on shutdown
+
+  app = FastAPI(lifespan=lifespan)
+
+━━━━━ ASYNC BATCH INFERENCE ━━━━━
+
+  For high-throughput: collect requests into a batch, run one forward pass.
+  Libraries: FastAPI + asyncio.Queue, or use NVIDIA Triton Inference Server.
+
+━━━━━ TESTING YOUR API ━━━━━
+
+  # Command line:
+  curl -X POST http://localhost:8000/predict \
+    -H "Content-Type: application/json" \
+    -d '{"features": [1.2, 3.4, 5.6]}'
+
+  # Python:
+  import requests
+  resp = requests.post("http://localhost:8000/predict",
+                       json={"features": [1.2, 3.4, 5.6]})
+  print(resp.json())
+
+  # Auto-generated interactive docs:
+  http://localhost:8000/docs    (Swagger UI — test endpoints in browser)
+  http://localhost:8000/redoc   (ReDoc — clean documentation)
+
+📚 FastAPI documentation: https://fastapi.tiangolo.com/
+🎥 FastAPI crash course (Traversy): https://www.youtube.com/watch?v=0sOvCWFmrtA
+🎥 Deploying ML with FastAPI (NeuralNine): https://www.youtube.com/watch?v=h5wLuVDr0oc`,
+  },
+
+  {
+    id: "mlops-docker",
+    parentId: "mlops",
+    text: "Docker for ML",
+    sortOrder: 2,
+    description: `Docker packages your model, code, and all dependencies into a container.
+Runs identically on any machine — no more "works on my laptop" problems.
+
+━━━━━ CORE CONCEPTS ━━━━━
+
+IMAGE: read-only template (your code + deps + config). Built once.
+CONTAINER: running instance of an image. Isolated process.
+REGISTRY: where images are stored (Docker Hub, GitHub Container Registry, AWS ECR).
+
+━━━━━ DOCKERFILE FOR ML ━━━━━
+
+  # Dockerfile
+  FROM python:3.11-slim                  # base image
+
+  WORKDIR /app
+
+  # Install dependencies first (layer caching — faster rebuilds)
+  COPY requirements.txt .
+  RUN pip install --no-cache-dir -r requirements.txt
+
+  # Copy model and app code
+  COPY model.pt .
+  COPY app.py .
+
+  EXPOSE 8000
+
+  CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+WITH GPU (CUDA):
+  FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-runtime
+
+  WORKDIR /app
+  COPY requirements.txt .
+  RUN pip install --no-cache-dir -r requirements.txt
+  COPY . .
+  CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+━━━━━ BUILD AND RUN ━━━━━
+
+  docker build -t my-ml-model:v1 .         # build image, tag it
+  docker run -p 8000:8000 my-ml-model:v1   # run, map host:container port
+  docker run -d -p 8000:8000 my-ml-model:v1  # -d = detached (background)
+  docker run --gpus all -p 8000:8000 my-ml-model:v1  # with GPU
+
+  docker ps                                # list running containers
+  docker logs <container_id>               # view logs
+  docker stop <container_id>
+  docker exec -it <container_id> bash      # open shell inside container
+
+━━━━━ DOCKER COMPOSE (multi-service) ━━━━━
+
+  # docker-compose.yml
+  version: "3.9"
+  services:
+    api:
+      build: .
+      ports:
+        - "8000:8000"
+      environment:
+        - MODEL_PATH=/app/model.pt
+      volumes:
+        - ./models:/app/models            # mount model dir (don't bake into image)
+
+    redis:
+      image: redis:alpine                 # for caching predictions
+
+  docker compose up -d
+  docker compose down
+
+━━━━━ .DOCKERIGNORE ━━━━━
+
+Create .dockerignore to exclude large files from the build context:
+  __pycache__/
+  *.pyc
+  .git/
+  data/
+  notebooks/
+  *.ipynb
+  venv/
+  .env
+
+━━━━━ MULTI-STAGE BUILDS (smaller final image) ━━━━━
+
+  # Stage 1: build / install
+  FROM python:3.11 AS builder
+  COPY requirements.txt .
+  RUN pip install --user -r requirements.txt
+
+  # Stage 2: production (no pip, no build tools)
+  FROM python:3.11-slim
+  COPY --from=builder /root/.local /root/.local
+  COPY app.py model.pt ./
+  CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0"]
+
+━━━━━ PUSH TO REGISTRY ━━━━━
+
+  docker tag my-ml-model:v1 ghcr.io/yourname/my-ml-model:v1
+  docker push ghcr.io/yourname/my-ml-model:v1
+  # Then deploy from any cloud: pull + run
+
+📚 Docker official get-started: https://docs.docker.com/get-started/
+🎥 Docker for ML (Nicholas Renotte): https://www.youtube.com/watch?v=0H2miBK_gAk
+🎥 Docker crash course (TechWorld with Nana): https://www.youtube.com/watch?v=3c-iBn73dDE`,
+  },
+
+  {
+    id: "mlops-monitoring",
+    parentId: "mlops",
+    text: "Model Monitoring & Data Drift",
+    sortOrder: 3,
+    description: `Models degrade silently in production. Monitoring catches this before it
+causes real business damage.
+
+━━━━━ WHY MODELS DEGRADE ━━━━━
+
+DATA DRIFT: distribution of incoming data changes over time.
+  Train data: customers aged 20-35. Later: customers aged 40-60.
+  Model was never trained on 40-60 → predictions get worse.
+
+CONCEPT DRIFT: the relationship between features and target changes.
+  Fraud patterns change as fraudsters adapt to your model.
+  COVID changed all consumer behaviour models overnight.
+
+MODEL STALENESS: the world changes, old patterns no longer apply.
+
+━━━━━ WHAT TO MONITOR ━━━━━
+
+INPUT MONITORING (detect drift early):
+  Feature statistics: mean, std, min, max, null rate per feature.
+  Distribution shift: compare current vs training distribution.
+  PSI (Population Stability Index): measures feature drift severity.
+
+OUTPUT MONITORING:
+  Prediction distribution: has the ratio of class 0/1 predictions changed?
+  Confidence distribution: are predictions less confident than before?
+
+PERFORMANCE MONITORING (needs labels — delayed):
+  Accuracy, F1 on labelled subset of production data.
+  Business metrics: revenue per recommendation, click-through rate.
+
+SYSTEM MONITORING:
+  Latency: p50, p95, p99 response time.
+  Throughput: requests/second.
+  Error rate: 5xx errors, timeout rate.
+  GPU/CPU utilisation.
+
+━━━━━ EVIDENTLY AI (open-source monitoring) ━━━━━
+
+  pip install evidently
+
+  from evidently.report import Report
+  from evidently.metric_preset import DataDriftPreset, DataQualityPreset
+
+  report = Report(metrics=[DataDriftPreset()])
+  report.run(reference_data=train_df, current_data=prod_df)
+  report.save_html("drift_report.html")
+
+  # Check programmatically
+  result = report.as_dict()
+  print(result["metrics"][0]["result"]["dataset_drift"])  # True/False
+
+━━━━━ ALERTS & THRESHOLDS ━━━━━
+
+  Set up alerts when:
+  Accuracy drops below threshold (e.g. < 90% of baseline)
+  Input drift score exceeds PSI > 0.2
+  Null rate in feature > 5%
+  Latency p95 > 500ms
+
+  Use: PagerDuty, Slack webhooks, or email for notifications.
+
+━━━━━ RETRAINING STRATEGY ━━━━━
+
+SCHEDULED: retrain weekly/monthly with latest data.
+TRIGGERED: retrain when drift score crosses threshold.
+ONLINE LEARNING: update model continuously (streaming ML — rare, complex).
+
+  Best practice: scheduled + drift monitoring triggers.
+  Always evaluate new model vs old model before promoting to production.
+
+━━━━━ SHADOW MODE / CANARY DEPLOYMENT ━━━━━
+
+SHADOW: new model runs alongside old model, predictions logged but not served.
+Compare performance on the same real traffic before switching.
+
+CANARY: route 5-10% of traffic to new model, compare metrics, then ramp up.
+
+━━━━━ LOGGING INFRASTRUCTURE ━━━━━
+
+  Structure every prediction log:
+  {
+    "timestamp": "2025-05-04T12:00:00Z",
+    "model_version": "v2.1",
+    "input_hash": "abc123",
+    "prediction": 1,
+    "confidence": 0.92,
+    "latency_ms": 45
+  }
+
+  Use: Elasticsearch + Kibana, or Prometheus + Grafana for dashboards.
+
+📚 Evidently AI docs: https://docs.evidentlyai.com/
+🎥 ML Monitoring (Chip Huyen): https://www.youtube.com/watch?v=5LFPHPXQyMc
+📄 Monitoring ML in production (Google): https://arxiv.org/abs/2209.07455
+🛠️ WhyLabs (production ML monitoring): https://whylabs.ai/`,
+  },
+
+  {
+    id: "mlops-cloud",
+    parentId: "mlops",
+    text: "Cloud ML Platforms & Deployment",
+    sortOrder: 4,
+    description: `Once your model is containerised, you need somewhere to host it. Here are
+the main deployment options from free to enterprise.
+
+━━━━━ FREE HOSTING (DEMOS & PROTOTYPES) ━━━━━
+
+HUGGINGFACE SPACES (recommended for demos):
+  Host Gradio or Streamlit apps for free. 2 CPU cores, 16GB RAM.
+  Zero-config deployment — push to HuggingFace Hub.
+
+  import gradio as gr
+  def predict(image):
+      return model(preprocess(image))
+
+  gr.Interface(fn=predict, inputs="image", outputs="label").launch()
+
+  Then: huggingface-cli upload-folder --repo-id yourname/my-demo --folder-path .
+
+RENDER / RAILWAY (Docker deployment, free tier):
+  Push Docker image → auto-deploy from GitHub on every push.
+  Free tier: 512MB RAM, sleeps after inactivity.
+
+  render.yaml:
+    services:
+      - type: web
+        name: ml-api
+        runtime: docker
+        plan: free
+        envVars:
+          - key: PORT
+            value: 8000
+
+━━━━━ AWS SAGEMAKER ━━━━━
+
+End-to-end ML platform: notebook, training, deployment, monitoring.
+
+  import boto3
+  import sagemaker
+  from sagemaker.pytorch import PyTorchModel
+
+  model = PyTorchModel(
+      model_data="s3://my-bucket/model.tar.gz",
+      role=role,
+      entry_point="inference.py",
+      framework_version="2.1",
+      py_version="py310",
+  )
+
+  predictor = model.deploy(
+      initial_instance_count=1,
+      instance_type="ml.c5.xlarge",
+  )
+  result = predictor.predict(data)
+  predictor.delete_endpoint()         # cleanup!
+
+SageMaker Inference:
+  Real-time endpoints — always-on, low latency
+  Serverless inference — pay per call, cold start (~1s)
+  Batch transform — process large datasets offline
+
+━━━━━ GOOGLE CLOUD VERTEX AI ━━━━━
+
+  from google.cloud import aiplatform
+
+  aiplatform.init(project="my-project", location="us-central1")
+
+  model = aiplatform.Model.upload(
+      display_name="my-model",
+      artifact_uri="gs://my-bucket/model/",
+      serving_container_image_uri="us-docker.pkg.dev/vertex-ai/prediction/pytorch-cpu.1-13:latest",
+  )
+
+  endpoint = model.deploy(machine_type="n1-standard-4")
+  prediction = endpoint.predict(instances=[{"input": [1.0, 2.0, 3.0]}])
+
+━━━━━ AWS LAMBDA (SERVERLESS) ━━━━━
+
+For lightweight models (scikit-learn, small PyTorch):
+  Package model + code into a ZIP or Docker image (max 10GB for containers).
+  Pay only when called. Zero management. Cold start: 1-3s.
+  Max execution time: 15 minutes.
+
+  Use AWS Lambda for: low-traffic, bursty workloads.
+  Avoid for: large models, GPU inference, high-throughput.
+
+━━━━━ KUBERNETES (PRODUCTION SCALE) ━━━════
+
+  For high-traffic production:
+  kubectl create deployment ml-api --image=my-model:v1
+  kubectl expose deployment ml-api --type=LoadBalancer --port=8000
+  kubectl scale deployment ml-api --replicas=5    # scale up
+  kubectl autoscale deployment ml-api --cpu-percent=70 --min=2 --max=20  # HPA
+
+  Tools: Helm charts for deployment config, ArgoCD for GitOps.
+
+━━━━━ DEPLOYMENT DECISION TREE ━━━━━
+
+  Demo / portfolio?     → HuggingFace Spaces (free)
+  Side project API?     → Render / Railway (free tier)
+  Startup / prod?       → AWS ECS + ECR or GCP Cloud Run
+  Enterprise scale?     → SageMaker / Vertex AI / Kubernetes
+
+📚 AWS SageMaker docs: https://docs.aws.amazon.com/sagemaker/
+📚 Google Vertex AI docs: https://cloud.google.com/vertex-ai/docs
+🎥 Deploy ML on AWS (Krish Naik): https://www.youtube.com/watch?v=x9-Q7kjLBDk
+🎥 HuggingFace Spaces tutorial: https://www.youtube.com/watch?v=3bSVKNKb_PY
+🛠️ Render deploy guide: https://render.com/docs/deploy-fastapi`,
+  },
+];
+
+// ── SQL file generator ─────────────────────────────────────────────────────
+function escapeSQL(str) {
+  if (str === null || str === undefined) return "NULL";
+  return "'" + str.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "'";
+}
+
+function generateSQL(nodes) {
+  const lines = [
+    "-- AI Roadmap: Computer Vision Advanced + MLOps subtopics",
+    "-- Generated by seed-sql-direct.cjs",
+    "USE `root`;",
+    "",
+  ];
+  for (const n of nodes) {
+    lines.push(
+      `INSERT INTO tree_nodes (id, text, description, parent_id, sort_order) VALUES` +
+      ` (${escapeSQL(n.id)}, ${escapeSQL(n.text)}, ${escapeSQL(n.description)}, ${escapeSQL(n.parentId)}, ${n.sortOrder});`
+    );
+  }
+  return lines.join("\n");
+}
+
+// ── Direct MySQL insert ────────────────────────────────────────────────────
+async function seedMySQL(nodes) {
+  const conn = await mysql.createConnection(DB);
+  console.log("\nConnected to MySQL directly.\n");
+
+  let ok = 0, fail = 0;
+  for (const n of nodes) {
+    try {
+      await conn.execute(
+        "INSERT INTO tree_nodes (id, text, description, parent_id, sort_order) VALUES (?, ?, ?, ?, ?)",
+        [n.id, n.text, n.description, n.parentId, n.sortOrder]
+      );
+      console.log(`  ✓  [SQL] ${n.text}`);
+      ok++;
+    } catch (err) {
+      console.error(`  ✗  ${n.text}  →  ${err.message}`);
+      fail++;
+    }
+  }
+
+  await conn.end();
+  console.log(`\nSQL inserts complete — ${ok} rows written, ${fail} failed.\n`);
+  return { ok, fail };
+}
+
+// ── Main ───────────────────────────────────────────────────────────────────
+const fs = require("fs");
+const path = require("path");
+
+async function main() {
+  // 1. Write .sql file
+  const sqlPath = path.join(__dirname, "cv-mlops-subtopics.sql");
+  fs.writeFileSync(sqlPath, generateSQL(nodes), "utf8");
+  console.log(`\nSQL file written → ${sqlPath}`);
+
+  // 2. Insert directly into MySQL
+  await seedMySQL(nodes);
+}
+
+main().catch((err) => {
+  console.error("Fatal:", err.message);
+  process.exit(1);
+});

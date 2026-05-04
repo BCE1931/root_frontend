@@ -1,19 +1,13 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import {
-  Moon,
-  Sun,
-  RotateCcw,
-  Download,
-  ChevronDown,
-  LogOut,
-  Settings,
-  ArrowRight,
-  ArrowDown,
+  Moon, Sun, RotateCcw, Download, ChevronDown,
+  LogOut, Settings, ArrowRight, ArrowDown, Database, Laptop,
 } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 import { toast } from "react-toastify";
+import { getMode } from "./storage/index.js";
 
-export default function Header({ onReset, onExport, layout, onLayoutChange }) {
+export default function Header({ onReset, onExport, layout, onLayoutChange, onOpenSettings, storageMode }) {
   const { isDark, toggleTheme } = useContext(ThemeContext);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
@@ -83,19 +77,21 @@ export default function Header({ onReset, onExport, layout, onLayoutChange }) {
             </button>
           )}
           {onReset && (
-            <button
-              className="hdr-icon-btn"
-              onClick={handleReset}
-              title="Reset Tree"
-            >
+            <button className="hdr-icon-btn" onClick={handleReset} title="Reset Tree">
               <RotateCcw size={17} />
             </button>
           )}
-          <button
-            className="hdr-icon-btn theme-toggle-btn"
-            onClick={toggleTheme}
-            title="Toggle Theme"
-          >
+          {onOpenSettings && (
+            <button
+              className="hdr-icon-btn storage-mode-btn"
+              onClick={onOpenSettings}
+              title={storageMode === "local" ? "Frontend Storage (click to change)" : "Backend Storage (click to change)"}
+            >
+              {storageMode === "local" ? <Laptop size={17} /> : <Database size={17} />}
+              <span className="storage-label">{storageMode === "local" ? "Local" : "API"}</span>
+            </button>
+          )}
+          <button className="hdr-icon-btn theme-toggle-btn" onClick={toggleTheme} title="Toggle Theme">
             {isDark ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
