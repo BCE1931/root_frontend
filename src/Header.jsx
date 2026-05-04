@@ -1,13 +1,13 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import {
-  Moon, Sun, RotateCcw, Download, ChevronDown,
+  Moon, Sun, Download, ChevronDown,
   LogOut, Settings, ArrowRight, ArrowDown, Database, Laptop,
 } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 import { toast } from "react-toastify";
 import { getMode } from "./storage/index.js";
 
-export default function Header({ onReset, onExport, layout, onLayoutChange, onOpenSettings, storageMode }) {
+export default function Header({ onExport, layout, onLayoutChange, onOpenSettings, storageMode }) {
   const { isDark, toggleTheme } = useContext(ThemeContext);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
@@ -21,13 +21,6 @@ export default function Header({ onReset, onExport, layout, onLayoutChange, onOp
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
-
-  const handleReset = () => {
-    if (window.confirm("Reset all data? This cannot be undone.")) {
-      onReset();
-      toast.warning("All data reset!");
-    }
-  };
 
   const handleExport = () => {
     onExport();
@@ -74,11 +67,6 @@ export default function Header({ onReset, onExport, layout, onLayoutChange, onOp
               title="Export JSON"
             >
               <Download size={17} />
-            </button>
-          )}
-          {onReset && (
-            <button className="hdr-icon-btn" onClick={handleReset} title="Reset Tree">
-              <RotateCcw size={17} />
             </button>
           )}
           {onOpenSettings && (

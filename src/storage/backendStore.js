@@ -39,3 +39,16 @@ export async function deleteNode(id) {
   const res = await fetch(`${BASE}/nodes/${id}`, { method: "DELETE" });
   if (!res.ok) throw new Error(`Server error ${res.status}`);
 }
+
+export async function toggleComplete(id) {
+  const getRes = await fetch(`${BASE}/nodes/${id}`);
+  if (!getRes.ok) throw new Error(`Server error ${getRes.status}`);
+  const node = await getRes.json();
+  const res = await fetch(`${BASE}/nodes/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text: node.text, description: node.description, completed: !node.completed }),
+  });
+  if (!res.ok) throw new Error(`Server error ${res.status}`);
+  return res.json();
+}

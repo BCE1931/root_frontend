@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { ArrowLeft, Edit2, Check, X } from "lucide-react";
+import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 import "./NodeDetail.css";
 
@@ -212,6 +212,7 @@ export default function NodeDetail({
   findNodeById,
   findParentPath,
   onUpdateDescription,
+  onToggleComplete,
 }) {
   const { isDark } = useContext(ThemeContext);
   const { nodeId } = useParams();
@@ -288,11 +289,24 @@ export default function NodeDetail({
           {/* Title */}
           <div className="detail-title-row">
             <h1 className="detail-title">{node.text}</h1>
-            {node.children?.length > 0 && (
-              <span className="detail-child-badge">
-                {node.children.length} subtopic{node.children.length !== 1 ? "s" : ""}
-              </span>
-            )}
+            <div className="detail-title-actions">
+              {node.children?.length > 0 && (
+                <span className="detail-child-badge">
+                  {node.children.length} subtopic{node.children.length !== 1 ? "s" : ""}
+                </span>
+              )}
+              {onToggleComplete && (
+                <button
+                  className={`detail-complete-btn${node.completed ? " detail-complete-done" : ""}`}
+                  onClick={() => onToggleComplete(nodeId)}
+                  title={node.completed ? "Mark as incomplete" : "Mark as complete"}
+                >
+                  {node.completed
+                    ? <><CheckCircle2 size={16} /> Completed</>
+                    : <><Circle size={16} /> Mark complete</>}
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Description section */}

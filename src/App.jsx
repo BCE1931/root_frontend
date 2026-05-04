@@ -135,8 +135,6 @@ export default function App() {
 
   // ── Header actions ────────────────────────────────────────────────────────
 
-  const handleReset = () => loadData().then(() => toast.info("Tree reloaded!"));
-
   const handleExport = () => {
     navigator.clipboard.writeText(JSON.stringify(treeData, null, 2));
     toast.success("Tree JSON copied to clipboard!");
@@ -241,6 +239,24 @@ export default function App() {
 
   const handleViewNode = (nodeId) => window.open(`/node/${nodeId}`, "_blank");
 
+  // ── Toggle completion ─────────────────────────────────────────────────────
+
+  const handleToggleComplete = async (nodeId) => {
+    try {
+      await api.toggleComplete(nodeId);
+      const toggleRec = (nodes) =>
+        nodes.map((n) => {
+          if (n.id === nodeId) return { ...n, completed: !n.completed };
+          if (n.children.length > 0)
+            return { ...n, children: toggleRec(n.children) };
+          return n;
+        });
+      setTreeData((prev) => toggleRec(prev));
+    } catch {
+      toast.error("Failed to update completion status");
+    }
+  };
+
   // ── Update description (from NodeDetail page) ─────────────────────────────
 
   const handleUpdateDescription = async (nodeId, newDescription) => {
@@ -298,7 +314,6 @@ export default function App() {
         element={
           <>
             <Header
-              onReset={handleReset}
               onExport={handleExport}
               layout={layout}
               onLayoutChange={setLayout}
@@ -366,6 +381,7 @@ export default function App() {
                           onDelete={handleDeleteRequest}
                           onEdit={handleEditNode}
                           onView={handleViewNode}
+                          onToggleComplete={handleToggleComplete}
                           isRoot={true}
                           layout={layout}
                         />
@@ -403,7 +419,7 @@ export default function App() {
         path="/node/:nodeId"
         element={
           <>
-            <Header onReset={handleReset} onExport={handleExport} />
+            <Header onExport={handleExport} />
             {isLoading ? (
               <div className="page-content">
                 <div className="tree-loading">
@@ -417,6 +433,7 @@ export default function App() {
                 findNodeById={findNodeById}
                 findParentPath={findParentPath}
                 onUpdateDescription={handleUpdateDescription}
+                onToggleComplete={handleToggleComplete}
               />
             )}
           </>

@@ -34,10 +34,11 @@ function store() {
   return local;
 }
 
-export const fetchNodes  = ()            => store().fetchNodes();
-export const createNode  = (node)        => store().createNode(node);
-export const updateNode  = (id, data)    => store().updateNode(id, data);
-export const deleteNode  = (id)          => store().deleteNode(id);
+export const fetchNodes     = ()         => store().fetchNodes();
+export const createNode     = (node)     => store().createNode(node);
+export const updateNode     = (id, data) => store().updateNode(id, data);
+export const deleteNode     = (id)       => store().deleteNode(id);
+export const toggleComplete = (id)       => store().toggleComplete(id);
 
 // re-export local-only helpers (used by settings panel)
 export { resetToDefaults, exportJSON, importJSON } from "./localStore.js";

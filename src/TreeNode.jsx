@@ -10,6 +10,8 @@ import {
   Check,
   X,
   Eye,
+  CheckCircle2,
+  Circle,
 } from "lucide-react";
 
 export default function TreeNode({
@@ -18,6 +20,7 @@ export default function TreeNode({
   onDelete,
   onEdit,
   onView,
+  onToggleComplete,
   isRoot,
   layout,
 }) {
@@ -25,11 +28,10 @@ export default function TreeNode({
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(node.text);
 
-  const hasChildren = node.children && node.children.length > 0;
+  const hasChildren  = node.children && node.children.length > 0;
   const childrenCount = node.children ? node.children.length : 0;
-
   const visibleChildren = showAll ? node.children : node.children.slice(0, 3);
-  const hiddenCount = childrenCount - 3;
+  const hiddenCount  = childrenCount - 3;
 
   const handleSave = () => {
     if (editText.trim() !== "") {
@@ -47,7 +49,7 @@ export default function TreeNode({
 
   return (
     <div className={`tree-node ${layout}`}>
-      <div className="node-content">
+      <div className={`node-content${node.completed ? " node-completed" : ""}`}>
         {isEditing ? (
           <div className="edit-container">
             <input
@@ -64,25 +66,29 @@ export default function TreeNode({
               <button className="btn-add" onClick={handleSave} title="Save">
                 <Check size={14} />
               </button>
-              <button
-                className="btn-delete"
-                onClick={handleCancel}
-                title="Cancel"
-              >
+              <button className="btn-delete" onClick={handleCancel} title="Cancel">
                 <X size={14} />
               </button>
             </div>
           </div>
         ) : (
           <>
-            <span
-              className="node-text"
-              onDoubleClick={() => setIsEditing(true)}
-            >
+            <span className="node-text" onDoubleClick={() => setIsEditing(true)}>
               {node.text}
             </span>
 
             <div className="node-actions">
+              {/* Completion toggle — available on every node */}
+              <button
+                className={`btn-complete${node.completed ? " btn-complete-done" : ""}`}
+                onClick={() => onToggleComplete(node.id)}
+                title={node.completed ? "Mark as incomplete" : "Mark as complete"}
+              >
+                {node.completed
+                  ? <CheckCircle2 size={14} />
+                  : <Circle size={14} />}
+              </button>
+
               <button
                 className="btn-edit"
                 onClick={() => setIsEditing(true)}
@@ -90,6 +96,7 @@ export default function TreeNode({
               >
                 <Edit2 size={14} />
               </button>
+
               <button
                 className="btn-view"
                 onClick={() => onView(node.id)}
@@ -97,6 +104,7 @@ export default function TreeNode({
               >
                 <Eye size={14} />
               </button>
+
               <button
                 className="btn-add"
                 onClick={() => onAdd(node.id)}
@@ -104,7 +112,9 @@ export default function TreeNode({
               >
                 <Plus size={14} />
               </button>
-              {!isRoot && (
+
+              {/* Delete only shown for non-protected, non-root nodes */}
+              {!isRoot && !node.protected && (
                 <button
                   className="btn-delete"
                   onClick={() => onDelete(node.id, node.text)}
@@ -128,6 +138,7 @@ export default function TreeNode({
               onDelete={onDelete}
               onEdit={onEdit}
               onView={onView}
+              onToggleComplete={onToggleComplete}
               isRoot={false}
               layout={layout}
             />
@@ -135,21 +146,13 @@ export default function TreeNode({
 
           {hiddenCount > 0 && !showAll && (
             <button className="btn-read-more" onClick={() => setShowAll(true)}>
-              {layout === "horizontal" ? (
-                <ChevronDown size={14} />
-              ) : (
-                <ChevronRight size={14} />
-              )}
+              {layout === "horizontal" ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
               Read {hiddenCount} more
             </button>
           )}
           {showAll && childrenCount > 3 && (
             <button className="btn-read-more" onClick={() => setShowAll(false)}>
-              {layout === "horizontal" ? (
-                <ChevronUp size={14} />
-              ) : (
-                <ChevronLeft size={14} />
-              )}
+              {layout === "horizontal" ? <ChevronUp size={14} /> : <ChevronLeft size={14} />}
               Show less
             </button>
           )}
