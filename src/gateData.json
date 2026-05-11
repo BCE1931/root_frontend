@@ -1,0 +1,640 @@
+[
+  {
+    "id": "gate-root",
+    "parentId": null,
+    "sortOrder": 0,
+    "text": "GATE 2027 CS/IT Preparation",
+    "description": "Your complete GATE 2027 CS/IT roadmap.\n\n📅 Timeline: May 11, 2026 → Feb 2027\n• 6 months core study (May–Nov)\n• 1 month revision (Nov–Dec)\n• Mock test phase (Dec–Feb)\n\n📊 GATE CS Syllabus (11 subjects):\n1. Engineering Mathematics — ~15 marks\n2. Digital Logic — ~4 marks\n3. Computer Organization & Architecture — ~6 marks\n4. Programming in C + Data Structures — ~12 marks\n5. Algorithms — ~6 marks\n6. Theory of Computation — ~6 marks\n7. Compiler Design — ~4 marks\n8. Operating Systems — ~8 marks\n9. Computer Networks — ~6 marks\n10. Databases — ~6 marks\n11. Software Engineering — ~3 marks\n\nGeneral Aptitude: 15 marks (easy — must score 12+)\n\n🎯 Target: 60+ marks to get AIR < 500",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-overview",
+    "parentId": "gate-root",
+    "sortOrder": 0,
+    "text": "Daily Routine & Study Tips",
+    "description": "⏰ DAILY SCHEDULE (6 hrs/day):\n• Morning (2 hrs): Study new topic — read concepts, make notes\n• Afternoon (2 hrs): Solve GATE PYQs on today's topic\n• Evening (1.5 hrs): Practice problems from standard books\n• Night (30 min): Quick revision of today's content\n\n📅 WEEKLY PATTERN:\n• Mon–Fri: New topics + PYQs\n• Saturday: Weekly subject test (timed)\n• Sunday: Rest or catch-up\n\n📚 STANDARD BOOKS:\n• Discrete Math: Kenneth Rosen\n• Algorithms: CLRS (Cormen)\n• OS: Tanenbaum / Silberschatz\n• Networks: Tanenbaum / Forouzan\n• DBMS: Korth / Navathe\n• Compiler: Aho-Lam-Sethi-Ullman (Dragon Book)\n• TOC: Sipser / Ullman\n\n🌐 ONLINE RESOURCES:\n• gateoverflow.in — best PYQ explanations\n• Virtual GATE on official GATE portal\n• Made Easy / ACE Academy notes\n\n⚠️ KEY HABITS:\n1. Solve min 10 PYQs per subtopic\n2. Maintain a formula/concept sheet per subject\n3. Never skip Engg Math — 15 marks!\n4. Revision > new study in last 2 months\n5. Attempt all General Aptitude questions (no excuse to miss)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-strategy",
+    "parentId": "gate-root",
+    "sortOrder": 9,
+    "text": "Exam Strategy & Marks Breakdown",
+    "description": "🎯 GATE EXAM FORMAT:\n• 65 questions, 100 marks, 3 hours\n• 1-mark questions: -1/3 negative marking\n• 2-mark questions: -2/3 negative marking\n• MCQ + MSQ + NAT (Numerical Answer Type — no negative marking!)\n\n⚡ EXAM DAY STRATEGY:\n1. First 15 min: Scan all 65 questions, mark easy ones\n2. Attempt all 1-mark questions first\n3. Solve confident 2-mark questions\n4. NAT questions — always attempt (no negative!)\n5. Skip doubtful MCQs (penalty is real)\n6. Last 15 min: Review + educated guesses only where >50% sure\n\n❌ AVOID:\n• >5 min on any single question\n• Blind guessing MCQs\n• Skipping General Aptitude\n\n📝 REGISTRATION:\n• GATE 2027 registration: typically Sep–Oct 2026\n• Portal: goaps.iitkgp.ac.in\n• Exam: Feb 2027 (check official notification)\n• Application fee: ~₹1800 (general category)",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m1",
+    "parentId": "gate-root",
+    "sortOrder": 1,
+    "text": "Month 1: Engineering Math + Discrete Math",
+    "description": "📅 May 11 – June 10, 2026\n\n🎯 Build mathematical foundation. Engineering Math = ~15 marks in GATE.\n\nTopics this month:\n• Propositional & Predicate Logic\n• Set Theory, Relations, Functions\n• Graph Theory (basics)\n• Combinatorics & Counting\n• Linear Algebra\n• Calculus\n• Probability & Statistics\n\nWeekly Plan:\n• Week 1 (May 11-17): Logic + Set Theory + Relations\n• Week 2 (May 18-24): Functions + Graph Theory + Combinatorics\n• Week 3 (May 25-31): Linear Algebra\n• Week 4 (Jun 1-10): Calculus + Probability + PYQ practice",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m1-w1",
+    "parentId": "gate-m1",
+    "sortOrder": 0,
+    "text": "Week 1 (May 11-17): Logic & Set Theory",
+    "description": "📅 May 11–17, 2026\n\nDay 1 Mon May 11: Propositional Logic — connectives, truth tables, tautology, contradiction, logical equivalence\nDay 2 Tue May 12: Propositional Logic — inference rules (Modus Ponens, Tollens), resolution, CNF/DNF\nDay 3 Wed May 13: Predicate Logic — quantifiers (∀, ∃), FOL, negation of quantifiers\nDay 4 Thu May 14: Set Theory — operations, power sets, Cartesian product, Venn diagrams\nDay 5 Fri May 15: Relations — reflexive, symmetric, transitive, equivalence, partial order, POSET, Hasse diagram\nDay 6 Sat May 16: Solve 20 GATE PYQs on Logic + Sets (timed)\nDay 7 Sun May 17: Revise week, update formula sheet",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-logic",
+    "parentId": "gate-m1-w1",
+    "sortOrder": 0,
+    "text": "Propositional & Predicate Logic",
+    "description": "PROPOSITIONAL LOGIC:\n\nConnectives: ¬ NOT, ∧ AND, ∨ OR, → Implies, ↔ Biconditional\n\nKey Equivalences:\n• De Morgan: ¬(P∧Q) = ¬P∨¬Q and ¬(P∨Q) = ¬P∧¬Q\n• Implication: P→Q = ¬P∨Q\n• Contrapositive: P→Q ≡ ¬Q→¬P\n• Double Negation: ¬¬P = P\n• Tautology: P∨¬P always TRUE\n• Contradiction: P∧¬P always FALSE\n\nInference Rules:\n• Modus Ponens: P, P→Q ⊢ Q\n• Modus Tollens: ¬Q, P→Q ⊢ ¬P\n• Hypothetical Syllogism: P→Q, Q→R ⊢ P→R\n• Resolution: (P∨Q) ∧ (¬P∨R) ⊢ Q∨R\n\nNormal Forms:\n• CNF (Conjunctive Normal Form): AND of ORs — clausal form\n• DNF (Disjunctive Normal Form): OR of ANDs\n\nPREDICATE LOGIC:\n• ∀x P(x) — true for all x\n• ∃x P(x) — true for some x\n• ¬∀x P(x) = ∃x ¬P(x)\n• ¬∃x P(x) = ∀x ¬P(x)\n\nGATE FOCUS: Is formula tautology/contradiction? Convert to CNF/DNF. Resolution proofs. Negate quantified formulas.\n\nREFERENCES:\n📺 Neso Academy (Logic): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=propositional+logic+gate+exam+neso\n📝 PYQs: https://gateoverflow.in/tag/propositional-logic\n📚 Book: Kenneth Rosen — Discrete Math Ch.1 (Propositional Logic) + Ch.1.4 (Predicates)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-sets-relations",
+    "parentId": "gate-m1-w1",
+    "sortOrder": 1,
+    "text": "Set Theory & Relations",
+    "description": "SET THEORY:\n\nOperations: Union ∪, Intersection ∩, Difference −, Complement A'\nPower Set: |P(A)| = 2^|A|\nInclusion-Exclusion: |A∪B| = |A|+|B|−|A∩B|\n|A∪B∪C| = |A|+|B|+|C| − |A∩B| − |B∩C| − |A∩C| + |A∩B∩C|\n\nRELATIONS (on set A):\n• Reflexive: (a,a) ∈ R for all a ∈ A\n• Symmetric: (a,b)∈R → (b,a)∈R\n• Antisymmetric: (a,b)∈R and (b,a)∈R → a=b\n• Transitive: (a,b)∈R and (b,c)∈R → (a,c)∈R\n\nEquivalence Relation = Reflexive + Symmetric + Transitive\n  → partitions set into equivalence classes\n\nPartial Order (POSET) = Reflexive + Antisymmetric + Transitive\n  → Hasse diagram: draw without reflexive/transitive edges\n  → Lattice: every pair has LUB and GLB\n\nClosure: Reflexive closure adds (a,a), Transitive closure uses Warshall's algorithm\n\nGATE FOCUS: Identify relation type, count equivalence classes, number of relations with given property on n-element set.\n\nREFERENCES:\n📺 Neso Academy (Set Theory): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=set+theory+relations+gate+neso+academy\n📝 PYQs: https://gateoverflow.in/tag/set-theory\n📚 Book: Kenneth Rosen — Discrete Math Ch.2 (Sets) + Ch.9 (Relations)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m1-w2",
+    "parentId": "gate-m1",
+    "sortOrder": 1,
+    "text": "Week 2 (May 18-24): Functions, Graph Theory & Combinatorics",
+    "description": "📅 May 18–24, 2026\n\nDay 1 Mon May 18: Functions — injective, surjective, bijective, composition, inverse\nDay 2 Tue May 19: Pigeonhole Principle, counting functions, Stirling numbers\nDay 3 Wed May 20: Graph Theory — basic definitions, degree sequence, handshaking lemma\nDay 4 Thu May 21: Graph Theory — paths, cycles, connectivity, Euler/Hamiltonian paths, planar graphs\nDay 5 Fri May 22: Combinatorics — permutations, combinations, stars & bars, inclusion-exclusion\nDay 6 Sat May 23: Combinatorics — binomial theorem, derangements, recurrences\nDay 7 Sun May 24: Solve 20 PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-functions-combo",
+    "parentId": "gate-m1-w2",
+    "sortOrder": 0,
+    "text": "Functions & Combinatorics",
+    "description": "FUNCTIONS:\n\nTypes:\n• Injective (one-to-one): f(a)=f(b)→a=b\n• Surjective (onto): every codomain element has a preimage\n• Bijective: both (invertible)\n\nCounting functions from A(size m) to B(size n):\n• Total functions: n^m\n• Injective: P(n,m) = n!/(n−m)! if n≥m, else 0\n• Surjective: inclusion-exclusion formula\n• Bijective (m=n): n!\n\nPigeonhole Principle:\n• n+1 items in n boxes → some box has ≥2 items\n• Generalized: kn+1 items in n boxes → some box has ≥k+1 items\n\nCOMBINATORICS:\n• Permutations P(n,r) = n!/(n−r)!\n• Combinations C(n,r) = n!/(r!(n−r)!)\n• Multiset (repetition allowed): C(n+r−1, r)\n• Stars & Bars: x₁+x₂+…+xₖ=n non-negative solutions = C(n+k−1, k−1)\n• Derangement D(n) = n! × Σ(−1)^k/k! ≈ n!/e\n• Binomial: (x+y)^n = Σ C(n,k) x^k y^(n−k)\n\nGATE FOCUS: Count injective/surjective/bijective functions, pigeonhole application, combinations with constraints.\n\nREFERENCES:\n📺 Neso Academy (Combinatorics): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=counting+combinatorics+gate+cs+pigeonhole\n📝 PYQs: https://gateoverflow.in/tag/combinatorics\n📚 Book: Kenneth Rosen — Discrete Math Ch.6 (Counting) + Ch.8 (Advanced Counting)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-graph-theory",
+    "parentId": "gate-m1-w2",
+    "sortOrder": 1,
+    "text": "Graph Theory",
+    "description": "BASIC DEFINITIONS:\n\nHandshaking Lemma: Σ deg(v) = 2|E| (sum of degrees = twice number of edges)\nComplete graph Kn: n(n−1)/2 edges, every vertex has degree n−1\nBipartite: vertices split into 2 sets, edges only between sets (no odd cycles)\n\nTRAVERSALS:\n• Euler path: visits every EDGE once — exists iff exactly 0 or 2 vertices of odd degree\n• Euler circuit: visits every edge, returns to start — all vertices must have even degree\n• Hamiltonian path/cycle: visits every VERTEX once — NP-complete to decide\n\nTREES:\n• Connected acyclic graph; n vertices → n−1 edges\n• Spanning tree: subgraph that is a tree containing all vertices\n• Minimum Spanning Tree (MST): spanning tree with minimum total edge weight\n\nPLANARITY:\n• Euler's formula for connected planar graph: V − E + F = 2\n• For simple planar graph: E ≤ 3V − 6\n• K5 and K3,3 are non-planar (Kuratowski's theorem)\n\nGRAPH COLORING:\n• Chromatic number χ(G) = min colors to color vertices (no two adjacent same color)\n• 4-color theorem: any planar graph is 4-colorable\n• Bipartite graphs are 2-colorable (χ = 2)\n\nGATE FOCUS: Is graph Eulerian? Planar graph V−E+F check. Tree properties. Chromatic number.\n\nREFERENCES:\n📺 Neso Academy (Graph Theory): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=graph+theory+discrete+math+gate+euler+planar\n📝 PYQs: https://gateoverflow.in/tag/graph-theory\n📚 Book: Kenneth Rosen — Discrete Math Ch.10 (Graphs) + Ch.11 (Trees)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m1-w3",
+    "parentId": "gate-m1",
+    "sortOrder": 2,
+    "text": "Week 3 (May 25-31): Linear Algebra",
+    "description": "📅 May 25–31, 2026\n\nDay 1 Sat May 25: Matrices — operations, determinant, inverse, properties\nDay 2 Sun May 26: Rank — row echelon form, rank-nullity theorem, linear independence\nDay 3 Mon May 27: Systems of linear equations — consistency conditions (Rouché-Capelli theorem)\nDay 4 Tue May 28: Eigenvalues and eigenvectors — characteristic equation\nDay 5 Wed May 29: Special matrices — symmetric, orthogonal, idempotent, nilpotent; Cayley-Hamilton\nDay 6 Thu May 30: Solve 20 GATE PYQs on Linear Algebra\nDay 7 Fri May 31: Revise, update formula sheet",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-linear-algebra",
+    "parentId": "gate-m1-w3",
+    "sortOrder": 0,
+    "text": "Linear Algebra",
+    "description": "MATRIX PROPERTIES:\n• det(AB) = det(A)·det(B)\n• det(Aᵀ) = det(A)\n• det(kA) = kⁿ·det(A) for n×n matrix\n• det(A⁻¹) = 1/det(A)\n• A⁻¹ exists iff det(A) ≠ 0\n\nRANK:\n• rank = number of non-zero rows in row echelon form\n• rank(A) + nullity(A) = n (columns)\n• rank(AB) ≤ min(rank(A), rank(B))\n• rank(A) = rank(Aᵀ) = rank(AᵀA)\n\nSYSTEM Ax = b:\n• Consistent iff rank(A) = rank(A|b)\n• Unique solution iff rank(A) = rank(A|b) = n\n• Infinite solutions iff rank(A) = rank(A|b) < n\n• No solution iff rank(A) ≠ rank(A|b)\n\nEIGENVALUES:\n• Find: det(A − λI) = 0 (characteristic equation)\n• Trace(A) = Σλᵢ (sum of eigenvalues)\n• det(A) = Πλᵢ (product of eigenvalues)\n• Cayley-Hamilton: A satisfies its own characteristic equation\n• A and Aᵀ have same eigenvalues\n\nSPECIAL MATRICES:\n• Symmetric (A=Aᵀ): real eigenvalues, orthogonal eigenvectors\n• Orthogonal (AᵀA=I): eigenvalues ±1, det = ±1\n• Idempotent (A²=A): eigenvalues are 0 or 1\n• Nilpotent (Aᵏ=0 for some k): all eigenvalues are 0\n\nGATE FOCUS: Rank of matrix, eigenvalue sum/product, system consistency, Cayley-Hamilton application.\n\nREFERENCES:\n📺 3Blue1Brown (visual intuition): https://www.youtube.com/@3blue1brown\n📺 Search: https://www.youtube.com/results?search_query=linear+algebra+eigenvalues+gate+nptel\n📝 PYQs: https://gateoverflow.in/tag/linear-algebra\n📚 Book: Gilbert Strang — Introduction to Linear Algebra Ch.1-6\n📚 NPTEL: https://nptel.ac.in (search \"Linear Algebra\" IIT course)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m1-w4",
+    "parentId": "gate-m1",
+    "sortOrder": 3,
+    "text": "Week 4 (Jun 1-10): Calculus & Probability",
+    "description": "📅 June 1–10, 2026\n\nDay 1 Mon Jun 1: Calculus — limits, continuity, L'Hôpital's rule\nDay 2 Tue Jun 2: Derivatives — chain rule, MVT, maxima/minima\nDay 3 Wed Jun 3: Integration — definite integrals, integration by parts\nDay 4 Thu Jun 4: Probability — sample space, events, conditional probability\nDay 5 Fri Jun 5: Bayes' theorem, random variables, distributions\nDay 6 Sat Jun 6: Statistics — mean, variance, common distributions (Binomial, Poisson, Normal)\nDay 7-9 Jun 7-9: Solve 30 GATE PYQs across all Month 1 topics\nDay 10 Jun 10: Full Month 1 revision test (timed, 30 questions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-calculus",
+    "parentId": "gate-m1-w4",
+    "sortOrder": 0,
+    "text": "Calculus",
+    "description": "LIMITS & CONTINUITY:\n• L'Hôpital's Rule: for 0/0 or ∞/∞ form, lim f(x)/g(x) = lim f'(x)/g'(x)\n• Continuity: lim(x→a) f(x) = f(a)\n\nDERIVATIVES:\n• Power: d/dx(xⁿ) = nxⁿ⁻¹\n• Chain: d/dx[f(g(x))] = f'(g(x))·g'(x)\n• Product: (uv)' = u'v + uv'\n• Quotient: (u/v)' = (u'v − uv')/v²\n• eˣ: d/dx(eˣ) = eˣ; ln x: d/dx(ln x) = 1/x\n\nMean Value Theorem: ∃c ∈ (a,b): f'(c) = [f(b)−f(a)]/(b−a)\nRolle's Theorem: f(a)=f(b) → ∃c: f'(c)=0\n\nINTEGRATION:\n• ∫xⁿ dx = xⁿ⁺¹/(n+1) + C\n• ∫eˣ dx = eˣ + C\n• ∫(1/x) dx = ln|x| + C\n• By parts: ∫u dv = uv − ∫v du (LIATE rule for choosing u)\n\nMAXIMA/MINIMA:\n• Critical points: f'(x) = 0\n• f''(x) > 0 → local min; f''(x) < 0 → local max\n\nGATE FOCUS: Usually 1-2 simple questions on limits (L'Hôpital), derivatives, or definite integrals.\n\nREFERENCES:\n📺 Khan Academy (Calculus): https://www.youtube.com/results?search_query=khan+academy+calculus+limits+derivatives\n📺 Search: https://www.youtube.com/results?search_query=calculus+gate+engineering+mathematics+limits\n📝 PYQs: https://gateoverflow.in/tag/calculus\n📚 Book: Thomas' Calculus Ch.2-5 (Limits, Derivatives, Integration)\n📚 NPTEL: https://nptel.ac.in (search \"Engineering Mathematics\" calculus)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-probability",
+    "parentId": "gate-m1-w4",
+    "sortOrder": 1,
+    "text": "Probability & Statistics",
+    "description": "BASIC PROBABILITY:\n• P(A∪B) = P(A)+P(B)−P(A∩B)\n• P(A|B) = P(A∩B)/P(B)\n• Independent: P(A∩B) = P(A)·P(B)\n\nBAYES' THEOREM:\n• P(A|B) = P(B|A)·P(A) / P(B)\n• Total Probability: P(B) = Σ P(B|Aᵢ)·P(Aᵢ)\n\nDISTRIBUTIONS:\n• Bernoulli(p): P(1)=p, P(0)=1−p; E=p, Var=p(1−p)\n• Binomial(n,p): P(k)=C(n,k)pᵏ(1−p)ⁿ⁻ᵏ; E=np, Var=np(1−p)\n• Poisson(λ): P(k)=e⁻λλᵏ/k!; E=Var=λ\n• Geometric(p): P(k)=(1−p)ᵏ⁻¹p; E=1/p (memoryless!)\n• Exponential(λ): E=1/λ (memoryless property)\n• Normal N(μ,σ²): symmetric bell curve; 68-95-99.7 rule\n• Uniform[a,b]: E=(a+b)/2, Var=(b−a)²/12\n\nSTATISTICS:\n• Variance = E[X²] − (E[X])²\n• Std dev σ = √Var\n• Covariance: Cov(X,Y) = E[XY] − E[X]E[Y]\n• Independent → Cov=0 (converse not always true)\n\nGATE FOCUS: Bayes' theorem, expected value calculation, identifying distribution from description, conditional probability.\n\nREFERENCES:\n📺 Search: https://www.youtube.com/results?search_query=probability+bayes+theorem+gate+engineering+math\n📺 Khan Academy: https://www.youtube.com/results?search_query=khan+academy+probability+distributions\n📝 PYQs: https://gateoverflow.in/tag/probability\n📚 Book: Kenneth Rosen — Discrete Math Ch.7 (Discrete Probability)\n📚 NPTEL: https://nptel.ac.in (search \"Probability and Statistics\" IIT)",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m2",
+    "parentId": "gate-root",
+    "sortOrder": 2,
+    "text": "Month 2: Digital Logic + COA",
+    "description": "📅 June 11 – July 10, 2026\n\n🎯 Digital Logic (~4 marks) + COA (~6 marks) = hardware fundamentals.\n\nTopics:\n• Boolean Algebra, K-Map minimization\n• Combinational circuits (Adders, MUX, Decoders)\n• Sequential circuits (Flip-Flops, Counters, FSMs)\n• ISA, ALU, Memory Hierarchy\n• Pipelining & Hazards\n• Cache Memory\n• I/O Organization\n\nWeekly Plan:\n• Week 1 (Jun 11-17): Boolean Algebra + K-Map\n• Week 2 (Jun 18-24): Combinational Circuits\n• Week 3 (Jun 25 - Jul 1): Sequential Circuits\n• Week 4 (Jul 2-10): COA — ISA, Cache, Pipelining",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m2-w1",
+    "parentId": "gate-m2",
+    "sortOrder": 0,
+    "text": "Week 1 (Jun 11-17): Boolean Algebra & K-Map",
+    "description": "📅 Jun 11–17, 2026\n\nDay 1 Thu Jun 11: Boolean Algebra — axioms, theorems, De Morgan's laws, duality principle\nDay 2 Fri Jun 12: Logic Gates — AND, OR, NOT, NAND, NOR, XOR, XNOR; universal gates\nDay 3 Sat Jun 13: Canonical forms — SOP, POS, minterms, maxterms\nDay 4 Sun Jun 14: K-Map minimization — 2,3,4-variable; prime implicants, essential PI\nDay 5 Mon Jun 15: K-Map with don't cares; NAND/NOR implementation\nDay 6 Tue Jun 16: Quine-McCluskey method (concept level)\nDay 7 Wed Jun 17: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-boolean",
+    "parentId": "gate-m2-w1",
+    "sortOrder": 0,
+    "text": "Boolean Algebra & K-Map Minimization",
+    "description": "BOOLEAN THEOREMS:\n• Identity: A+0=A, A·1=A\n• Null: A+1=1, A·0=0\n• Idempotent: A+A=A, A·A=A\n• Complement: A+A'=1, A·A'=0\n• Absorption: A+AB=A, A(A+B)=A\n• De Morgan: (A+B)'=A'B', (AB)'=A'+B'\n\nUNIVERSAL GATES:\n• NAND and NOR can implement any Boolean function\n• XOR: A⊕B=AB'+A'B; A⊕A=0; A⊕0=A; A⊕1=A'; associative & commutative\n• XNOR: A⊙B=(A⊕B)' = AB+A'B'\n\nCANONICAL FORMS:\n• Minterm mᵢ: product term, all variables present (0→complemented, 1→uncomplemented)\n• Maxterm Mᵢ: sum term, all variables present\n• SOP = Σm (sum of minterms), POS = ΠM (product of maxterms)\n\nK-MAP RULES:\n• Group sizes: powers of 2 only (1,2,4,8,16)\n• Groups can wrap around edges\n• Don't cares (X): use to form larger groups\n• Essential Prime Implicant: only PI covering a particular minterm\n• Minimize: largest groups first → fewest literals\n\nIMPLEMENTATION:\n• NOT(A AND B) = NAND gate — 2-level NAND = SOP\n• NOT(A OR B) = NOR gate — 2-level NOR = POS\n\nGATE FOCUS: Minimize function using K-Map, implement using NAND gates, XOR properties, number of gates needed.\n\nREFERENCES:\n📺 Neso Academy (Digital Electronics): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=boolean+algebra+kmap+minimization+neso+academy\n📝 PYQs: https://gateoverflow.in/tag/boolean-algebra\n📚 Book: Morris Mano — Digital Design Ch.2-3 (Boolean Algebra, Gate-level Minimization)\n📄 PDF: https://www.youtube.com/results?search_query=gate+smashers+digital+logic+boolean",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m2-w2",
+    "parentId": "gate-m2",
+    "sortOrder": 1,
+    "text": "Week 2 (Jun 18-24): Combinational Circuits",
+    "description": "📅 Jun 18–24, 2026\n\nDay 1 Thu Jun 18: Adders — Half Adder, Full Adder, Ripple Carry, Carry Look-Ahead\nDay 2 Fri Jun 19: Number systems — 1's complement, 2's complement, BCD, Gray code, IEEE 754\nDay 3 Sat Jun 20: Multiplexers (MUX) — 2:1, 4:1, 8:1; implementing functions with MUX\nDay 4 Sun Jun 21: Demux, Decoders, Encoders, Priority Encoders\nDay 5 Mon Jun 22: Comparators, Shifters, ALU design concept\nDay 6 Tue Jun 23: Practice: implement Boolean functions using MUX and Decoder\nDay 7 Wed Jun 24: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-combinational",
+    "parentId": "gate-m2-w2",
+    "sortOrder": 0,
+    "text": "Combinational Circuits",
+    "description": "ADDERS:\n• Half Adder: Sum=A⊕B, Carry=AB\n• Full Adder: Sum=A⊕B⊕Cin, Cout=AB+Cin(A⊕B)\n• Ripple Carry: n FAs chained; delay=n×tFA (slow)\n• Carry Look-Ahead (CLA): fast; computes all carries simultaneously\n\nNUMBER REPRESENTATIONS:\n• 1's complement: invert all bits\n• 2's complement: invert all + 1 (most used in hardware)\n• Range of n-bit 2's complement: −2^(n−1) to 2^(n−1)−1\n• IEEE 754 single (32-bit): 1 sign + 8 exponent + 23 mantissa\n  Exponent bias = 127; value = (−1)^s × 1.mantissa × 2^(exp−127)\n\nMULTIPLEXER:\n• 2ⁿ:1 MUX needs n select lines\n• 4:1 MUX can implement any 3-variable Boolean function\n• 2^(n−1):1 MUX can implement any n-variable function\n\nDECODER:\n• n-to-2ⁿ decoder; one output active at a time\n• Any Boolean function = ORing selected output lines of decoder\n\nENCODER:\n• 2ⁿ-to-n encoder; inverse of decoder\n• Priority encoder: highest active input determines output\n\nGATE FOCUS: Full adder expression, implement function using MUX, IEEE 754 conversion, 2's complement range and overflow.\n\nREFERENCES:\n📺 Neso Academy (Combinational): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=combinational+circuits+mux+decoder+adder+gate+neso\n📝 PYQs: https://gateoverflow.in/tag/combinational-circuits\n📚 Book: Morris Mano — Digital Design Ch.4 (Combinational Logic)\n📄 IEEE 754 Converter: https://www.h-schmidt.net/FloatConverter/IEEE754.html",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m2-w3",
+    "parentId": "gate-m2",
+    "sortOrder": 2,
+    "text": "Week 3 (Jun 25 - Jul 1): Sequential Circuits",
+    "description": "📅 Jun 25 – Jul 1, 2026\n\nDay 1 Wed Jun 25: Latches — SR, D Latch; difference between latch and flip-flop\nDay 2 Thu Jun 26: Flip-Flops — SR, D, JK, T; edge triggering (positive/negative)\nDay 3 Fri Jun 27: FF conversions (JK→D, T→JK etc.); excitation tables\nDay 4 Sat Jun 28: Registers — shift registers (SISO, SIPO, PISO, PIPO)\nDay 5 Sun Jun 29: Counters — ripple, synchronous, mod-n counter design\nDay 6 Mon Jun 30: State machines — Moore vs Mealy, state diagram, state table, minimization\nDay 7 Tue Jul 1: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-sequential",
+    "parentId": "gate-m2-w3",
+    "sortOrder": 0,
+    "text": "Sequential Circuits & Flip-Flops",
+    "description": "FLIP-FLOP TYPES:\n• SR FF: S=1,R=0→Q=1; S=0,R=1→Q=0; S=R=0→unchanged; S=R=1→INVALID\n• D FF: Q(next)=D (edge-triggered; most used for registers)\n• JK FF: J=K=1→toggle; solves SR invalid state\n• T FF: T=1→toggle; T=0→unchanged (used in counters)\n\nEXCITATION TABLES: (what inputs needed to get desired output transition)\n• D FF: D = Q(next) (trivial)\n• T FF: T = Q(current) ⊕ Q(next)\n• JK FF: J=1 to set, K=1 to reset, J=K=0 to hold, J=K=1 to toggle\n\nCOUNTERS:\n• n flip-flops → can count up to mod-2ⁿ\n• Ripple (async): each FF clocked by previous output → propagation delay\n• Synchronous: all FFs share same clock → faster\n• Mod-n counter: use reset/feedback logic to stop at n\n\nFINITE STATE MACHINES:\n• Moore: output depends only on current state\n• Mealy: output depends on state AND input (fewer states than Moore)\n• State minimization: merge equivalent states (same future behavior)\n• DFA (from TOC) is a Moore machine\n\nGATE FOCUS: JK/D flip-flop state trace, convert between FF types using excitation table, design mod-n counter, Moore vs Mealy distinction.\n\nREFERENCES:\n📺 Neso Academy (Sequential): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=flip+flops+sequential+circuits+gate+neso+academy\n📝 PYQs: https://gateoverflow.in/tag/sequential-circuits\n📚 Book: Morris Mano — Digital Design Ch.5-6 (Synchronous Sequential Logic)\n📄 Search: https://www.youtube.com/results?search_query=moore+mealy+machine+gate+smashers",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m2-w4",
+    "parentId": "gate-m2",
+    "sortOrder": 3,
+    "text": "Week 4 (Jul 2-10): COA — ISA, Cache, Pipelining",
+    "description": "📅 Jul 2–10, 2026\n\nDay 1 Thu Jul 2: ISA — instruction formats, addressing modes, instruction types\nDay 2 Fri Jul 3: ALU, data path, control unit (hardwired vs microprogrammed)\nDay 3 Sat Jul 4: Memory hierarchy — registers, cache, RAM, disk; locality of reference\nDay 4 Sun Jul 5: Cache — direct mapped, set associative, fully associative; hit/miss\nDay 5 Mon Jul 6: Cache — replacement policies (LRU, FIFO, OPT), write policies\nDay 6 Tue Jul 7: Pipelining — stages, speedup, CPI, data/control hazards, forwarding\nDay 7 Wed Jul 8: I/O — polling, interrupts, DMA; virtual memory intro\nDay 8-9 Jul 9-10: Solve 30 PYQs + Month 2 full revision test",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-coa",
+    "parentId": "gate-m2-w4",
+    "sortOrder": 0,
+    "text": "Computer Organization & Architecture",
+    "description": "ADDRESSING MODES:\n• Immediate: operand in instruction itself\n• Direct: instruction contains memory address\n• Indirect: instruction contains address of address\n• Register: operand in register\n• Register Indirect: register contains address\n• Displacement/Base+Offset: EA = Base + Offset\n• PC-Relative: EA = PC + Offset (for branches)\n\nCACHE MEMORY:\n• Hit ratio h → avg access time = h×Tc + (1−h)×(Tc+Tm)\n• Direct Mapped: block mod (# cache lines) → simple, low cost, high conflict\n• k-way Set Associative: block maps to set of k lines\n• Fully Associative: any block anywhere → max flexibility, complex LRU\n• Write-through: write to both cache and memory simultaneously\n• Write-back: write to cache, update memory when evicted (dirty bit)\n\nPIPELINING:\n• k-stage pipeline speedup for n instructions: (n×k)/(n+k−1) → approaches k for large n\n• CPI = 1 + stall cycles per instruction\n• Hazards:\n  - Data Hazard (RAW, WAR, WAW): forwarding/bypassing reduces stalls\n  - Control Hazard: branches → branch prediction or delayed branching\n  - Structural Hazard: two instructions need same hardware\n\nI/O:\n• Polling: CPU repeatedly checks device status (wastes CPU cycles)\n• Interrupt-driven: device interrupts CPU when ready (efficient)\n• DMA: device transfers data directly to memory; CPU not involved\n\nGATE FOCUS: Average memory access time with cache, pipeline speedup formula, stall cycle calculation, addressing mode effective address.\n\nREFERENCES:\n📺 Neso Academy (COA): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=computer+organization+pipelining+cache+gate+neso\n📝 PYQs (Cache): https://gateoverflow.in/tag/cache-memory\n📝 PYQs (Pipeline): https://gateoverflow.in/tag/pipelining\n📚 Book: Patterson & Hennessy — Computer Organization and Design Ch.4-5\n📄 Search: https://www.youtube.com/results?search_query=gate+smashers+computer+organization+architecture",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m3",
+    "parentId": "gate-root",
+    "sortOrder": 3,
+    "text": "Month 3: C Programming + Data Structures",
+    "description": "📅 July 11 – August 10, 2026\n\n🎯 Highest scoring section — C + DS = ~12 marks. Master pointers and all data structures.\n\nTopics:\n• C Programming (Pointers, Arrays, Strings, Recursion)\n• Arrays, Linked Lists (Singly, Doubly, Circular)\n• Stacks and Queues\n• Trees (Binary, BST, AVL, Heaps, B/B+ Trees)\n• Graphs (BFS, DFS, applications)\n• Hashing\n\nWeekly Plan:\n• Week 1 (Jul 11-17): C Programming\n• Week 2 (Jul 18-24): Linked Lists, Stacks, Queues\n• Week 3 (Jul 25-31): Trees\n• Week 4 (Aug 1-10): Graphs + Hashing + Practice",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m3-w1",
+    "parentId": "gate-m3",
+    "sortOrder": 0,
+    "text": "Week 1 (Jul 11-17): C Programming",
+    "description": "📅 Jul 11–17, 2026\n\nDay 1 Sat Jul 11: C basics — data types, operators, control flow, scope, storage classes\nDay 2 Sun Jul 12: Pointers — declaration, dereferencing, pointer arithmetic, double pointers\nDay 3 Mon Jul 13: Arrays — 1D/2D, arrays and pointers, array of pointers vs pointer to array\nDay 4 Tue Jul 14: Strings — char arrays, string literals, string.h functions (strlen, strcpy, strcmp)\nDay 5 Wed Jul 15: Structures, unions, typedef; memory alignment and padding\nDay 6 Thu Jul 16: Recursion — call stack, tree recursion, tail recursion; malloc/free, memory leaks\nDay 7 Fri Jul 17: Solve 20 GATE PYQs — output prediction, pointer questions",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-c-prog",
+    "parentId": "gate-m3-w1",
+    "sortOrder": 0,
+    "text": "C Programming — Pointers & Key Concepts",
+    "description": "POINTERS:\n• int *p = &x; → p holds address of x; *p = value at that address\n• Pointer arithmetic: p++ increments by sizeof(*p) bytes\n• int **pp → pointer to pointer (double indirection)\n• NULL pointer: points to address 0, dereferencing is undefined behavior\n\nARRAYS vs POINTERS:\n• Array name = constant pointer to first element\n• int a[5]; a == &a[0], *(a+i) == a[i]\n• sizeof(a) = 5×sizeof(int) = 20; sizeof(pointer) = 4 or 8 bytes\n• 2D array: a[i][j] = *(*(a+i)+j)\n• Array of pointers: int *arr[5] (5 pointers)\n• Pointer to array: int (*p)[5] (p points to entire row)\n\nMEMORY LAYOUT:\n• Text (code) → Data (global/static) → BSS (uninitialized global) → Heap → Stack\n• Stack grows downward; each function call creates a stack frame\n• Heap: malloc/calloc/realloc return void*; free releases it\n\nGATE TRICKY AREAS:\n• Pre-increment vs post-increment in expressions: *p++ vs (*p)++\n• printf(\"%d\", a[i]) vs printf(\"%d\", *(a+i)) — same result\n• sizeof operator at compile time, not runtime\n• Call by value: function gets copy; modify via pointer\n• Recursion: trace the call stack step by step\n\nGATE FOCUS: Predict output of programs with pointer arithmetic, recursion trace, sizeof calculations, pre/post increment.\n\nREFERENCES:\n📺 Jenny's Lectures (C Programming): https://www.youtube.com/@JennyslecturesCSIT\n📺 Search: https://www.youtube.com/results?search_query=c+programming+pointers+recursion+gate+questions\n📝 PYQs: https://gateoverflow.in/tag/c-programming\n📚 Book: Brian Kernighan & Dennis Ritchie — The C Programming Language (K&R)\n📄 Practice: https://www.geeksforgeeks.org/c-language-set-1/ (GATE-level C questions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m3-w2",
+    "parentId": "gate-m3",
+    "sortOrder": 1,
+    "text": "Week 2 (Jul 18-24): Linked Lists, Stacks & Queues",
+    "description": "📅 Jul 18–24, 2026\n\nDay 1 Sat Jul 18: Singly Linked List — insertion at head/tail/middle, deletion, traversal\nDay 2 Sun Jul 19: LL operations — reversal, finding middle, cycle detection (Floyd's)\nDay 3 Mon Jul 20: Doubly and Circular Linked Lists — operations and trade-offs\nDay 4 Tue Jul 21: Stacks — array and linked list implementation; infix-to-postfix, balanced brackets\nDay 5 Wed Jul 22: Queues — circular queue, deque, priority queue implementation\nDay 6 Thu Jul 23: Applications — function call stack, BFS using queue\nDay 7 Fri Jul 24: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-linked-stacks",
+    "parentId": "gate-m3-w2",
+    "sortOrder": 0,
+    "text": "Linked Lists, Stacks & Queues",
+    "description": "LINKED LIST:\n• Access: O(n), Insert/Delete at head: O(1), at position i: O(i)\n• Reversal (iterative): prev=NULL, while(curr): next=curr→next; curr→next=prev; prev=curr; curr=next\n• Detect cycle: Floyd's two-pointer — slow moves 1, fast moves 2; cycle if they meet\n• Find middle: slow/fast pointer — slow is at middle when fast reaches end\n• Doubly linked: O(1) insert/delete given pointer to node\n\nSTACK (LIFO):\n• Push O(1), Pop O(1), Peek O(1)\n• Applications: function call stack, infix→postfix, balanced parentheses, undo\n• Infix to Postfix: operator precedence ^>*/÷>+−; push operators, pop when higher or equal\n• Postfix evaluation: push operands, pop 2 for each operator\n\nQUEUE (FIFO):\n• Enqueue O(1), Dequeue O(1)\n• Circular queue avoids wasted space: full condition = (rear+1)%n == front\n• Deque: insert/delete from both ends\n• Priority Queue: dequeue highest-priority element; implement with heap\n\nCOMPLEXITY COMPARISON:\n                Access  Insert  Delete\nArray          O(1)    O(n)    O(n)\nLinked List    O(n)    O(1)*   O(1)*\n(* at known position)\n\nGATE FOCUS: Trace stack operations, linked list pointer manipulation, cycle detection, infix-to-postfix conversion steps.\n\nREFERENCES:\n📺 mycodeschool (DS classics): https://www.youtube.com/results?search_query=mycodeschool+linked+list+stack+data+structures\n📺 Jenny's Lectures: https://www.youtube.com/@JennyslecturesCSIT\n📝 PYQs (Linked List): https://gateoverflow.in/tag/linked-list\n📝 PYQs (Stacks): https://gateoverflow.in/tag/stacks\n📚 Book: Cormen (CLRS) Ch.10 — Elementary Data Structures",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m3-w3",
+    "parentId": "gate-m3",
+    "sortOrder": 2,
+    "text": "Week 3 (Jul 25-31): Trees",
+    "description": "📅 Jul 25–31, 2026\n\nDay 1 Sat Jul 25: Binary Trees — traversals (inorder, preorder, postorder, level-order), properties\nDay 2 Sun Jul 26: Reconstruct tree from traversals; count nodes, height calculations\nDay 3 Mon Jul 27: Binary Search Tree — insert, delete (3 cases), search, successor/predecessor\nDay 4 Tue Jul 28: AVL Trees — balance factor, 4 rotation types (LL, RR, LR, RL)\nDay 5 Wed Jul 29: Heaps — min-heap/max-heap, heapify, build heap, heap sort\nDay 6 Thu Jul 30: B-Trees and B+ Trees — structure, rules, use in databases\nDay 7 Fri Jul 31: Solve 20 GATE PYQs on Trees + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-trees",
+    "parentId": "gate-m3-w3",
+    "sortOrder": 0,
+    "text": "Trees — BST, AVL, Heaps",
+    "description": "BINARY TREE PROPERTIES:\n• Max nodes at level i (root=0): 2^i\n• Max nodes in tree of height h: 2^(h+1)−1\n• Min height of n-node complete BT: ⌊log₂n⌋\n• Inorder traversal of BST gives sorted sequence!\n\nTRAVERSALS:\n• Inorder: Left→Root→Right (sorted for BST)\n• Preorder: Root→Left→Right (copy/serialize tree)\n• Postorder: Left→Right→Root (delete tree)\n• Given pre+in OR post+in: can uniquely reconstruct tree\n  (Need both in+pre or in+post; pre+post alone not unique)\n\nBST OPERATIONS (all O(h)):\n• Search: compare with root, recurse left or right\n• Insert: search for position, add leaf\n• Delete: (1) leaf→remove; (2) one child→replace; (3) two children→replace with inorder successor\n• Skewed BST: h=n−1 → O(n); Balanced BST: h=O(log n)\n\nAVL TREE:\n• Balance factor = height(left)−height(right) ∈ {−1, 0, 1}\n• Rotations:\n  LL: right rotation at unbalanced node\n  RR: left rotation at unbalanced node\n  LR: left rotation on left child, then right rotation on node\n  RL: right rotation on right child, then left rotation on node\n• Height of AVL with n nodes: O(log n) guaranteed\n\nHEAP:\n• Complete binary tree stored in array; index from 1: parent=⌊i/2⌋, left=2i, right=2i+1\n• Max-heap: parent≥children; Min-heap: parent≤children\n• Heapify (sift-down): O(log n); Build heap from array: O(n)\n• Insert: add at end, sift-up O(log n); Extract-max: swap root with last, sift-down O(log n)\n\nGATE FOCUS: Tree traversal output, reconstruct tree, AVL rotation type, heap operation result, BST delete.\n\nREFERENCES:\n📺 Abdul Bari (Trees): https://www.youtube.com/@abdul_bari\n📺 Search: https://www.youtube.com/results?search_query=avl+tree+heap+bst+gate+abdul+bari\n📝 PYQs (Trees): https://gateoverflow.in/tag/binary-search-tree\n📝 PYQs (Heaps): https://gateoverflow.in/tag/heap\n📚 Book: Cormen (CLRS) Ch.12-13 (BST, Red-Black Trees) + Ch.6 (Heaps)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m3-w4",
+    "parentId": "gate-m3",
+    "sortOrder": 3,
+    "text": "Week 4 (Aug 1-10): Graphs & Hashing",
+    "description": "📅 Aug 1–10, 2026\n\nDay 1 Sat Aug 1: Graph representations — adjacency matrix, adjacency list; space comparison\nDay 2 Sun Aug 2: BFS — algorithm, O(V+E), shortest path in unweighted graph\nDay 3 Mon Aug 3: DFS — algorithm, O(V+E), recursion tree; cycle detection\nDay 4 Tue Aug 4: DFS applications — topological sort, SCC (Kosaraju's), bipartiteness check\nDay 5 Wed Aug 5: Hashing — hash functions, chaining vs open addressing\nDay 6 Thu Aug 6: Open addressing — linear probing, quadratic probing, double hashing; load factor\nDay 7 Fri Aug 7: Solve 20 PYQs across all DS topics\nDay 8-10 Aug 8-10: Month 3 full revision test + weak area practice",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-graphs-hashing",
+    "parentId": "gate-m3-w4",
+    "sortOrder": 0,
+    "text": "Graphs & Hashing",
+    "description": "GRAPH REPRESENTATIONS:\n• Adjacency Matrix: O(V²) space, O(1) edge query, O(V) to list neighbors\n• Adjacency List: O(V+E) space, O(degree) edge query — preferred for sparse graphs\n\nBFS (uses Queue):\n• O(V+E) time; O(V) space\n• Finds shortest path in unweighted graphs\n• Tree edges + cross edges in BFS tree\n\nDFS (uses Stack/Recursion):\n• O(V+E) time\n• Tree edges + back edges (cycle!) + forward edges + cross edges\n• Back edge in undirected DFS → cycle exists\n• All edges in undirected DFS are tree or back edges\n\nTOPOLOGICAL SORT (only for DAG):\n• DFS-based: push to stack after visiting all descendants; reverse order\n• Kahn's: start with in-degree 0 nodes, BFS; if all nodes processed → no cycle\n\nHASHING:\n• Load factor α = n/m (n=items, m=table size)\n• Chaining: avg search O(1+α); allows α>1\n• Open Addressing: all elements in table; requires α<1\n  Linear Probing: h(k,i)=(h(k)+i) mod m → primary clustering\n  Quadratic Probing: h(k,i)=(h(k)+c₁i+c₂i²) mod m → secondary clustering\n  Double Hashing: h(k,i)=(h₁(k)+i·h₂(k)) mod m → best, minimal clustering\n• Successful search expected probes (linear): ½(1+1/(1−α))\n• Unsuccessful search expected probes (linear): ½(1+(1/(1−α))²)\n\nGATE FOCUS: BFS/DFS traversal order, cycle detection, topological sort, hash probing sequence, load factor calculations.\n\nREFERENCES:\n📺 Abdul Bari (Graph + Hashing): https://www.youtube.com/@abdul_bari\n📺 William Fiset (Graph Theory): https://www.youtube.com/@WilliamFiset-videos\n📝 PYQs (Graphs): https://gateoverflow.in/tag/graph-traversal\n📝 PYQs (Hashing): https://gateoverflow.in/tag/hashing\n📚 Book: Cormen (CLRS) Ch.22 (BFS/DFS) + Ch.11 (Hash Tables)",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m4",
+    "parentId": "gate-root",
+    "sortOrder": 4,
+    "text": "Month 4: Algorithms + Theory of Computation",
+    "description": "📅 August 11 – September 10, 2026\n\n🎯 Algorithms (~6 marks) + TOC (~6 marks) — highly conceptual, very rewarding.\n\nTopics:\n• Algorithm Complexity (Big-O, Master Theorem)\n• Sorting Algorithms (all types)\n• Graph Algorithms (Dijkstra, Floyd-Warshall, MST)\n• Dynamic Programming & Greedy\n• Theory of Computation (DFA, NFA, RegEx, CFG, PDA, TM)\n\nWeekly Plan:\n• Week 1 (Aug 11-17): Complexity + Sorting\n• Week 2 (Aug 18-24): Graph Algorithms + Divide & Conquer\n• Week 3 (Aug 25-31): DP + Greedy\n• Week 4 (Sep 1-10): Theory of Computation",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m4-w1",
+    "parentId": "gate-m4",
+    "sortOrder": 0,
+    "text": "Week 1 (Aug 11-17): Complexity & Sorting",
+    "description": "📅 Aug 11–17, 2026\n\nDay 1 Tue Aug 11: Big-O, Big-Ω, Big-Θ notation; common complexities; recurrences\nDay 2 Wed Aug 12: Master theorem — 3 cases, practice applying it\nDay 3 Thu Aug 13: Bubble, Selection, Insertion sort — O(n²) algorithms, when to use\nDay 4 Fri Aug 14: Merge Sort (O(n log n), stable) + Quick Sort (O(n log n) avg, unstable)\nDay 5 Sat Aug 15: Heap Sort, Counting Sort, Radix Sort, Bucket Sort\nDay 6 Sun Aug 16: Comparison-based sort lower bound Ω(n log n); Binary Search O(log n)\nDay 7 Mon Aug 17: Solve 20 GATE PYQs on Complexity + Sorting",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-complexity-sorting",
+    "parentId": "gate-m4-w1",
+    "sortOrder": 0,
+    "text": "Complexity Analysis & Sorting Algorithms",
+    "description": "ASYMPTOTIC NOTATION:\n• O(g): upper bound — f(n)=O(g) if f≤c×g for large n\n• Ω(g): lower bound — f(n)=Ω(g) if f≥c×g for large n\n• Θ(g): tight bound — both O and Ω\n• Order: O(1)<O(log n)<O(√n)<O(n)<O(n log n)<O(n²)<O(n³)<O(2ⁿ)<O(n!)\n\nMASTER THEOREM for T(n)=aT(n/b)+f(n):\n• Case 1: f(n)=O(n^(log_b(a)−ε)) → T(n)=Θ(n^log_b(a))\n• Case 2: f(n)=Θ(n^log_b(a)) → T(n)=Θ(n^log_b(a) × log n)\n• Case 3: f(n)=Ω(n^(log_b(a)+ε)) and regularity → T(n)=Θ(f(n))\n\nSORTING SUMMARY:\nAlgorithm  | Best      | Avg       | Worst     | Space  | Stable\nBubble     | O(n)      | O(n²)     | O(n²)     | O(1)   | Yes\nSelection  | O(n²)     | O(n²)     | O(n²)     | O(1)   | No\nInsertion  | O(n)      | O(n²)     | O(n²)     | O(1)   | Yes\nMerge      | O(n log n)| O(n log n)| O(n log n)| O(n)   | Yes\nQuick      | O(n log n)| O(n log n)| O(n²)     |O(log n)| No\nHeap       | O(n log n)| O(n log n)| O(n log n)| O(1)   | No\nCounting   | O(n+k)    | O(n+k)    | O(n+k)    | O(k)   | Yes\nRadix      | O(nk)     | O(nk)     | O(nk)     | O(n+k) | Yes\n\nKEY NOTES:\n• Quick sort worst case: sorted input with pivot=first element\n• Merge sort: guaranteed O(n log n) regardless of input\n• Counting/Radix/Bucket: linear but require constraints on data\n• Lower bound for comparison-based sorting: Ω(n log n)\n\nGATE FOCUS: Apply master theorem, identify worst-case scenario, number of comparisons, stability of sorting algorithms.\n\nREFERENCES:\n📺 Abdul Bari (Algorithms — best for GATE): https://www.youtube.com/@abdul_bari\n📺 Search: https://www.youtube.com/results?search_query=master+theorem+sorting+algorithms+gate+abdul+bari\n📝 PYQs: https://gateoverflow.in/tag/sorting\n📚 Book: Cormen (CLRS) Ch.2-4 (Sorting + Recurrences) — THE standard reference\n📄 Visualization: https://visualgo.net/en/sorting",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m4-w2",
+    "parentId": "gate-m4",
+    "sortOrder": 1,
+    "text": "Week 2 (Aug 18-24): Graph Algorithms",
+    "description": "📅 Aug 18–24, 2026\n\nDay 1 Mon Aug 18: Dijkstra's algorithm — step-by-step, O((V+E)log V), no negative edges\nDay 2 Tue Aug 19: Bellman-Ford (handles negative weights), Floyd-Warshall (all-pairs)\nDay 3 Wed Aug 20: MST — Prim's algorithm (greedy, min-heap)\nDay 4 Thu Aug 21: MST — Kruskal's algorithm (sort edges, Union-Find)\nDay 5 Fri Aug 22: Divide & Conquer — Merge sort recurrence, binary search, closest pair of points\nDay 6 Sat Aug 23: Strassen's matrix multiplication; maximum subarray (Kadane's)\nDay 7 Sun Aug 24: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-graph-algos",
+    "parentId": "gate-m4-w2",
+    "sortOrder": 0,
+    "text": "Graph Algorithms — SSSP, APSP, MST",
+    "description": "SINGLE SOURCE SHORTEST PATH:\n• Dijkstra: O((V+E) log V) with min-heap; does NOT work with negative edges\n  Algorithm: relaxation — if d[v]+w(v,u) < d[u] then update d[u]\n• Bellman-Ford: O(VE); relax all edges V−1 times; detect negative cycle if more relaxation possible\n• BFS: O(V+E) for unweighted graphs (all edge weights = 1)\n\nALL-PAIRS SHORTEST PATH:\n• Floyd-Warshall: O(V³); DP approach\n  d[i][j] = min(d[i][j], d[i][k]+d[k][j]) for each intermediate k\n  Works with negative edges; detects negative cycle if d[i][i]<0\n\nMINIMUM SPANNING TREE:\n• Greedy property: adding cheapest edge that doesn't create a cycle\n• Kruskal: Sort edges by weight; add if no cycle (use Union-Find); O(E log E)\n• Prim: Start from any vertex; always add min-weight edge to MST; O((V+E) log V)\n• Both give same MST WEIGHT; structure may differ\n• MST is unique if all edge weights are distinct\n• MST has V−1 edges for a V-vertex graph\n• Cut property: minimum edge crossing any cut belongs to MST\n\nUNION-FIND (for Kruskal):\n• find(x): return root with path compression\n• union(x,y): union by rank (smaller tree attached to larger)\n• Amortized O(α(n)) per operation\n\nGATE FOCUS: Dijkstra step-by-step trace, MST total weight, Kruskal edge selection order, Floyd-Warshall matrix update.\n\nREFERENCES:\n📺 Abdul Bari (Graph Algorithms): https://www.youtube.com/@abdul_bari\n📺 William Fiset (Dijkstra, MST): https://www.youtube.com/@WilliamFiset-videos\n📝 PYQs (Shortest Path): https://gateoverflow.in/tag/shortest-path\n📝 PYQs (MST): https://gateoverflow.in/tag/minimum-spanning-tree\n📚 Book: Cormen (CLRS) Ch.23-25 (MST, Shortest Paths)\n📄 Visualization: https://visualgo.net/en/sssp",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m4-w3",
+    "parentId": "gate-m4",
+    "sortOrder": 2,
+    "text": "Week 3 (Aug 25-31): Dynamic Programming & Greedy",
+    "description": "📅 Aug 25–31, 2026\n\nDay 1 Mon Aug 25: DP concepts — overlapping subproblems, optimal substructure, memoization vs tabulation\nDay 2 Tue Aug 26: 0/1 Knapsack, Longest Common Subsequence (LCS)\nDay 3 Wed Aug 27: Longest Increasing Subsequence (LIS), Edit Distance\nDay 4 Thu Aug 28: Matrix Chain Multiplication, Coin Change, Rod Cutting\nDay 5 Fri Aug 29: Greedy — Activity Selection, Fractional Knapsack, Huffman Coding\nDay 6 Sat Aug 30: Greedy vs DP — when to use which; job scheduling with deadlines\nDay 7 Sun Aug 31: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-dp-greedy",
+    "parentId": "gate-m4-w3",
+    "sortOrder": 0,
+    "text": "Dynamic Programming & Greedy",
+    "description": "DYNAMIC PROGRAMMING:\nRequires: Optimal Substructure + Overlapping Subproblems\n\nKEY PROBLEMS:\n• 0/1 Knapsack: dp[i][w] = max(dp[i−1][w], dp[i−1][w−wᵢ]+vᵢ); O(nW)\n• LCS(X,Y): dp[i][j] = dp[i−1][j−1]+1 if X[i]=Y[j] else max(dp[i−1][j], dp[i][j−1]); O(mn)\n• LIS: dp[i] = 1 + max(dp[j]) for all j<i where A[j]<A[i]; O(n²) or O(n log n) with patience sort\n• Edit Distance: dp[i][j] = dp[i−1][j−1] if same; else 1+min(dp[i−1][j], dp[i][j−1], dp[i−1][j−1])\n• Matrix Chain: dp[i][j] = min(dp[i][k]+dp[k+1][j]+pᵢ₋₁·pₖ·pⱼ) for i≤k<j; O(n³)\n• Coin Change (min coins): dp[i] = min(dp[i−coin]+1) for each coin; O(amount×coins)\n\nGREEDY ALGORITHMS:\nWorks when local optimal → global optimal (not always provable, check carefully)\n\n• Activity Selection: sort by finish time, greedily pick non-overlapping; O(n log n)\n• Fractional Knapsack: sort by value/weight ratio, fill greedily; O(n log n)\n• Huffman Coding: build prefix-free code using min-heap of frequencies; O(n log n)\n  Path length = Σ(frequency × depth); Greedy builds optimal prefix-free code\n\nDP vs GREEDY:\n• 0/1 Knapsack: MUST use DP (greedy fails)\n• Fractional Knapsack: Greedy works\n• Coin Change (arbitrary): DP; US coin denominations: greedy works\n\nGATE FOCUS: Fill DP table for LCS/Knapsack, Huffman tree and code length, activity selection count, LCS length.\n\nREFERENCES:\n📺 Abdul Bari (DP + Greedy — must watch): https://www.youtube.com/@abdul_bari\n📺 Search: https://www.youtube.com/results?search_query=dynamic+programming+knapsack+lcs+gate+abdul+bari\n📝 PYQs (DP): https://gateoverflow.in/tag/dynamic-programming\n📝 PYQs (Greedy): https://gateoverflow.in/tag/greedy-algorithm\n📚 Book: Cormen (CLRS) Ch.15-16 (DP + Greedy)\n📄 DP Visualizer: https://algorithm-visualizer.org",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m4-w4",
+    "parentId": "gate-m4",
+    "sortOrder": 3,
+    "text": "Week 4 (Sep 1-10): Theory of Computation",
+    "description": "📅 Sep 1–10, 2026\n\nDay 1 Tue Sep 1: DFA — definition, language accepted, constructing DFA for given language\nDay 2 Wed Sep 2: NFA — ε-NFA, subset construction (NFA→DFA), ε-closure\nDay 3 Thu Sep 3: Regular Expressions — operators (+,·,*), RE to NFA (Thompson's), NFA to RE\nDay 4 Fri Sep 4: DFA minimization — table-filling algorithm, Myhill-Nerode theorem\nDay 5 Sat Sep 5: Pumping Lemma for regular languages; closure properties of RL\nDay 6 Sun Sep 6: CFG — productions, derivations, parse trees, ambiguity\nDay 7 Mon Sep 7: CFG — CNF, GNF, Pushdown Automata (PDA)\nDay 8 Tue Sep 8: Pumping Lemma for CFLs; closure properties of CFLs\nDay 9 Wed Sep 9: Turing Machines — definition, variants; decidable vs undecidable; Halting problem\nDay 10 Thu Sep 10: Solve 30 GATE PYQs on TOC + Month 4 revision",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-toc",
+    "parentId": "gate-m4-w4",
+    "sortOrder": 0,
+    "text": "Theory of Computation",
+    "description": "CHOMSKY HIERARCHY:\nRegular (Type 3) ⊂ CFL (Type 2) ⊂ CSL (Type 1) ⊂ RE (Type 0)\nDFA/NFA/RegEx → Regular | PDA → CFL | LBA → CSL | TM → RE\n\nDFA/NFA:\n• DFA: deterministic, δ: Q×Σ→Q (exactly one transition)\n• NFA: δ: Q×Σ→2^Q (subset of states, may have ε-transitions)\n• Every NFA has equivalent DFA (subset construction; at most 2^n states)\n• DFA minimization: merge states that are indistinguishable\n  Two states indistinguishable if same future behavior for all inputs\n\nREGULAR LANGUAGES:\nClosed under: union ✓, intersection ✓, complement ✓, concatenation ✓, Kleene star ✓, reversal ✓\nNOT closed under: nothing (RL is closed under all Boolean operations)\n\nPumping Lemma (RL): ∀ regular L, ∃p: any w∈L with |w|≥p can be split w=xyz\nwhere |xy|≤p, |y|≥1, and xyⁱz ∈ L for all i≥0\nUse to PROVE language is NOT regular (show some string violates this)\n\nNOT regular: {aⁿbⁿ:n≥0}, {ww:w∈Σ*}, {w:|w| is prime}\n\nCONTEXT-FREE LANGUAGES:\nClosed under: union ✓, concatenation ✓, Kleene star ✓\nNOT closed under: intersection ✗, complement ✗\nException: CFL ∩ Regular = CFL ✓\n\nAmbiguous grammar: multiple leftmost (or rightmost) derivations for same string\nInherent ambiguity: every grammar for the language is ambiguous\n\nTURING MACHINE:\n• Decidable (recursive): TM always halts (accepts or rejects)\n• Recognizable (recursively enumerable): TM halts and accepts if w∈L; may loop if w∉L\n• Halting problem: UNDECIDABLE (canonical undecidable problem)\n• Rice's Theorem: any non-trivial property of TM languages is undecidable\n\nGATE FOCUS: Design DFA, NFA to DFA conversion (subset construction), prove non-regularity via pumping lemma, CFL closure properties, decidability.\n\nREFERENCES:\n📺 Search (Ravindra Babu Ravula — best TOC): https://www.youtube.com/results?search_query=ravindra+babu+ravula+theory+of+computation+gate\n📺 Neso Academy (TOC): https://www.youtube.com/@nesoacademy\n📝 PYQs: https://gateoverflow.in/tag/theory-of-computation\n📚 Book: Michael Sipser — Introduction to Theory of Computation (Ch.1-5)\n📚 Book: Ullman, Hopcroft, Motwani — Introduction to Automata Theory (classic)\n📄 DFA Simulator: https://www.cs.usfca.edu/~galles/visualization/DFA.html",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m5",
+    "parentId": "gate-root",
+    "sortOrder": 5,
+    "text": "Month 5: Operating Systems + Computer Networks",
+    "description": "📅 September 11 – October 10, 2026\n\n🎯 OS (~8 marks) + CN (~6 marks) — both are very scoring with clear understanding.\n\nTopics:\n• Process Management, CPU Scheduling\n• Synchronization (Semaphores, Monitors)\n• Deadlocks (Banker's Algorithm)\n• Memory Management, Virtual Memory, Paging\n• File Systems\n• OSI/TCP-IP Model\n• Application Layer (HTTP, DNS, FTP, SMTP)\n• Transport Layer (TCP, UDP)\n• Network Layer (IP, Routing, Subnetting)\n• Data Link Layer (MAC, Framing, Error Detection)\n\nWeekly Plan:\n• Week 1 (Sep 11-17): OS — Processes, Scheduling, Synchronization\n• Week 2 (Sep 18-24): OS — Deadlocks, Memory, File Systems\n• Week 3 (Sep 25 - Oct 1): CN — Application + Transport Layer\n• Week 4 (Oct 2-10): CN — Network + Data Link Layer + Practice",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m5-w1",
+    "parentId": "gate-m5",
+    "sortOrder": 0,
+    "text": "Week 1 (Sep 11-17): OS — Processes & Scheduling",
+    "description": "📅 Sep 11–17, 2026\n\nDay 1 Fri Sep 11: Process concepts — PCB, process states (new/ready/running/waiting/terminated), context switch\nDay 2 Sat Sep 12: Threads — user vs kernel threads, multithreading models (many-to-one, one-to-one, many-to-many)\nDay 3 Sun Sep 13: CPU Scheduling — FCFS (convoy effect), SJF (optimal avg wait), Priority scheduling\nDay 4 Mon Sep 14: CPU Scheduling — Round Robin (time quantum effect), MLFQ\nDay 5 Tue Sep 15: Calculate: waiting time, turnaround time, response time, CPU utilization\nDay 6 Wed Sep 16: Critical section problem — requirements, Peterson's solution, hardware solutions (TestAndSet)\nDay 7 Thu Sep 17: Semaphores (binary/counting), mutex, monitors; classical sync problems; Solve 20 PYQs",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-os-scheduling",
+    "parentId": "gate-m5-w1",
+    "sortOrder": 0,
+    "text": "OS — CPU Scheduling & Synchronization",
+    "description": "SCHEDULING ALGORITHMS:\n• FCFS: non-preemptive, simple; convoy effect (short jobs wait for long jobs)\n• SJF (non-preemptive): picks shortest burst time job; optimal average waiting time for non-preemptive\n• SRTF (preemptive SJF): optimal average waiting time overall; needs future burst time\n• Priority: can starve low-priority processes; fix with aging (gradually increase priority)\n• Round Robin: quantum q; good response time; avg WT depends on q\n  If q→∞: behaves like FCFS; if q→0: behaves like SJF (impractical)\n\nSCHEDULING METRICS:\n• Turnaround Time (TAT) = Completion Time − Arrival Time\n• Waiting Time (WT) = TAT − Burst Time\n• Response Time = First CPU allocation − Arrival Time\n\nCRITICAL SECTION — 3 REQUIREMENTS:\n1. Mutual Exclusion: only one process in CS\n2. Progress: if no process in CS, decision on entry must be made in finite time\n3. Bounded Waiting: finite bound on number of times others can enter before you\n\nSEMAPHORES:\n• wait(S): S−−; if S<0, block the process\n• signal(S): S++; if S≤0, wake up a blocked process\n• Binary semaphore = mutex (0 or 1 only)\n• Counting semaphore: allows multiple concurrent access\n\nCLASSIC PROBLEMS:\n• Producer-Consumer: full semaphore, empty semaphore, mutex\n• Readers-Writers: multiple readers OK, exclusive writers\n• Dining Philosophers: 5 philosophers, 5 forks — avoid deadlock!\n\nGATE FOCUS: Draw Gantt chart, compute avg waiting/turnaround time for given scheduling algorithm, semaphore usage trace.\n\nREFERENCES:\n📺 Neso Academy (OS): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=cpu+scheduling+semaphore+gate+os+neso+academy\n📝 PYQs (Scheduling): https://gateoverflow.in/tag/process-scheduling\n📝 PYQs (Synchronization): https://gateoverflow.in/tag/process-synchronization\n📚 Book: Silberschatz — Operating System Concepts (Dinosaur Book) Ch.5-6\n📚 Book: Tanenbaum — Modern Operating Systems Ch.2",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m5-w2",
+    "parentId": "gate-m5",
+    "sortOrder": 1,
+    "text": "Week 2 (Sep 18-24): OS — Memory & Deadlocks",
+    "description": "📅 Sep 18–24, 2026\n\nDay 1 Fri Sep 18: Deadlock conditions (4 necessary), resource allocation graph\nDay 2 Sat Sep 19: Deadlock avoidance — Banker's algorithm (safety algorithm + resource request)\nDay 3 Sun Sep 20: Deadlock detection and recovery\nDay 4 Mon Sep 21: Memory Management — fixed/variable partitioning, fragmentation (internal/external), compaction\nDay 5 Tue Sep 22: Paging — logical vs physical address, page table, TLB, effective access time\nDay 6 Wed Sep 23: Virtual Memory — demand paging, page fault, page replacement (FIFO, OPT, LRU, LRU approximations)\nDay 7 Thu Sep 24: File Systems — directory, FAT, inode, allocation methods; Solve 20 PYQs",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-os-memory",
+    "parentId": "gate-m5-w2",
+    "sortOrder": 0,
+    "text": "OS — Memory Management & Deadlocks",
+    "description": "DEADLOCK CONDITIONS (all 4 must hold simultaneously):\n1. Mutual Exclusion: resource held exclusively\n2. Hold and Wait: process holds ≥1 resource while waiting for another\n3. No Preemption: resources not forcibly taken\n4. Circular Wait: chain P1→R1→P2→R2→...→P1\n\nBANKER'S ALGORITHM:\n• Safety Algorithm: find process where Need≤Available; simulate it finishing, reclaim resources, repeat\n• If all processes can finish → SAFE STATE\n• Resource Request: if Request≤Need and Request≤Available: tentatively grant, check safety\n  If safe → grant permanently; else rollback\n\nPAGING:\n• Logical address = page number (p) + offset (d)\n• Physical address = frame number (f) + offset (d); same offset!\n• TLB hit: access time = TLB time + 1 memory access\n• TLB miss: access time = TLB time + 2 memory accesses (page table + data)\n• EAT = h×(Tm+Tc) + (1−h)×(2Tm+Tc) where h=hit ratio, Tc=TLB time, Tm=memory time\n\nPAGE REPLACEMENT:\n• FIFO: replace oldest page; simple; subject to Belady's anomaly (more frames→more faults!)\n• OPT: replace page used farthest in future; theoretical best; not practical\n• LRU: replace least recently used; no Belady's anomaly; better than FIFO\n• LRU approximation: reference bit (clock algorithm)\n\nFILE ALLOCATION:\n• Contiguous: fast sequential access, external fragmentation, hard to grow\n• Linked: no fragmentation, poor random access, no direct access\n• Indexed: index block holds all pointers; good random access, overhead for small files\n• UNIX inode: direct(12) + single indirect + double indirect + triple indirect blocks\n\nGATE FOCUS: Banker's algorithm safe sequence, page replacement fault count with reference string, EAT with TLB hit ratio.\n\nREFERENCES:\n📺 Neso Academy (OS Memory): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=banker+algorithm+page+replacement+tlb+gate+os\n📝 PYQs (Deadlock): https://gateoverflow.in/tag/deadlock\n📝 PYQs (Page Replacement): https://gateoverflow.in/tag/page-replacement\n📚 Book: Silberschatz — OS Concepts Ch.7 (Deadlocks) + Ch.9-10 (Memory)\n📄 Page Replacement Simulator: https://www.cs.usfca.edu/~galles/visualization/PageReplacement.html",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m5-w3",
+    "parentId": "gate-m5",
+    "sortOrder": 2,
+    "text": "Week 3 (Sep 25 - Oct 1): CN — Application & Transport",
+    "description": "📅 Sep 25 – Oct 1, 2026\n\nDay 1 Fri Sep 25: OSI model — 7 layers, each layer's role; TCP/IP model comparison\nDay 2 Sat Sep 26: Application Layer — HTTP (methods, status codes, persistent vs non-persistent)\nDay 3 Sun Sep 27: DNS hierarchy, FTP (active/passive), SMTP, POP3, IMAP, DHCP\nDay 4 Mon Sep 28: Transport Layer — UDP (connectionless, unreliable, fast), TCP overview\nDay 5 Tue Sep 29: TCP — 3-way handshake, 4-way close, sequence numbers, reliability\nDay 6 Wed Sep 30: TCP — sliding window flow control, congestion control (slow start, AIMD)\nDay 7 Thu Oct 1: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-cn-upper",
+    "parentId": "gate-m5-w3",
+    "sortOrder": 0,
+    "text": "CN — Application & Transport Layers",
+    "description": "OSI vs TCP/IP:\n• OSI (7 layers): Physical, Data Link, Network, Transport, Session, Presentation, Application\n• TCP/IP (4 layers): Link, Internet, Transport, Application\n• TCP/IP is the practical model; OSI is conceptual reference\n\nAPPLICATION LAYER PROTOCOLS:\n• HTTP: TCP port 80; request-response; stateless; HTTP/2 multiplexed\n• HTTPS: HTTP + TLS; port 443\n• FTP: TCP port 21 (control) + 20 (data); active vs passive mode\n• SMTP: TCP port 25 (sending email); POP3 port 110; IMAP port 143\n• DNS: UDP port 53; translates domain→IP; hierarchy: Root→TLD→Authoritative\n  Recursive query: resolver does all work; Iterative: each server gives next referral\n• DHCP: UDP; assigns IP dynamically; DORA (Discover, Offer, Request, Acknowledge)\n\nTCP 3-WAY HANDSHAKE:\n• Client→Server: SYN (seq=x)\n• Server→Client: SYN-ACK (seq=y, ack=x+1)\n• Client→Server: ACK (seq=x+1, ack=y+1)\nConnection established after 3 messages (1.5 RTT delay)\n\nTCP FLOW CONTROL:\n• Receive window (rwnd): receiver advertises free buffer space\n• Sender can have at most rwnd bytes unacknowledged in flight\n• Throughput ≈ Window Size / RTT\n\nTCP CONGESTION CONTROL:\n• Slow Start: cwnd starts at 1 MSS, doubles each RTT until ssthresh\n• Congestion Avoidance: cwnd increases by 1 MSS per RTT\n• Timeout: ssthresh=cwnd/2, cwnd=1 (restart slow start)\n• 3 duplicate ACKs: ssthresh=cwnd/2, cwnd=ssthresh (fast recovery)\n\nGATE FOCUS: TCP window size and throughput calculation, DNS resolution steps, TCP handshake states, congestion control cwnd trace.\n\nREFERENCES:\n📺 Neso Academy (CN): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=tcp+congestion+control+dns+gate+computer+networks+neso\n📝 PYQs (CN): https://gateoverflow.in/tag/computer-networks\n📝 PYQs (TCP): https://gateoverflow.in/tag/tcp\n📚 Book: Tanenbaum — Computer Networks Ch.6-7 (Transport + Application Layer)\n📚 Book: Kurose & Ross — Computer Networking: A Top-Down Approach (very beginner friendly)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m5-w4",
+    "parentId": "gate-m5",
+    "sortOrder": 3,
+    "text": "Week 4 (Oct 2-10): CN — Network & Data Link",
+    "description": "📅 Oct 2–10, 2026\n\nDay 1 Fri Oct 2: Network Layer — IPv4 addressing, subnetting, CIDR notation\nDay 2 Sat Oct 3: Subnetting problems — calculate subnets, hosts, broadcast address\nDay 3 Sun Oct 4: NAT, IP fragmentation, TTL, ARP, ICMP\nDay 4 Mon Oct 5: Routing — distance vector (RIP, Bellman-Ford), link state (OSPF, Dijkstra)\nDay 5 Tue Oct 6: Data Link Layer — framing, error detection (parity, checksum, CRC)\nDay 6 Wed Oct 7: MAC protocols — CSMA/CD (Ethernet), CSMA/CA (WiFi), Pure/Slotted ALOHA efficiency\nDay 7 Thu Oct 8: Ethernet, switches vs routers, VLAN, Spanning Tree Protocol\nDay 8-9 Oct 9-10: Solve 30 PYQs + Month 5 full revision",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-cn-lower",
+    "parentId": "gate-m5-w4",
+    "sortOrder": 0,
+    "text": "CN — Network & Data Link Layers",
+    "description": "IPv4 SUBNETTING:\n• /n notation: first n bits are network, rest are host\n• /24 = 256 addresses, 254 usable (subtract network and broadcast)\n• Subnet formula: 2^h − 2 usable hosts (h = host bits)\n• Broadcast = set all host bits to 1\n• Example: 192.168.1.0/26 → 64 addresses, 62 hosts, next subnet starts at .64\n\nROUTING PROTOCOLS:\n• Distance Vector (RIP): share distance table with neighbors; Bellman-Ford; slow convergence; count-to-infinity problem; max 15 hops\n• Link State (OSPF): flood topology to all routers; each runs Dijkstra; fast convergence; scalable\n• BGP: path vector; between Autonomous Systems; policy-based routing\n\nERROR DETECTION:\n• Parity: single parity detects odd errors; 2D parity corrects 1 error\n• Checksum: add words, complement; used in IP/TCP/UDP headers\n• CRC (Cyclic Redundancy Check): polynomial division; detects all burst errors ≤ r bits (r-bit CRC)\n  Sender appends r-bit remainder; receiver checks remainder = 0\n• Hamming Code: corrects 1 error, detects 2 errors; distance-3 code\n\nMAC PROTOCOLS:\n• CSMA/CD (Ethernet 802.3): sense → transmit → detect collision → stop → backoff (exponential)\n  Minimum frame size: 2×propagation delay × bandwidth\n• CSMA/CA (WiFi 802.11): RTS/CTS before transmit; no collision detection in wireless\n• Pure ALOHA: S=Ge^(−2G), max efficiency 1/2e ≈ 18.4%\n• Slotted ALOHA: S=Ge^(−G), max efficiency 1/e ≈ 36.8%\n\nNETWORK DEVICES:\n• Hub: Layer 1, repeater, broadcasts to all ports\n• Switch: Layer 2, learns MAC table, forwards to specific port\n• Router: Layer 3, routes based on IP address, connects networks\n\nGATE FOCUS: Subnet calculation (hosts, subnets, addresses), CRC remainder, ALOHA efficiency, routing protocol comparison.\n\nREFERENCES:\n📺 Neso Academy (CN Network Layer): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=subnetting+crc+aloha+gate+computer+networks\n📝 PYQs (IP): https://gateoverflow.in/tag/ip-address\n📝 PYQs (MAC): https://gateoverflow.in/tag/mac\n📚 Book: Forouzan — Data Communications and Networking Ch.5-11\n📄 Subnet Calculator: https://www.subnet-calculator.com",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m6",
+    "parentId": "gate-root",
+    "sortOrder": 6,
+    "text": "Month 6: DBMS + Compiler Design + SE",
+    "description": "📅 October 11 – November 10, 2026\n\n🎯 Final 3 subjects: DBMS (~6 marks), Compiler Design (~4 marks), Software Engineering (~3 marks).\n\nTopics:\n• DBMS — ER Model, Relational Algebra, SQL\n• DBMS — Normalization (BCNF), Transactions, Concurrency Control, Indexing\n• Compiler Design — Lexical Analysis, Parsing (LL/LR), Semantic Analysis, Code Gen\n• Software Engineering — SDLC, Testing, Metrics, Project Management\n\nWeekly Plan:\n• Week 1 (Oct 11-17): DBMS — ER, Relational Algebra, SQL\n• Week 2 (Oct 18-24): DBMS — Normalization, Transactions, Indexing\n• Week 3 (Oct 25-31): Compiler Design\n• Week 4 (Nov 1-10): Software Engineering + Integration practice",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m6-w1",
+    "parentId": "gate-m6",
+    "sortOrder": 0,
+    "text": "Week 1 (Oct 11-17): DBMS — ER, Rel. Algebra, SQL",
+    "description": "📅 Oct 11–17, 2026\n\nDay 1 Sun Oct 11: ER Model — entities, attributes (simple/composite/multivalued/derived), relationships\nDay 2 Mon Oct 12: ER — cardinality (1:1, 1:N, M:N), participation (total/partial), weak entities\nDay 3 Tue Oct 13: ER to relational schema conversion; ternary relationships\nDay 4 Wed Oct 14: Relational Algebra — σ (select), π (project), ⋈ (natural join), outer joins\nDay 5 Thu Oct 15: Relational Algebra — set operations, rename, division operator\nDay 6 Fri Oct 16: SQL — SELECT, JOINs, GROUP BY, HAVING, aggregate functions, subqueries\nDay 7 Sat Oct 17: Solve 20 GATE PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-dbms-sql",
+    "parentId": "gate-m6-w1",
+    "sortOrder": 0,
+    "text": "DBMS — ER Model, Relational Algebra & SQL",
+    "description": "ER MODEL:\n• Entity: real-world object; Strong entity has own key; Weak entity depends on owner\n• Attributes: Simple (atomic), Composite (has sub-parts), Multivalued {age}, Derived (age from DOB)\n• Cardinality: 1:1, 1:N (one-to-many), M:N (many-to-many)\n• Participation: Total (every entity participates — double line) vs Partial (some participate — single line)\n• Weak entity: uses partial key + owner's key together as primary key\n\nER TO RELATIONAL MAPPING:\n• Strong entity → relation with same attributes\n• M:N relationship → separate relation with PKs of both entities\n• 1:N relationship → add FK to the N-side entity\n• Multivalued attribute → separate relation\n• Weak entity → relation including owner's PK + partial key\n\nRELATIONAL ALGEBRA:\n• σ_condition(R): select tuples (rows) satisfying condition\n• π_attrs(R): project (select columns; removes duplicate tuples)\n• R ⋈ S: natural join on common attributes\n• R ⋈_c S: theta join with condition c\n• Left Outer Join (⟕): all left tuples + matching right; unmatched right = NULL\n• Division R÷S: tuples in R's projection associated with ALL tuples in S\n\nSQL ESSENTIALS:\n• SELECT...FROM...WHERE...GROUP BY...HAVING...ORDER BY\n• NULL: use IS NULL not = NULL; COUNT(*) counts NULLs, COUNT(col) ignores them\n• Aggregate: COUNT, SUM, AVG, MAX, MIN — applied after GROUP BY\n• HAVING filters groups; WHERE filters rows before grouping\n• Correlated subquery: inner query references outer query's column\n\nGATE FOCUS: Write RA expression for English query, translate SQL to RA, identify ER cardinality, construct join results.\n\nREFERENCES:\n📺 Search (Gate Smashers DBMS): https://www.youtube.com/results?search_query=gate+smashers+dbms+relational+algebra+sql\n📺 Neso Academy (DBMS): https://www.youtube.com/@nesoacademy\n📝 PYQs: https://gateoverflow.in/tag/databases\n📝 PYQs (RA): https://gateoverflow.in/tag/relational-algebra\n📚 Book: Korth, Silberschatz — Database System Concepts Ch.2-5 (ER, Relational Model, SQL)\n📄 SQL Practice: https://www.w3schools.com/sql/sql_exercises.asp",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m6-w2",
+    "parentId": "gate-m6",
+    "sortOrder": 1,
+    "text": "Week 2 (Oct 18-24): DBMS — Normalization & Transactions",
+    "description": "📅 Oct 18–24, 2026\n\nDay 1 Sun Oct 18: Functional Dependencies — Armstrong's axioms, closure of attribute set, candidate keys\nDay 2 Mon Oct 19: Normal Forms — 1NF, 2NF, 3NF, BCNF; identify and eliminate violations\nDay 3 Tue Oct 20: Decomposition — lossless join, dependency preservation; when BCNF fails to preserve FDs\nDay 4 Wed Oct 21: Transactions — ACID properties, transaction states, schedules\nDay 5 Thu Oct 22: Concurrency — serializability, conflict serializability, precedence graph\nDay 6 Fri Oct 23: 2PL (Two-Phase Locking), deadlock in transactions, recovery (log-based, checkpoints)\nDay 7 Sat Oct 24: B+ Trees for indexing — structure, height; Solve 20 PYQs + Revise",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-dbms-norm",
+    "parentId": "gate-m6-w2",
+    "sortOrder": 0,
+    "text": "DBMS — Normalization, Transactions & Concurrency",
+    "description": "FUNCTIONAL DEPENDENCIES:\n• Armstrong's Axioms: Reflexivity (Y⊆X → X→Y), Augmentation (X→Y → XZ→YZ), Transitivity (X→Y,Y→Z → X→Z)\n• Closure X⁺: all attributes determined by X using given FDs\n• Candidate Key: minimal set where X⁺ = all attributes\n• Prime attribute: part of some candidate key\n\nNORMAL FORMS:\n• 1NF: all attribute values are atomic (no repeating groups, no multivalued attributes)\n• 2NF: 1NF + no PARTIAL dependency of non-prime attribute on any candidate key\n  (Only an issue if CK has multiple attributes)\n• 3NF: 2NF + no TRANSITIVE dependency (A→B→C where B is not a superkey)\n  3NF can preserve all FDs; allows some redundancy\n• BCNF: for every FD X→Y, X must be a superkey\n  Stronger than 3NF; may not preserve all FDs\n\nSERL TEST FOR 3NF: A→B is allowed if: A is superkey OR B is prime attribute\n\nTRANSACTION ACID:\n• Atomicity: all operations or none\n• Consistency: DB valid state before and after\n• Isolation: concurrent transactions don't interfere\n• Durability: committed transactions persist\n\nSERIALIZABILITY:\n• Conflict: two operations access same data, at least one is write, from different transactions\n• Conflict serializable iff precedence graph has NO CYCLE\n• Precedence graph: Tᵢ→Tⱼ if Tᵢ's operation conflicts with and precedes Tⱼ's\n\nTWO-PHASE LOCKING (2PL):\n• Phase 1 (Growing): acquire locks, no releasing\n• Phase 2 (Shrinking): release locks, no acquiring\n• 2PL guarantees conflict serializability\n• Strict 2PL: hold all locks until commit/abort (prevents cascading rollback)\n\nGATE FOCUS: Find candidate keys using FD closure, identify BCNF violation, check conflict serializability using precedence graph.\n\nREFERENCES:\n📺 Search (Gate Smashers Normalization): https://www.youtube.com/results?search_query=gate+smashers+normalization+bcnf+transactions\n📺 Search: https://www.youtube.com/results?search_query=functional+dependency+candidate+key+gate+dbms\n📝 PYQs (Normalization): https://gateoverflow.in/tag/normal-forms\n📝 PYQs (Transactions): https://gateoverflow.in/tag/transaction-and-concurrency\n📚 Book: Korth — Database System Concepts Ch.7 (Normalization) + Ch.15-17 (Transactions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m6-w3",
+    "parentId": "gate-m6",
+    "sortOrder": 2,
+    "text": "Week 3 (Oct 25-31): Compiler Design",
+    "description": "📅 Oct 25–31, 2026\n\nDay 1 Sun Oct 25: Compiler phases overview; Lexical Analysis — tokens, patterns, RE to DFA (lex)\nDay 2 Mon Oct 26: Parsing intro — top-down vs bottom-up; FIRST and FOLLOW set computation\nDay 3 Tue Oct 27: LL(1) parsing — LL(1) table construction, predictive parsing, left recursion removal, left factoring\nDay 4 Wed Oct 28: LR(0) items and automaton — shift/reduce, reduce/reduce conflicts\nDay 5 Thu Oct 29: SLR(1), LALR(1), LR(1) — differences, power hierarchy\nDay 6 Fri Oct 30: Semantic Analysis — attribute grammars, SDT (syntax-directed translation), type systems\nDay 7 Sat Oct 31: Intermediate code (3-address code), code optimization basics; Solve 20 PYQs",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-compiler",
+    "parentId": "gate-m6-w3",
+    "sortOrder": 0,
+    "text": "Compiler Design",
+    "description": "COMPILER PHASES:\n1. Lexical Analysis → tokens (using RE/DFA)\n2. Syntax Analysis (Parsing) → parse tree (using CFG)\n3. Semantic Analysis → type checking, attribute grammars\n4. Intermediate Code Gen → 3-address code (TAC)\n5. Code Optimization → constant folding, dead code elimination\n6. Code Generation → assembly/machine code\n\nLEXICAL ANALYSIS:\n• Token: <category, value> e.g., <ID, \"x\">, <NUM, 42>, <KEYWORD, \"if\">\n• Lexeme: actual string; Pattern: RE describing lexeme\n• NFA from RE (Thompson's) → DFA (subset construction) → Minimized DFA\n\nFIRST AND FOLLOW SETS:\n• FIRST(α): terminals that can begin a string derived from α\n  If α can derive ε, include ε in FIRST(α)\n• FOLLOW(A): terminals that can appear immediately to the right of A\n  Add $ to FOLLOW(start symbol)\n  If A→αBβ: FIRST(β)−{ε} ⊆ FOLLOW(B); if ε∈FIRST(β): FOLLOW(A)⊆FOLLOW(B)\n\nLL(1) PARSING:\n• Parsing table M[A,a]: add production A→α to M[A,a] for a∈FIRST(α)\n  If ε∈FIRST(α): add to M[A,b] for all b∈FOLLOW(A)\n• LL(1) grammar: no conflicts in parsing table (max one production per cell)\n• Must eliminate: left recursion (A→Aα) and left factoring (common prefix)\n\nLR PARSING POWER: LR(0) < SLR(1) < LALR(1) < LR(1)\n• LR(0) items: productions with a dot showing parsing position\n• SLR: use FOLLOW sets to resolve conflicts\n• LALR(1): merge LR(1) states with same core; used in yacc/bison\n• Shift-Reduce conflict, Reduce-Reduce conflict\n\nINTERMEDIATE CODE (3-address code):\n• x = y op z; x = op y; x = y; goto L; if x rel y goto L; param x; call p,n; return y\n\nGATE FOCUS: Compute FIRST/FOLLOW sets, build LL(1) parse table, identify LR(0) items, recognize conflicts.\n\nREFERENCES:\n📺 Neso Academy (Compiler Design): https://www.youtube.com/@nesoacademy\n📺 Search: https://www.youtube.com/results?search_query=first+follow+sets+ll1+lr+parsing+gate+compiler\n📝 PYQs: https://gateoverflow.in/tag/compiler-design\n📚 Book: Aho, Lam, Sethi, Ullman — Compilers: Principles, Techniques and Tools (Dragon Book) Ch.3-4\n📄 FIRST/FOLLOW Calculator: https://www.cs.usfca.edu/~galles/visualization/LL.html",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m6-w4",
+    "parentId": "gate-m6",
+    "sortOrder": 3,
+    "text": "Week 4 (Nov 1-10): Software Engineering + Integration",
+    "description": "📅 Nov 1–10, 2026\n\nDay 1 Sun Nov 1: SE — SDLC models (Waterfall, Agile, Spiral, V-model) — pros/cons\nDay 2 Mon Nov 2: SE — Requirements types, SRS document, use case diagrams\nDay 3 Tue Nov 3: SE — Software design: coupling types, cohesion types (know all levels)\nDay 4 Wed Nov 4: SE — Testing: white-box (statement/branch/path coverage), black-box (equivalence partitioning, BVA)\nDay 5 Thu Nov 5: SE — Cyclomatic complexity (McCabe), LOC, function points\nDay 6 Fri Nov 6: SE — Project management: PERT, CPM, critical path, float calculation\nDay 7-9 Nov 7-9: Solve 30 PYQs across DBMS + Compiler + SE\nDay 10 Nov 10: Full Month 6 revision test (timed, 30 questions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-t-se",
+    "parentId": "gate-m6-w4",
+    "sortOrder": 0,
+    "text": "Software Engineering",
+    "description": "SDLC MODELS:\n• Waterfall: sequential phases; rigid; best for well-understood stable requirements\n• V-Model: testing phase mirrors each development phase; validation + verification\n• Agile: iterative sprints; flexible; customer collaboration; best for changing requirements\n• Spiral: risk-driven; iterative; for large, high-risk projects\n\nSOFTWARE DESIGN:\nCoupling (between modules — LOWER IS BETTER):\nContent < Common < Control < Stamp < Data\n(Data coupling = best — only pass necessary data)\n\nCohesion (within module — HIGHER IS BETTER):\nCoincidental < Logical < Temporal < Procedural < Communicational < Sequential < Functional\n(Functional cohesion = best — module does one well-defined task)\n\nTESTING:\n• White-box (structural): needs source code\n  - Statement coverage: execute every statement\n  - Branch coverage: execute every branch (both true/false); stronger than statement\n  - Path coverage: execute every path; strongest; may be infinite with loops\n• Black-box (functional): no source code needed\n  - Equivalence Partitioning: group inputs into equivalence classes\n  - Boundary Value Analysis: test at boundaries of valid range\n  - Decision table testing\n\nCYCLOMATIC COMPLEXITY (McCabe):\n• CC = E − N + 2P (E=edges, N=nodes, P=connected components)\n• For single function: CC = binary decisions + 1\n• CC = number of independent paths in the program\n• CC ≤ 10: well-structured; CC > 10: complex, needs refactoring\n\nCRITICAL PATH METHOD:\n• Draw activity network; find longest path (critical path)\n• Float/Slack = Latest Start − Earliest Start = 0 for critical activities\n• Total project duration = length of critical path\n\nGATE FOCUS: Calculate cyclomatic complexity, identify coupling/cohesion type, test coverage comparison, critical path in network.\n\nREFERENCES:\n📺 Search (Gate Smashers SE): https://www.youtube.com/results?search_query=gate+smashers+software+engineering+cyclomatic+complexity\n📺 Search: https://www.youtube.com/results?search_query=software+engineering+gate+testing+coupling+cohesion\n📝 PYQs: https://gateoverflow.in/tag/software-engineering\n📚 Book: Ian Sommerville — Software Engineering (10th ed.) Ch.8-9 (Design + Testing)\n📚 Book: Pressman — Software Engineering: A Practitioner's Approach Ch.14-17 (Testing)",
+    "protected": true,
+    "completed": false
+  },
+
+  {
+    "id": "gate-m7",
+    "parentId": "gate-root",
+    "sortOrder": 7,
+    "text": "Month 7: Revision + Mock Tests",
+    "description": "📅 November 11 – December 10, 2026\n\n🎯 Consolidate all 11 subjects, identify weak spots, build exam stamina.\n\nSTRATEGY:\n• Use formula sheets built during study months — revise from them, not textbooks\n• Attempt full-length mock tests under real exam conditions (3 hrs, no breaks)\n• Analyze every mistake: conceptual gap, calculation error, or time pressure?\n• Focus revision time on highest-scoring topics where you're weakest\n• Do PYQs year-wise: GATE 2024, 2023, 2022, 2021, 2020\n\nWeekly Plan:\n• Week 1 (Nov 11-17): Engg Math + Discrete Math + Digital Logic\n• Week 2 (Nov 18-24): COA + C + Data Structures + Algorithms\n• Week 3 (Nov 25 - Dec 1): TOC + OS + Computer Networks\n• Week 4 (Dec 2-10): DBMS + Compiler + SE + 3 Full Mock Tests\n\nAfter Dec 10:\n• Continue daily 2-3 hour targeted revision\n• 1 full mock test per week minimum\n• Check GATE 2027 exam date on official portal (usually Feb)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m7-w1",
+    "parentId": "gate-m7",
+    "sortOrder": 0,
+    "text": "Week 1 (Nov 11-17): Revise Math + DL",
+    "description": "📅 Nov 11–17, 2026\n\nDay 1 Wed Nov 11: Revise all Discrete Math — logic, sets, relations, functions, graphs, combinatorics\nDay 2 Thu Nov 12: Revise Linear Algebra — rank, eigenvalues, system consistency\nDay 3 Fri Nov 13: Revise Calculus + Probability — key formulas, distributions\nDay 4 Sat Nov 14: Revise Digital Logic — Boolean algebra, K-Map, logic gates, universal gates\nDay 5 Sun Nov 15: Revise Digital Logic — combinational + sequential circuits, FSMs\nDay 6 Mon Nov 16: Timed subject test on Math + DL (30 questions, 60 min)\nDay 7 Tue Nov 17: Analyze mistakes, revise weak subtopics",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m7-w2",
+    "parentId": "gate-m7",
+    "sortOrder": 1,
+    "text": "Week 2 (Nov 18-24): Revise COA + DS + Algorithms",
+    "description": "📅 Nov 18–24, 2026\n\nDay 1 Wed Nov 18: Revise COA — cache hit time, pipeline speedup, addressing modes\nDay 2 Thu Nov 19: Revise C Programming — pointer arithmetic, recursion trace, output prediction\nDay 3 Fri Nov 20: Revise DS — linked lists, stacks, queues; operation complexity\nDay 4 Sat Nov 21: Revise DS — trees (BST, AVL rotations, heap operations)\nDay 5 Sun Nov 22: Revise Algorithms — sorting comparison, master theorem, graph algos\nDay 6 Mon Nov 23: Revise DP + Greedy — LCS table, Knapsack, Huffman coding\nDay 7 Tue Nov 24: Timed test on COA + DS + Algorithms (30 questions, 60 min)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m7-w3",
+    "parentId": "gate-m7",
+    "sortOrder": 2,
+    "text": "Week 3 (Nov 25 - Dec 1): Revise TOC + OS + CN",
+    "description": "📅 Nov 25 – Dec 1, 2026\n\nDay 1 Wed Nov 25: Revise TOC — DFA/NFA, RE, DFA minimization, pumping lemma\nDay 2 Thu Nov 26: Revise TOC — CFG, PDA, CFL closure properties, TM decidability\nDay 3 Fri Nov 27: Revise OS — CPU scheduling (draw Gantt charts from memory)\nDay 4 Sat Nov 28: Revise OS — Banker's algorithm, paging EAT, page replacement\nDay 5 Sun Nov 29: Revise CN — TCP/IP model, TCP handshake, congestion control\nDay 6 Mon Nov 30: Revise CN — subnetting, routing protocols, ALOHA efficiency, CRC\nDay 7 Tue Dec 1: Timed test on TOC + OS + CN (30 questions, 60 min)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-m7-w4",
+    "parentId": "gate-m7",
+    "sortOrder": 3,
+    "text": "Week 4 (Dec 2-10): Revise DBMS+Compiler+SE + Mock Tests",
+    "description": "📅 Dec 2–10, 2026\n\nDay 1 Wed Dec 2: Revise DBMS — ER conversion, RA operators, SQL JOINs\nDay 2 Thu Dec 3: Revise DBMS — BCNF violations, candidate keys, conflict serializability\nDay 3 Fri Dec 4: Revise Compiler — FIRST/FOLLOW computation, LL(1) table, LR parsing\nDay 4 Sat Dec 5: Revise SE — cyclomatic complexity, coupling/cohesion, critical path\nDay 5 Sun Dec 6: FULL GATE MOCK TEST #1 (3 hours, 65 questions, all subjects)\n  Treat as real exam: no phone, no breaks, time yourself strictly\nDay 6 Mon Dec 7: Analyze Mock #1 — categorize mistakes, targeted revision\nDay 7 Tue Dec 8: FULL GATE MOCK TEST #2\nDay 8 Wed Dec 9: Analyze Mock #2 + weak area drill\nDay 9 Thu Dec 10: FULL GATE MOCK TEST #3 + Plan Jan-Feb schedule",
+    "protected": true,
+    "completed": false
+  }
+  ,
+  {
+    "id": "gate-ga",
+    "parentId": "gate-root",
+    "sortOrder": 10,
+    "text": "General Aptitude (15 marks)",
+    "description": "GATE General Aptitude = 15 marks — easiest marks in the exam. Never skip!\n\n📊 Split:\n• Verbal Ability: ~5 questions, 7-8 marks\n• Numerical Ability: ~4 questions, 7-8 marks\n\nTopics:\n1. Verbal Ability\n   • English Grammar (Tenses, Articles, Prepositions, Subject-Verb Agreement)\n   • Vocabulary (Synonyms, Antonyms, Fill-in-the-blanks)\n   • Reading Comprehension (1-2 passages)\n   • Sentence Correction/Completion/Ordering\n\n2. Numerical Ability\n   • Number Theory (LCM, HCF, Divisibility, Remainders)\n   • Percentages, Profit & Loss, Discount\n   • Ratio, Proportion, Mixtures & Alligations\n   • Time-Speed-Distance, Time & Work\n   • Simple & Compound Interest\n   • Permutation, Combination, Probability\n\n3. Logical Reasoning\n   • Number/Letter Series\n   • Analogies, Classification (Odd One Out)\n   • Blood Relations, Direction & Distance\n   • Data Interpretation (Graphs, Tables)\n\n📅 STUDY PLAN: 30 min daily throughout all 6 months — do 5-10 GA questions every day. GA needs consistent practice, not one-shot study.\n\nREFERENCES:\n📺 Search: https://www.youtube.com/results?search_query=gate+general+aptitude+verbal+numerical+ability\n📝 PYQs: https://gateoverflow.in/tag/general-aptitude\n📚 Book: Arun Sharma — Quantitative Aptitude (best for numerical)\n📚 Book: R.S. Aggarwal — Verbal & Non-Verbal Reasoning",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-ga-verbal",
+    "parentId": "gate-ga",
+    "sortOrder": 0,
+    "text": "Verbal Ability",
+    "description": "ENGLISH GRAMMAR — Key Rules:\n\nTENSES:\n• Simple Present: He runs / She writes\n• Present Perfect: He has run / She has written (action with present relevance)\n• Past Perfect: He had run before... (earlier of two past actions)\n• Rule: with 'since' → Present Perfect; with 'ago' → Simple Past\n\nARTICLES:\n• 'a' before consonant sound: a university, a European\n• 'an' before vowel sound: an hour, an MBA\n• 'the' for specific/known nouns; no article for general plural or uncountable\n\nSUBJECT-VERB AGREEMENT:\n• Collective nouns (committee, team) → singular verb\n• Either/Neither → singular verb\n• Each/Every → singular verb\n• Neither...nor / Either...or → verb agrees with nearest subject\n\nPREPOSITIONS:\n• Depends on: agree WITH, differ FROM, conform TO, result IN, rely ON\n\nVOICE (Active → Passive):\n• Active: She writes a letter.\n• Passive: A letter is written by her.\n• Rule: Object becomes Subject; verb → be + past participle; subject → by + agent\n\nVOCABULARY TIPS:\n• Learn word roots: port (carry), dict (say), aud (hear), vis (see)\n• Practice antonyms/synonyms in context, not in isolation\n• Common confusables: affect/effect, principle/principal, compliment/complement\n\nREADING COMPREHENSION STRATEGY:\n• Read questions FIRST, then the passage\n• Look for keywords from questions in passage\n• Main idea = usually first or last sentence of paragraph\n• Inference = what MUST be true, not just possibly true\n\nREFERENCES:\n📺 Search: https://www.youtube.com/results?search_query=gate+verbal+ability+english+grammar+aptitude\n📝 PYQs: https://gateoverflow.in/tag/verbal-ability\n📚 Book: Wren & Martin — High School English Grammar (comprehensive)\n📄 Practice: https://www.indiabix.com/verbal-ability/questions-and-answers/",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-ga-numerical",
+    "parentId": "gate-ga",
+    "sortOrder": 1,
+    "text": "Numerical Ability",
+    "description": "NUMBER THEORY:\n• HCF × LCM = Product of two numbers\n• Divisibility rules: by 3 (digit sum divisible by 3), by 4 (last 2 digits), by 9 (digit sum by 9), by 11 (alternating sum)\n• Remainder theorem: if f(x) divided by (x-a), remainder = f(a)\n• Fermat's little theorem: a^(p-1) ≡ 1 (mod p) for prime p, gcd(a,p)=1\n\nPERCENTAGE & PROFIT-LOSS:\n• % change = (Change/Original) × 100\n• If price ↑ by r%, to restore: reduce by r/(100+r) × 100\n• Profit% = (Profit/CP) × 100; SP = CP × (100+P%)/100\n• Successive discounts of a% and b%: net discount = a+b − ab/100\n\nRATIO, PROPORTION & MIXTURES:\n• Mixture rule (Alligation): (C2−Cavg):(Cavg−C1) gives ratio to mix\n• Partnership: profit shared in ratio of capital × time\n\nTIME, SPEED, DISTANCE:\n• Speed = Distance/Time\n• Relative speed: same direction = |S1−S2|; opposite direction = S1+S2\n• Boats: upstream = B−R, downstream = B+R\n• Time = Distance/Speed; Average speed = 2S1S2/(S1+S2) for equal distances\n\nTIME & WORK:\n• If A does work in x days, rate = 1/x\n• A+B together: rate = 1/x + 1/y; time = xy/(x+y)\n• Pipes: filling pipe adds, leaking pipe subtracts\n\nSIMPLE & COMPOUND INTEREST:\n• SI = PRT/100\n• CI = P(1 + R/100)^T − P\n• CI−SI for 2 years = P(R/100)²\n\nREFERENCES:\n📺 Search: https://www.youtube.com/results?search_query=gate+aptitude+numerical+ability+percentages+ratio+time+work\n📝 PYQs: https://gateoverflow.in/tag/numerical-ability\n📚 Book: Arun Sharma — Quantitative Aptitude for CAT/GATE\n📄 Practice: https://www.indiabix.com/aptitude/questions-and-answers/",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-ga-reasoning",
+    "parentId": "gate-ga",
+    "sortOrder": 2,
+    "text": "Logical Reasoning & Data Interpretation",
+    "description": "NUMBER & LETTER SERIES:\n• Arithmetic series: constant difference (2,5,8,11...)\n• Geometric series: constant ratio (3,6,12,24...)\n• Difference series: differences form another series\n• Prime/square/cube number series\n• Letter series: follow alphabetical positions (A=1, B=2,..., Z=26)\n• Mixed series: combine two interleaved series\n• Tip: always check differences, then differences of differences\n\nANALOGY:\n• Tool → Function: Pen:Write :: Knife:Cut\n• Part → Whole: Page:Book :: Petal:Flower\n• Cause → Effect: Fire:Smoke :: Rain:Flood\n• Find the RELATIONSHIP, then apply to answer pair\n\nBLOOD RELATIONS:\n• Draw a family tree; use standardized notation\n• Key terms: maternal (mother's side), paternal (father's side)\n• Siblings share both parents; half-siblings share one parent\n\nDIRECTION & DISTANCE:\n• Always face North initially\n• Right turn = clockwise, Left turn = anticlockwise\n• Draw path on paper; use Pythagorean theorem for final distance\n\nDATA INTERPRETATION:\n• Bar Chart: compare heights of bars\n• Pie Chart: % of total; sector angle = (%/100) × 360°\n• Line Graph: trends over time\n• Table: direct reading; calculate % change, ratio, average\n• Tip: approximate — don't calculate exact values under time pressure\n\nSEATING ARRANGEMENT / PUZZLES:\n• Circular arrangement: fix one person, arrange remaining (n−1)!\n• Linear arrangement: n! arrangements\n• Always write down constraints before solving\n\nREFERENCES:\n📺 Search: https://www.youtube.com/results?search_query=gate+aptitude+reasoning+series+data+interpretation\n📝 PYQs: https://gateoverflow.in/tag/general-aptitude\n📚 Book: R.S. Aggarwal — A Modern Approach to Verbal & Non-Verbal Reasoning\n📄 Practice: https://www.indiabix.com/logical-reasoning/questions-and-answers/",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "gate-ga-plan",
+    "parentId": "gate-ga",
+    "sortOrder": 3,
+    "text": "GA Daily Practice Plan",
+    "description": "📅 30 MINUTES DAILY — Every single day through Month 1 to Month 7.\n\nMONTH 1-2 (May–Jul): Foundation\n• 15 min Verbal: grammar rules + 5 vocab questions\n• 15 min Numerical: basic arithmetic (%, ratio, TSD, work)\n• Target: clear all formula-based concepts\n\nMONTH 3-4 (Jul–Sep): Speed Building\n• 10 min Verbal: RC passage + sentence correction\n• 20 min Numerical: mix of all topics; target accuracy > 80%\n• Start timed practice: 5 questions in 6 minutes\n\nMONTH 5-6 (Sep–Nov): GATE-Level Practice\n• Solve only GATE PYQ aptitude questions\n• Target: 10 questions in 12 minutes\n• Focus: eliminate wrong answer choices, not just find right answer\n\nMONTH 7 (Nov–Dec): Polish\n• Do 15 GA questions every alternate day under timed conditions\n• Aim for 13-14 out of 15 GA marks consistently\n\nQUICK STRATEGIES FOR GATE GA:\n• Reading Comprehension: 3-4 questions from 1 passage — spend max 4 min total\n• Numerical: if calculation is complex, eliminate options using approximation\n• Sentence ordering: look for pronouns (it/they/this) to link sentences\n• Series: check last 3 terms first to identify pattern quickly\n\nREFERENCES:\n📝 GATE PYQ Aptitude: https://gateoverflow.in/tag/general-aptitude\n📺 Search: https://www.youtube.com/results?search_query=gate+2024+2023+general+aptitude+solutions\n📄 GATE Aptitude PDFs: https://www.gateforum.com/gate-aptitude/ (search for free PDFs)",
+    "protected": true,
+    "completed": false
+  }
+]

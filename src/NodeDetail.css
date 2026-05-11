@@ -446,6 +446,96 @@
   right: 12px;
 }
 
+/* ── Study Timer ───────────────────────────────────────────── */
+.timer-section .section-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-color);
+  border: 1px solid var(--line-color);
+  border-radius: 10px;
+}
+
+.timer-total {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-total-label {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.timer-total-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-session {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timer-live {
+  font-size: 16px;
+  font-weight: 700;
+  color: #10b981;
+  font-variant-numeric: tabular-nums;
+  animation: pulse-green 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.timer-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line-color);
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+
+.timer-btn:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16,185,129,0.08);
+}
+
+.timer-btn-pause {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239,68,68,0.06);
+}
+
+.timer-btn-pause:hover {
+  border-color: #ef4444;
+  color: #fff;
+  background: #ef4444;
+}
+
 /* ── Misc ──────────────────────────────────────────────────── */
 .no-children {
   color: var(--text-light);

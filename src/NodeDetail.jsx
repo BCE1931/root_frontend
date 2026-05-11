@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle, Play, Pause, Clock } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 import "./NodeDetail.css";
 
@@ -213,18 +213,59 @@ export default function NodeDetail({
   findParentPath,
   onUpdateDescription,
   onToggleComplete,
+  onUpdateStudyTime,
 }) {
   const { isDark } = useContext(ThemeContext);
   const { nodeId } = useParams();
   const node = findNodeById(treeData, nodeId);
   const parentPath = findParentPath(treeData, nodeId);
 
-  const [isEditingDesc, setIsEditingDesc]     = useState(false);
+  const [isEditingDesc, setIsEditingDesc]       = useState(false);
   const [editedDescription, setEditedDescription] = useState(node?.description || "");
+  const [timerRunning, setTimerRunning]           = useState(false);
+  const [sessionSecs, setSessionSecs]             = useState(0);
+  const intervalRef                               = useRef(null);
 
   useEffect(() => {
     if (node) document.title = node.text;
   }, [node]);
+
+  // Save session seconds on unmount or pause
+  const flushSession = useRef(null);
+  flushSession.current = () => {
+    if (sessionSecs > 0 && onUpdateStudyTime) {
+      onUpdateStudyTime(nodeId, sessionSecs);
+      setSessionSecs(0);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      flushSession.current();
+    };
+  }, [nodeId]);
+
+  const handleTimerToggle = () => {
+    if (timerRunning) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      flushSession.current();
+      setTimerRunning(false);
+    } else {
+      setTimerRunning(true);
+      intervalRef.current = setInterval(() => setSessionSecs(s => s + 1), 1000);
+    }
+  };
+
+  const fmtTime = (secs) => {
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    const s = secs % 60;
+    if (h > 0) return `${h}h ${m}m`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+  };
 
   if (!node) {
     return (
@@ -348,6 +389,30 @@ export default function NodeDetail({
               <DescriptionRenderer description={node.description} />
             )}
           </div>
+
+          {/* Study Timer section */}
+          {onUpdateStudyTime && (
+            <div className="detail-section timer-section">
+              <div className="section-header">
+                <h3><Clock size={15} /> Study Timer</h3>
+              </div>
+              <div className="timer-row">
+                <div className="timer-total">
+                  <span className="timer-total-label">Total studied:</span>
+                  <span className="timer-total-val">{fmtTime(node.studyTime || 0)}</span>
+                </div>
+                <div className="timer-session">
+                  {timerRunning && <span className="timer-live">{fmtTime(sessionSecs)}</span>}
+                  <button
+                    className={`timer-btn${timerRunning ? " timer-btn-pause" : ""}`}
+                    onClick={handleTimerToggle}
+                  >
+                    {timerRunning ? <><Pause size={14} /> Pause</> : <><Play size={14} /> Start</>}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Children section */}
           {node.children?.length > 0 && (

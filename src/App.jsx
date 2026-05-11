@@ -15,9 +15,12 @@ import NodeDetail from "./NodeDetail";
 import Header from "./Header";
 import ConfirmModal from "./ConfirmModal";
 import StorageSettings from "./StorageSettings";
+import SearchPalette from "./SearchPalette";
+import ProgressDashboard from "./ProgressDashboard";
+import FlashcardMode from "./FlashcardMode";
 import { ThemeContext } from "./ThemeContext";
 import * as api from "./storage/index.js";
-import { getMode } from "./storage/index.js";
+import { getMode, getTopic, setTopic, getTopics, addCustomTopic } from "./storage/index.js";
 import "./App.css";
 
 export default function App() {
@@ -30,6 +33,7 @@ export default function App() {
   const [layout, setLayout] = useState("horizontal");
   const [showSettings, setShowSettings] = useState(false);
   const [storageMode, setStorageMode] = useState(getMode);
+  const [topic, setTopicState] = useState(getTopic);
   const [scrollState, setScrollState] = useState({
     canScrollLeft: false,
     canScrollRight: false,
@@ -39,6 +43,11 @@ export default function App() {
     nodeId: null,
     nodeText: "",
   });
+  const [showSearch, setShowSearch]     = useState(false);
+  const [showProgress, setShowProgress] = useState(false);
+  const [showFlashcard, setShowFlashcard] = useState(false);
+  const [zoom, setZoom]                 = useState(1);
+  const [allTopics, setAllTopics]       = useState(getTopics);
 
   // ── Load data (from whichever store is active) ────────────────────────────
   const loadData = useCallback(() => {
@@ -51,6 +60,23 @@ export default function App() {
   }, []);
 
   useEffect(() => { loadData(); }, [loadData]);
+
+  // Ctrl+K global search shortcut
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setShowSearch(v => !v);
+      }
+      if (e.key === "Escape") {
+        setShowSearch(false);
+        setShowProgress(false);
+        setShowFlashcard(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   // ── Scroll-button logic (unchanged) ──────────────────────────────────────
   const updateScrollState = useCallback(() => {
@@ -131,6 +157,53 @@ export default function App() {
       left: direction === "right" ? amount : -amount,
       behavior: "smooth",
     });
+  };
+
+  // ── Topic switching ───────────────────────────────────────────────────────
+
+  const handleTopicChange = useCallback((newTopic) => {
+    setTopic(newTopic);
+    setTopicState(newTopic);
+    loadData();
+  }, [loadData]);
+
+  // ── New feature handlers ──────────────────────────────────────────────────
+
+  const handleZoom = (delta) => setZoom(z => Math.min(2.0, Math.max(0.4, +(z + delta).toFixed(1))));
+
+  const handleAddTopic = (name) => {
+    const t = addCustomTopic(name);
+    setAllTopics(getTopics());
+    handleTopicChange(t.id);
+    toast.success(`Topic "${name}" created!`);
+  };
+
+  const handleUpdateTag = async (nodeId, tag) => {
+    try {
+      await api.updateTag(nodeId, tag);
+      const updateRec = (nodes) =>
+        nodes.map(n => {
+          if (n.id === nodeId) return { ...n, tag };
+          if (n.children.length > 0) return { ...n, children: updateRec(n.children) };
+          return n;
+        });
+      setTreeData(prev => updateRec(prev));
+    } catch {
+      toast.error("Failed to update tag");
+    }
+  };
+
+  const handleUpdateStudyTime = async (nodeId, addSecs) => {
+    try {
+      await api.updateStudyTime(nodeId, addSecs);
+      const updateRec = (nodes) =>
+        nodes.map(n => {
+          if (n.id === nodeId) return { ...n, studyTime: (n.studyTime || 0) + addSecs };
+          if (n.children.length > 0) return { ...n, children: updateRec(n.children) };
+          return n;
+        });
+      setTreeData(prev => updateRec(prev));
+    } catch { /* silent */ }
   };
 
   // ── Header actions ────────────────────────────────────────────────────────
@@ -244,14 +317,31 @@ export default function App() {
   const handleToggleComplete = async (nodeId) => {
     try {
       await api.toggleComplete(nodeId);
+      let nowCompleted = false;
       const toggleRec = (nodes) =>
         nodes.map((n) => {
-          if (n.id === nodeId) return { ...n, completed: !n.completed };
+          if (n.id === nodeId) {
+            nowCompleted = !n.completed;
+            return { ...n, completed: !n.completed };
+          }
           if (n.children.length > 0)
             return { ...n, children: toggleRec(n.children) };
           return n;
         });
       setTreeData((prev) => toggleRec(prev));
+
+      // Update streak when marking complete
+      if (nowCompleted) {
+        try {
+          const today = new Date().toDateString();
+          const d = JSON.parse(localStorage.getItem("streak_data") || "{}");
+          if (d.lastDate !== today) {
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            const count = d.lastDate === yesterday ? (d.count || 0) + 1 : 1;
+            localStorage.setItem("streak_data", JSON.stringify({ lastDate: today, count }));
+          }
+        } catch { /* ignore */ }
+      }
     } catch {
       toast.error("Failed to update completion status");
     }
@@ -319,6 +409,15 @@ export default function App() {
               onLayoutChange={setLayout}
               onOpenSettings={() => setShowSettings(true)}
               storageMode={storageMode}
+              topic={topic}
+              onTopicChange={handleTopicChange}
+              allTopics={allTopics}
+              onAddTopic={handleAddTopic}
+              onSearch={() => setShowSearch(true)}
+              onProgress={() => setShowProgress(true)}
+              onFlashcard={() => setShowFlashcard(true)}
+              zoom={zoom}
+              onZoom={handleZoom}
             />
             {showSettings && (
               <StorageSettings
@@ -372,6 +471,7 @@ export default function App() {
                     <div
                       ref={treeWrapperRef}
                       className={`tree-wrapper ${layout}`}
+                      style={{ transform: `scale(${zoom})`, transformOrigin: "top left" }}
                     >
                       {treeData.map((node) => (
                         <TreeNode
@@ -382,6 +482,7 @@ export default function App() {
                           onEdit={handleEditNode}
                           onView={handleViewNode}
                           onToggleComplete={handleToggleComplete}
+                          onUpdateTag={handleUpdateTag}
                           isRoot={true}
                           layout={layout}
                         />
@@ -406,6 +507,26 @@ export default function App() {
                 nodeText={deleteConfirm.nodeText}
                 onConfirm={handleConfirmDelete}
                 onCancel={handleCancelDelete}
+              />
+            )}
+            {showSearch && (
+              <SearchPalette
+                treeData={treeData}
+                onClose={() => setShowSearch(false)}
+                onNavigate={handleViewNode}
+              />
+            )}
+            {showProgress && (
+              <ProgressDashboard
+                treeData={treeData}
+                topic={topic}
+                onClose={() => setShowProgress(false)}
+              />
+            )}
+            {showFlashcard && (
+              <FlashcardMode
+                treeData={treeData}
+                onClose={() => setShowFlashcard(false)}
               />
             )}
             <ToastContainer
@@ -434,6 +555,7 @@ export default function App() {
                 findParentPath={findParentPath}
                 onUpdateDescription={handleUpdateDescription}
                 onToggleComplete={handleToggleComplete}
+                onUpdateStudyTime={handleUpdateStudyTime}
               />
             )}
           </>
