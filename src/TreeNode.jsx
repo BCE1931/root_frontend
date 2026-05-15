@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   Plus, Trash2, ChevronDown, ChevronUp, ChevronRight, ChevronLeft,
-  Edit2, Check, X, Eye, CheckCircle2, Circle, Tag,
+  Edit2, Check, X, Eye, CheckCircle2, Circle, Tag, GraduationCap, Sparkles,
 } from "lucide-react";
 
 const TAG_OPTIONS = [
@@ -18,7 +18,7 @@ function isTodayNode(text) {
 }
 
 export default function TreeNode({
-  node, onAdd, onDelete, onEdit, onView, onToggleComplete, onUpdateTag,
+  node, onAdd, onDelete, onEdit, onView, onToggleComplete, onUpdateTag, onExam, onVisit, aiNodeIds,
   isRoot, layout,
 }) {
   const [showAll,   setShowAll]   = useState(false);
@@ -33,6 +33,7 @@ export default function TreeNode({
   const visibleChildren = showAll ? node.children : node.children.slice(0, 3);
   const hiddenCount   = childCount - 3;
   const isToday       = isTodayNode(node.text);
+  const hasAi = aiNodeIds?.has(node.id) || aiNodeIds?.includes?.(node.id);
 
   const tagColor = node.completed
     ? "#10b981"
@@ -131,6 +132,12 @@ export default function TreeNode({
 
               <button className="btn-edit" onClick={() => setIsEditing(true)} title="Edit"><Edit2 size={14} /></button>
               <button className="btn-view" onClick={() => onView(node.id)}    title="View"><Eye   size={14} /></button>
+              <button className="btn-exam" onClick={() => onExam && onExam(node)} title="Start Exam"><GraduationCap size={14} /></button>
+              {hasAi && (
+                <span className="node-ai-badge" title="AI explanation available" onClick={() => onView(node.id)}>
+                  <Sparkles size={10} />
+                </span>
+              )}
               <button className="btn-add"  onClick={() => onAdd(node.id)}     title="Add Child"><Plus size={14} /></button>
 
               {!isRoot && !node.protected && (
@@ -146,7 +153,11 @@ export default function TreeNode({
       {hasChildren && (
         <>
           {/* Collapse toggle */}
-          <button className="btn-collapse" onClick={() => setCollapsed(v => !v)} title={collapsed ? "Expand" : "Collapse"}>
+          <button className="btn-collapse" onClick={() => {
+            const expanding = collapsed;
+            setCollapsed(v => !v);
+            if (expanding && onVisit) onVisit(node.id, node.text);
+          }} title={collapsed ? "Expand" : "Collapse"}>
             {collapsed
               ? (layout === "horizontal" ? <ChevronRight size={12} /> : <ChevronDown size={12} />)
               : (layout === "horizontal" ? <ChevronDown  size={12} /> : <ChevronRight size={12} />)}
@@ -165,6 +176,9 @@ export default function TreeNode({
                   onView={onView}
                   onToggleComplete={onToggleComplete}
                   onUpdateTag={onUpdateTag}
+                  onExam={onExam}
+                  onVisit={onVisit}
+                  aiNodeIds={aiNodeIds}
                   isRoot={false}
                   layout={layout}
                 />

@@ -6,10 +6,10 @@ import {
 } from "./storage/index.js";
 
 export default function StorageSettings({ onClose, onModeChange }) {
-  const [mode, setModeState]       = useState(getMode);
-  const [url, setUrl]              = useState(getBackendUrl);
-  const [toast, setToast]          = useState(null);
-  const [confirmReset, setConfirmReset] = useState(false);
+  const [mode,         setModeState]     = useState(getMode);
+  const [url,          setUrl]           = useState(getBackendUrl);
+  const [toast,        setToast]         = useState(null);
+  const [confirmReset, setConfirmReset]  = useState(false);
 
   function flash(msg, type = "ok") {
     setToast({ msg, type });
@@ -64,15 +64,13 @@ export default function StorageSettings({ onClose, onModeChange }) {
 
   return (
     <div className="settings-overlay" onClick={onClose}>
-      <div className="settings-modal" onClick={(e) => e.stopPropagation()}>
+      <div className="settings-modal" onClick={e => e.stopPropagation()}>
 
-        {/* Header */}
         <div className="settings-header">
           <h2>Storage Settings</h2>
           <button className="settings-close" onClick={onClose}><X size={18} /></button>
         </div>
 
-        {/* Toast */}
         {toast && (
           <div className={`settings-toast ${toast.type === "err" ? "toast-err" : "toast-ok"}`}>
             {toast.type === "err" ? <AlertTriangle size={14} /> : <CheckCircle size={14} />}
@@ -80,12 +78,10 @@ export default function StorageSettings({ onClose, onModeChange }) {
           </div>
         )}
 
-        {/* Mode toggle */}
+        {/* Storage Mode */}
         <section className="settings-section">
           <h3>Storage Mode</h3>
-          <p className="settings-hint">
-            Choose where your tree data is stored. You can switch any time.
-          </p>
+          <p className="settings-hint">Choose where your tree data is stored. You can switch any time.</p>
           <div className="mode-toggle">
             <button
               className={`mode-btn ${mode === "local" ? "active" : ""}`}
@@ -110,7 +106,7 @@ export default function StorageSettings({ onClose, onModeChange }) {
           </div>
         </section>
 
-        {/* Backend URL (only when backend mode) */}
+        {/* Backend URL */}
         {mode === "backend" && (
           <section className="settings-section">
             <h3>Backend API URL</h3>
@@ -118,7 +114,7 @@ export default function StorageSettings({ onClose, onModeChange }) {
               <input
                 type="text"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={e => setUrl(e.target.value)}
                 placeholder="http://localhost:8080/api"
               />
               <button className="btn-primary" onClick={handleUrlSave}>Save</button>
@@ -126,7 +122,7 @@ export default function StorageSettings({ onClose, onModeChange }) {
           </section>
         )}
 
-        {/* Local data management (only in local mode) */}
+        {/* Local data */}
         {mode === "local" && (
           <section className="settings-section">
             <h3>Local Data</h3>
@@ -138,10 +134,7 @@ export default function StorageSettings({ onClose, onModeChange }) {
                 <Upload size={15} /> Import JSON
                 <input type="file" accept=".json" onChange={handleImport} hidden />
               </label>
-              <button
-                className="btn-action btn-danger"
-                onClick={() => setConfirmReset(true)}
-              >
+              <button className="btn-action btn-danger" onClick={() => setConfirmReset(true)}>
                 <RefreshCw size={15} /> Reset to Defaults
               </button>
             </div>
@@ -158,7 +151,6 @@ export default function StorageSettings({ onClose, onModeChange }) {
           </section>
         )}
 
-        {/* Info */}
         <section className="settings-section settings-info">
           <p>
             <strong>Currently:</strong>{" "}

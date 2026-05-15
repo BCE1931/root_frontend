@@ -1,8 +1,15 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle, Play, Pause, Clock } from "lucide-react";
+import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle, Play, Pause, Clock, Send } from "lucide-react";
+import { Sparkles, RefreshCw, ChevronLeft, ChevronRight, Cpu, Hash } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
+import { askAiAboutTopic, getAiProvider } from "./aiService";
+import * as storage from "./storage/index.js";
 import "./NodeDetail.css";
+
+function uuid() {
+  return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
 
 // ── Inline URL detector ────────────────────────────────────────────────────
 function InlineContent({ text }) {
@@ -206,6 +213,49 @@ function DescriptionRenderer({ description }) {
   );
 }
 
+// ── AI Response Renderer ───────────────────────────────────────────────────
+function AiResponseRenderer({ text }) {
+  if (!text) return null;
+  const sections = [];
+  let current = null;
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (line.startsWith('## ')) {
+      if (current) sections.push(current);
+      current = { heading: line.slice(3).trim(), lines: [] };
+    } else if (current) {
+      current.lines.push(line);
+    } else {
+      if (!current) current = { heading: null, lines: [] };
+      current.lines.push(line);
+    }
+  }
+  if (current) sections.push(current);
+
+  return (
+    <div className="ai-response-body">
+      {sections.map((sec, si) => (
+        <div key={si} className="ai-section">
+          {sec.heading && <h4 className="ai-section-heading">{sec.heading}</h4>}
+          {sec.lines.filter(l => l).map((line, li) => {
+            const isBullet = /^[-•*]\s/.test(line);
+            const bold = (t) => t.split(/\*\*([^*]+)\*\*/g).map((p, i) =>
+              i % 2 === 1 ? <strong key={i}>{p}</strong> : p
+            );
+            if (isBullet) return (
+              <div key={li} className="ai-bullet">
+                <span className="ai-bullet-dot">•</span>
+                <span>{bold(line.slice(2).trim())}</span>
+              </div>
+            );
+            return <p key={li} className="ai-para">{bold(line)}</p>;
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ── Main NodeDetail component ──────────────────────────────────────────────
 export default function NodeDetail({
   treeData,
@@ -226,9 +276,23 @@ export default function NodeDetail({
   const [sessionSecs, setSessionSecs]             = useState(0);
   const intervalRef                               = useRef(null);
 
+  const [aiResponses, setAiResponses]   = useState([]);
+  const [aiLoading,   setAiLoading]     = useState(false);
+  const [aiError,     setAiError]       = useState("");
+  const [viewIdx,     setViewIdx]       = useState(0);
+  const [aiQuestion,  setAiQuestion]    = useState("");
+  const aiInputRef                      = useRef(null);
+
   useEffect(() => {
     if (node) document.title = node.text;
   }, [node]);
+
+  useEffect(() => {
+    if (nodeId) storage.getAiResponses(nodeId).then(data => {
+      setAiResponses(data);
+      setViewIdx(0);
+    }).catch(() => {});
+  }, [nodeId]);
 
   // Save session seconds on unmount or pause
   const flushSession = useRef(null);
@@ -295,6 +359,30 @@ export default function NodeDetail({
   const handleCancelEdit = () => {
     setEditedDescription(node.description);
     setIsEditingDesc(false);
+  };
+
+  const handleAskAi = async (question = "") => {
+    if (!node || aiLoading) return;
+    setAiLoading(true);
+    setAiError("");
+    try {
+      const result = await askAiAboutTopic(node, question);
+      const saved  = await storage.saveAiResponse({ id: uuid(), nodeId: node.id, nodeName: node.text, ...result });
+      setAiResponses(prev => [saved || { id: uuid(), nodeId: node.id, nodeName: node.text, ...result, createdAt: new Date().toISOString() }, ...prev]);
+      setViewIdx(0);
+      setAiQuestion("");
+    } catch (err) {
+      setAiError(err.message || "AI generation failed. Please try again.");
+    } finally {
+      setAiLoading(false);
+    }
+  };
+
+  const handleAiInputKey = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (aiQuestion.trim()) handleAskAi(aiQuestion.trim());
+    }
   };
 
   return (
@@ -413,6 +501,104 @@ export default function NodeDetail({
               </div>
             </div>
           )}
+
+          {/* Ask AI section */}
+          <div className="detail-section ai-section-wrapper">
+            <div className="section-header">
+              <h3>
+                <Sparkles size={15} /> Ask AI
+                {aiResponses.length > 0 && (
+                  <span className="ai-count-badge">{aiResponses.length} saved</span>
+                )}
+              </h3>
+              {aiResponses.length > 1 && (
+                <div className="ai-nav-controls">
+                  <button
+                    className="ai-nav-btn"
+                    onClick={() => setViewIdx(i => Math.min(i + 1, aiResponses.length - 1))}
+                    disabled={viewIdx >= aiResponses.length - 1}
+                    title="Older response"
+                  ><ChevronLeft size={12} /> Older</button>
+                  <span className="ai-nav-label">{viewIdx + 1} / {aiResponses.length}</span>
+                  <button
+                    className="ai-nav-btn"
+                    onClick={() => setViewIdx(i => Math.max(i - 1, 0))}
+                    disabled={viewIdx <= 0}
+                    title="Newer response"
+                  >Newer <ChevronRight size={12} /></button>
+                </div>
+              )}
+            </div>
+
+            {/* ── AI Input bar ───────────────────────────────────────────── */}
+            <div className="ai-input-bar">
+              <input
+                ref={aiInputRef}
+                className="ai-input"
+                type="text"
+                placeholder={`Ask anything about "${node.text}"… (Enter to send)`}
+                value={aiQuestion}
+                onChange={e => setAiQuestion(e.target.value)}
+                onKeyDown={handleAiInputKey}
+                disabled={aiLoading}
+              />
+              <button
+                className={`ai-send-btn${aiLoading ? " loading" : ""}`}
+                onClick={() => aiQuestion.trim()
+                  ? handleAskAi(aiQuestion.trim())
+                  : handleAskAi("")}
+                disabled={aiLoading}
+                title={aiQuestion.trim() ? "Send question" : "Ask default explanation"}
+              >
+                {aiLoading
+                  ? <RefreshCw size={15} className="spin" />
+                  : aiQuestion.trim()
+                    ? <Send size={15} />
+                    : <Sparkles size={15} />
+                }
+              </button>
+            </div>
+
+            {aiError && <div className="ai-error">{aiError}</div>}
+
+            {aiLoading && (
+              <div className="ai-loading">
+                <div className="ai-loading-dots"><span/><span/><span/></div>
+                <p>{aiQuestion ? `Answering: "${aiQuestion}"…` : "Generating explanation with examples…"}</p>
+              </div>
+            )}
+
+            {/* Navigable response */}
+            {!aiLoading && aiResponses.length > 0 && (() => {
+              const safeIdx = Math.min(viewIdx, aiResponses.length - 1);
+              const r = aiResponses[safeIdx];
+              return (
+                <div className={`ai-response-card${safeIdx > 0 ? " ai-response-old" : ""}`}>
+                  <div className="ai-response-meta">
+                    {safeIdx === 0 && <span className="ai-meta-badge ai-meta-latest">Latest</span>}
+                    <span className="ai-meta-badge ai-meta-num">#{aiResponses.length - safeIdx}</span>
+                    <span className="ai-meta-badge"><Cpu size={11} /> {r.model || "AI"}</span>
+                    {(r.inputTokens || 0) > 0 && (
+                      <span className="ai-meta-badge">
+                        <Hash size={11} /> {r.inputTokens} in · {r.outputTokens} out
+                      </span>
+                    )}
+                    <span className="ai-meta-badge ai-meta-date">
+                      {r.createdAt ? new Date(r.createdAt).toLocaleString() : "just now"}
+                    </span>
+                  </div>
+                  <AiResponseRenderer text={r.response} />
+                </div>
+              );
+            })()}
+
+            {!aiLoading && aiResponses.length === 0 && !aiError && (
+              <p className="ai-empty">
+                Type a question above or press <Sparkles size={12} style={{display:"inline",verticalAlign:"middle"}}/> to get a full explanation
+                powered by {getAiProvider() === "gemini" ? "Google Gemini" : "Mistral AI (free via Puter)"}.
+              </p>
+            )}
+          </div>
 
           {/* Children section */}
           {node.children?.length > 0 && (

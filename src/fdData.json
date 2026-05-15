@@ -1,0 +1,146 @@
+[
+  {
+    "id": "fd-root",
+    "parentId": null,
+    "sortOrder": 0,
+    "text": "Frontend Development",
+    "description": "Week-1 of the HCL Java CDC program covers Frontend Development.\n\nDuration: ~30 Hours total\n\nSections:\n1. JavaScript (JS) — 12 Hours (Mentor-led)\n2. React JS (Frontend Framework) — 18 Hours (Mentor-led)\n3. Mock Assessment\n\nGoal: Build a working frontend with ReactJS, consume REST APIs, handle routing and state management.\n\nMode: ILT with Hands-on\nOwnership: College\nFaculty: Dr NIVETHITHA V — nivethitha.v@vit.ac.in",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js",
+    "parentId": "fd-root",
+    "sortOrder": 0,
+    "text": "JavaScript (JS)",
+    "description": "Mentor-led session — Duration: 12 Hours\n\nJavaScript is the language of the web. Every browser understands JS natively.\n\nWhy it matters for HCL:\n• Spring Boot backend serves REST APIs — JS frontend consumes them\n• ReactJS is built on JS — you must know JS before React\n• Modern JS (ES6+) is used in all production codebases\n\nTopics covered:\n1. Basics — Syntax, Variables, Operators\n2. DOM Manipulation and Events\n3. ES6+ Features (Arrow Functions, Promises, Modules)\n4. Fetch API and Asynchronous Programming\n5. Introduction to JavaScript Frameworks and Libraries\n\nStatus: Week-1 content",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js-basics",
+    "parentId": "fd-js",
+    "sortOrder": 0,
+    "text": "Basics of JavaScript (Syntax, Variables, Operators)",
+    "description": "SYNTAX & VARIABLES:\n\nvar vs let vs const:\n• var — function-scoped, hoisted, avoid in modern code\n• let — block-scoped, reassignable\n• const — block-scoped, cannot be reassigned (but object properties can change)\n\nData types:\n• Primitive: string, number, boolean, null, undefined, symbol, BigInt\n• Reference: object, array, function\n\nType coercion:\n• == does type coercion: '5' == 5 → true\n• === strict equality: '5' === 5 → false (always use ===)\n\nOPERATORS:\n• Arithmetic: + - * / % **\n• Comparison: === !== < > <= >=\n• Logical: && || ! (short-circuit evaluation)\n• Nullish coalescing: ?? (returns right side only if left is null/undefined)\n• Optional chaining: obj?.property (safe property access)\n\nKEY CONCEPTS:\n• Hoisting: var declarations moved to top of scope at compile time\n• Temporal Dead Zone: let/const cannot be accessed before declaration line\n• Truthy/Falsy: 0, '', null, undefined, NaN, false are falsy; everything else is truthy\n\nEXAMPLES:\n  const name = 'HCL';\n  let count = 0;\n  count++;\n  const result = count > 0 ? 'positive' : 'zero';\n  const val = null ?? 'default';  // 'default'\n  const len = obj?.name?.length;  // safe access",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js-dom",
+    "parentId": "fd-js",
+    "sortOrder": 1,
+    "text": "DOM Manipulation and Events",
+    "description": "DOM = Document Object Model — the browser's in-memory tree of HTML elements.\n\nSELECTING ELEMENTS:\n  document.getElementById('id')\n  document.querySelector('.class')      // first match\n  document.querySelectorAll('div')      // NodeList of all\n\nMODIFYING ELEMENTS:\n  el.textContent = 'new text';          // safe (escapes HTML)\n  el.innerHTML   = '<b>bold</b>';       // renders HTML (XSS risk)\n  el.style.color = 'red';\n  el.classList.add('active');\n  el.classList.toggle('hidden');\n  el.setAttribute('data-id', '42');\n\nCREATING & REMOVING:\n  const div = document.createElement('div');\n  div.textContent = 'Hello';\n  parent.appendChild(div);\n  parent.removeChild(div);\n\nEVENTS:\n  el.addEventListener('click', (e) => {\n    e.preventDefault();   // stop default action (form submit, link follow)\n    e.stopPropagation();  // stop bubbling up to parent\n    console.log(e.target); // element that was clicked\n  });\n\nEVENT DELEGATION:\n  // Instead of adding listener to each child, add one to parent:\n  ul.addEventListener('click', (e) => {\n    if (e.target.tagName === 'LI') {\n      handle(e.target);\n    }\n  });\n\nCOMMON EVENTS: click, dblclick, keydown, keyup, input, change, submit, focus, blur, mouseover, resize, scroll, DOMContentLoaded",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js-es6",
+    "parentId": "fd-js",
+    "sortOrder": 2,
+    "text": "ES6+ Features (Arrow Functions, Promises, Modules)",
+    "description": "ES6 (2015) modernised JavaScript. These features are used in every React codebase.\n\nARROW FUNCTIONS:\n  // Traditional\n  function add(a, b) { return a + b; }\n  // Arrow\n  const add = (a, b) => a + b;\n  // Single param — no parens needed\n  const double = n => n * 2;\n  // Key difference: arrow functions do NOT have their own 'this'\n\nDESTRUCTURING:\n  const { name, age } = person;         // object\n  const [first, , third] = array;       // array (skip index 1)\n  const { a: alias } = obj;            // rename while destructuring\n\nSPREAD & REST:\n  const merged = { ...obj1, ...obj2 };  // spread objects\n  const arr2   = [...arr1, 4, 5];       // spread arrays\n  function sum(...nums) { }             // rest: collect into array\n\nTEMPLATE LITERALS:\n  const msg = `Hello ${name}, you are ${age} years old`;\n\nPROMISES:\n  const p = new Promise((resolve, reject) => {\n    setTimeout(() => resolve('done'), 1000);\n  });\n  p.then(val => console.log(val))\n   .catch(err => console.error(err));\n\nASYNC/AWAIT:\n  async function fetchData() {\n    try {\n      const res = await fetch('/api/data');\n      const json = await res.json();\n      return json;\n    } catch (err) {\n      console.error(err);\n    }\n  }\n\nMODULES (ESM):\n  // export (named)\n  export const PI = 3.14;\n  export function greet(name) { }\n  // export (default)\n  export default class App { }\n  // import\n  import App, { PI, greet } from './module.js';\n\nOTHER ES6+:\n• Optional chaining: obj?.prop?.nested\n• Nullish coalescing: value ?? 'default'\n• Map, Set, WeakMap, WeakSet\n• Symbol, Iterator, Generator",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js-fetch",
+    "parentId": "fd-js",
+    "sortOrder": 3,
+    "text": "Fetch API and Asynchronous Programming",
+    "description": "ASYNCHRONOUS PROGRAMMING:\n\nWhy async? Browser JS is single-threaded. Network calls, timers, and I/O are offloaded to browser APIs and handled via the Event Loop when complete.\n\nEvent Loop flow:\n  Call Stack → Web APIs → Callback Queue → Call Stack (when empty)\n  Microtasks (Promises) → Macrotasks (setTimeout)\n\nFETCH API:\n  // GET\n  fetch('https://api.example.com/users')\n    .then(res => {\n      if (!res.ok) throw new Error('HTTP ' + res.status);\n      return res.json();\n    })\n    .then(data => console.log(data))\n    .catch(err => console.error(err));\n\n  // POST\n  fetch('/api/users', {\n    method: 'POST',\n    headers: { 'Content-Type': 'application/json',\n               'Authorization': 'Bearer ' + token },\n    body: JSON.stringify({ name: 'Alice', age: 25 })\n  }).then(res => res.json());\n\n  // Async/await style (cleaner)\n  async function createUser(user) {\n    const res = await fetch('/api/users', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(user)\n    });\n    if (!res.ok) throw new Error(await res.text());\n    return res.json();\n  }\n\nPROMISE COMBINATORS:\n  Promise.all([p1, p2, p3])      // wait for ALL — fails fast on any rejection\n  Promise.allSettled([p1, p2])   // wait for ALL — get all results/errors\n  Promise.race([p1, p2])         // first to settle wins\n  Promise.any([p1, p2])          // first to RESOLVE wins\n\nERROR HANDLING PATTERN:\n  fetch() only rejects on network failure, NOT on 4xx/5xx.\n  Always check res.ok or res.status.",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-js-frameworks",
+    "parentId": "fd-js",
+    "sortOrder": 4,
+    "text": "Introduction to JavaScript Frameworks and Libraries",
+    "description": "WHY FRAMEWORKS?\nPure JS DOM manipulation becomes unmaintainable at scale. Frameworks provide:\n• Component-based UI architecture\n• Reactive state management\n• Routing, build tooling, testing\n\nMAJOR JS FRAMEWORKS:\n\n• React (Meta) — Component library, virtual DOM, most popular\n  Used by: Facebook, Airbnb, Netflix, Uber\n  Learn: react.dev\n\n• Angular (Google) — Full MVC framework, TypeScript-first\n  Used by: Google, Microsoft, Deutsche Bank\n  Learn: angular.dev\n\n• Vue.js (Community) — Progressive framework, gentle learning curve\n  Used by: Alibaba, Xiaomi, GitLab\n  Learn: vuejs.org\n\n• Svelte — Compiler-based, no virtual DOM, tiny bundle size\n\nKEY CONCEPTS SHARED BY ALL:\n• Component: reusable, self-contained UI piece (header, button, form)\n• State: data that when changed, re-renders the UI\n• Props: data passed from parent to child component\n• Lifecycle: component mount → update → unmount\n• Routing: client-side URL-to-component mapping\n\nWHY REACT FOR HCL?\n• Most popular (65% of JS developer usage)\n• Huge ecosystem (Next.js, Redux, React Query)\n• Pairs naturally with Spring Boot REST APIs\n• Industry standard in enterprise Java shops\n\nBUILD TOOLS:\n• Vite — fast dev server and bundler (used in this project)\n• Webpack — older, highly configurable bundler\n• npm / Yarn — package managers",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react",
+    "parentId": "fd-root",
+    "sortOrder": 1,
+    "text": "React JS (Frontend Framework)",
+    "description": "Introduction to ReactJS and JSX — Mentor-led session, Duration: 18 Hours\n\nReact is a JavaScript library for building user interfaces using components.\nCreated by Facebook/Meta (2013). Powers Facebook, Instagram, WhatsApp Web.\n\nCORE IDEA:\n  UI = f(state)  — given the same state, the UI is always the same\n\nVIRTUAL DOM:\n  React keeps a lightweight copy of the DOM in memory.\n  On state change → diff old vs new virtual DOM → update only changed real DOM nodes.\n  This is called reconciliation.\n\nJSX:\n  Syntactic sugar for React.createElement(). Babel compiles it.\n  const el = <h1 className=\"title\">Hello {name}</h1>;\n  // Compiles to:\n  const el = React.createElement('h1', {className:'title'}, 'Hello ' + name);\n\nRULES OF JSX:\n  • className instead of class\n  • htmlFor instead of for\n  • All tags must be closed: <br /> <img />\n  • Return single root element (or Fragment: <>...</>)\n  • JS expressions in {curly braces}: {2 + 2}, {name}, {condition ? 'a' : 'b'}\n\nTopics in this section:\n1. Components, Props, and State\n2. React Lifecycle Methods and Hooks\n3. State Management (Context API, Redux)\n4. Routing with React Router\n5. Integrating APIs with Axios or Fetch\n6. Advanced Topics (Performance Optimization, Error Boundaries)\n7. Mini Project Development",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-components",
+    "parentId": "fd-react",
+    "sortOrder": 0,
+    "text": "Components, Props, and State",
+    "description": "COMPONENTS:\nFunction components are the modern standard (class components are legacy).\n\n  // Function component\n  function Greeting({ name, age }) {\n    return <h1>Hello {name}, age {age}</h1>;\n  }\n\n  // Usage\n  <Greeting name=\"Alice\" age={25} />\n\nPROPS:\n• Props = properties passed from parent to child (read-only in child)\n• Can be any type: string, number, boolean, object, array, function\n• Destructure in function signature: function Card({ title, onClick })\n• children prop: whatever is between opening and closing tags\n  <Card><p>Content</p></Card>  →  props.children = <p>Content</p>\n\nSTATE (useState):\n  import { useState } from 'react';\n  function Counter() {\n    const [count, setCount] = useState(0);  // [value, setter]\n    return (\n      <>\n        <p>{count}</p>\n        <button onClick={() => setCount(count + 1)}>+</button>\n      </>\n    );\n  }\n\nKEY RULES:\n• Never mutate state directly: setItems([...items, newItem]) not items.push()\n• State updates are async — don't read state immediately after set\n• For object state: spread the old state: setUser({...user, name: 'Bob'})\n\nCOMPONENT TREE:\n  App\n  ├── Header\n  ├── Main\n  │   ├── Sidebar\n  │   └── Content\n  │       ├── Card\n  │       └── Card\n  └── Footer\n\nData flows DOWN (props). Events flow UP (callback functions passed as props).",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-hooks",
+    "parentId": "fd-react",
+    "sortOrder": 1,
+    "text": "React Lifecycle Methods and Hooks",
+    "description": "LIFECYCLE (class component mental model):\n  Mount   → componentDidMount   (run once after render)\n  Update  → componentDidUpdate  (run after re-render)\n  Unmount → componentWillUnmount (cleanup)\n\nHOOKS (modern equivalent):\n\nuseState — local state\n  const [value, setValue] = useState(initial);\n\nuseEffect — side effects (data fetch, subscriptions, DOM manipulation)\n  useEffect(() => {\n    // Runs after render\n    fetchData().then(setData);\n\n    return () => {\n      // Cleanup: runs before unmount or before re-running effect\n      subscription.unsubscribe();\n    };\n  }, [dependency1, dependency2]);  // re-runs when deps change\n  // [] = run once on mount only\n  // no array = run after every render\n\nuseRef — mutable ref that does NOT cause re-render\n  const inputRef = useRef(null);\n  <input ref={inputRef} />\n  inputRef.current.focus(); // access DOM node\n\nuseCallback — memoize a function reference\n  const handleClick = useCallback(() => doSomething(id), [id]);\n\nuseMemo — memoize a computed value\n  const expensiveResult = useMemo(() => compute(data), [data]);\n\nCUSTOM HOOKS:\n  Reusable logic extracted into a function prefixed with 'use'.\n  function useFetch(url) {\n    const [data, setData] = useState(null);\n    const [loading, setLoading] = useState(true);\n    useEffect(() => {\n      fetch(url).then(r => r.json()).then(d => {\n        setData(d);\n        setLoading(false);\n      });\n    }, [url]);\n    return { data, loading };\n  }\n\nRULES OF HOOKS:\n• Only call hooks at the top level (not inside loops/conditions)\n• Only call hooks from React functions (not regular JS functions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-state",
+    "parentId": "fd-react",
+    "sortOrder": 2,
+    "text": "State Management (Context API, Redux)",
+    "description": "PROBLEM WITH PROP DRILLING:\nPassing props through many levels:\n  App → Layout → Main → Section → Card → Button\nBecomes messy when deeply nested components need the same data.\n\nCONTEXT API (built into React):\n  // 1. Create context\n  const ThemeContext = createContext('light');\n\n  // 2. Provide it\n  function App() {\n    const [theme, setTheme] = useState('light');\n    return (\n      <ThemeContext.Provider value={{ theme, setTheme }}>\n        <Layout />\n      </ThemeContext.Provider>\n    );\n  }\n\n  // 3. Consume anywhere in tree\n  function Button() {\n    const { theme } = useContext(ThemeContext);\n    return <button className={theme}>Click</button>;\n  }\n\nWHEN TO USE CONTEXT: global data like theme, auth user, language, settings.\n\nREDUX:\nFor complex state with many interactions. Used in large enterprise apps.\n  Store: single source of truth for all app state\n  Action: plain object describing what happened { type: 'ADD_ITEM', payload: item }\n  Reducer: pure function (state, action) => newState\n  Dispatch: send an action to the store\n\nREDUX TOOLKIT (modern Redux):\n  import { createSlice, configureStore } from '@reduxjs/toolkit';\n  const counterSlice = createSlice({\n    name: 'counter',\n    initialState: { value: 0 },\n    reducers: {\n      increment: state => { state.value += 1; }\n    }\n  });\n\nWHEN TO USE REDUX:\n• Multiple components need to share and mutate the same state\n• Complex state transitions that need to be tracked/debugged\n• Large teams where predictable state flow matters\n\nALTERNATIVES: Zustand (lightweight), Jotai, React Query (for server state)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-router",
+    "parentId": "fd-react",
+    "sortOrder": 3,
+    "text": "Routing with React Router",
+    "description": "React Router enables client-side routing — navigating between pages without a full page reload.\n\nINSTALL: npm install react-router-dom\n\nBASIC SETUP:\n  import { BrowserRouter, Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';\n\n  function App() {\n    return (\n      <BrowserRouter>\n        <Routes>\n          <Route path=\"/\"           element={<Home />} />\n          <Route path=\"/about\"      element={<About />} />\n          <Route path=\"/users/:id\"  element={<UserDetail />} />\n          <Route path=\"*\"           element={<NotFound />} />\n        </Routes>\n      </BrowserRouter>\n    );\n  }\n\nNAVIGATION:\n  // Declarative (renders <a> tag)\n  <Link to=\"/about\">About</Link>\n\n  // Programmatic\n  const navigate = useNavigate();\n  navigate('/dashboard');         // push\n  navigate(-1);                   // go back\n  navigate('/login', { replace: true }); // replace history entry\n\nROUTE PARAMS:\n  // Route: /users/:id\n  const { id } = useParams();  // id = '42' for /users/42\n\nQUERY PARAMS:\n  const [searchParams] = useSearchParams();\n  const query = searchParams.get('q');  // /search?q=react\n\nNESTED ROUTES:\n  <Route path=\"/dashboard\" element={<Dashboard />}>\n    <Route path=\"profile\" element={<Profile />} />\n    <Route path=\"settings\" element={<Settings />} />\n  </Route>\n  // Dashboard uses <Outlet /> to render nested route\n\nPROTECTED ROUTES:\n  function PrivateRoute({ children }) {\n    const { user } = useAuth();\n    return user ? children : <Navigate to=\"/login\" />;\n  }",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-api",
+    "parentId": "fd-react",
+    "sortOrder": 4,
+    "text": "Integrating APIs with Axios or Fetch",
+    "description": "React apps consume Spring Boot REST APIs. Two common approaches:\n\nFETCH (built-in, no install):\n  useEffect(() => {\n    fetch('http://localhost:8080/api/users')\n      .then(res => {\n        if (!res.ok) throw new Error('Failed');\n        return res.json();\n      })\n      .then(data => setUsers(data))\n      .catch(err => setError(err.message));\n  }, []);\n\nAXIOS (install: npm install axios):\n  import axios from 'axios';\n  useEffect(() => {\n    axios.get('http://localhost:8080/api/users')\n      .then(res => setUsers(res.data))  // res.data is already parsed\n      .catch(err => setError(err.message));\n  }, []);\n\nAXIOS ADVANTAGES OVER FETCH:\n• Automatic JSON parsing (no .json() call)\n• Automatic error for 4xx/5xx status\n• Request/Response interceptors (add auth headers globally)\n• Request cancellation with AbortController\n• Base URL configuration\n\nAXIOS INSTANCE (for Spring Boot):\n  const api = axios.create({\n    baseURL: 'http://localhost:8080/api',\n    headers: { 'Content-Type': 'application/json' }\n  });\n  // Interceptor to add JWT token\n  api.interceptors.request.use(config => {\n    const token = localStorage.getItem('token');\n    if (token) config.headers.Authorization = `Bearer ${token}`;\n    return config;\n  });\n\nCRUD PATTERN:\n  api.get('/users')              // GET all\n  api.get('/users/42')           // GET one\n  api.post('/users', { name })   // POST create\n  api.put('/users/42', data)     // PUT update\n  api.delete('/users/42')        // DELETE\n\nLOADING STATE PATTERN:\n  const [data, setData]       = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError]     = useState(null);\n  // Show loading spinner, then data or error",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-advanced",
+    "parentId": "fd-react",
+    "sortOrder": 5,
+    "text": "Advanced Topics (Performance Optimization, Error Boundaries)",
+    "description": "PERFORMANCE OPTIMIZATION:\n\nReact.memo — prevent re-render if props unchanged:\n  const Card = React.memo(function Card({ title }) {\n    return <div>{title}</div>;\n  });\n\nuseMemo — memoize expensive computation:\n  const sortedList = useMemo(() => [...list].sort(), [list]);\n\nuseCallback — stable function reference for child components:\n  const handleDelete = useCallback((id) => {\n    setItems(items.filter(i => i.id !== id));\n  }, [items]);\n\nLazy loading (code splitting):\n  const HeavyComponent = React.lazy(() => import('./HeavyComponent'));\n  // Wrap in Suspense:\n  <Suspense fallback={<Spinner />}>\n    <HeavyComponent />\n  </Suspense>\n\nVirtualization (for long lists):\n  Use react-window or react-virtual to render only visible rows.\n  Critical for tables with 1000+ rows.\n\nERROR BOUNDARIES:\nClass component that catches JS errors in its child tree.\n  class ErrorBoundary extends React.Component {\n    state = { hasError: false };\n    static getDerivedStateFromError(error) {\n      return { hasError: true };\n    }\n    componentDidCatch(error, info) {\n      logToSentry(error, info);\n    }\n    render() {\n      if (this.state.hasError) return <h1>Something went wrong.</h1>;\n      return this.props.children;\n    }\n  }\n  // Usage:\n  <ErrorBoundary>\n    <MyRiskyComponent />\n  </ErrorBoundary>\n\nNOTE: Error boundaries only catch errors during render/lifecycle, not in event handlers or async code.",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-react-project",
+    "parentId": "fd-react",
+    "sortOrder": 6,
+    "text": "Mini Project Development (FrontEnd)",
+    "description": "Build a complete ReactJS frontend as a mini project.\n\nSUGGESTED PROJECT IDEAS (from HCL CDC):\n\n1. MealDB App\n   • Fetch meals from https://www.themealdb.com/api/json/v1/1/search.php?s=\n   • Display meals, search by name, show meal details\n   • Find meal with fewest ingredients\n\n2. Rest Countries App\n   • Use REST Countries API\n   • List all countries, search by name/code/continent/capital\n   • Show country details (flag, population, capital)\n\n3. Spotify Clone (simplified)\n   • Song search, playlist management\n   • Requires Spotify Developer API key\n\n4. Freshdesk Clone\n   • Ticket CRUD operations\n   • Contact management\n   • Use Freshdesk sandbox API\n\nPROJECT CHECKLIST:\n□ Create React app with Vite\n□ Set up React Router for multiple pages\n□ Create reusable components (Card, Button, Modal, Loader)\n□ Implement API calls with Axios\n□ Handle loading, error, and empty states\n□ Add basic form with validation\n□ Use useState and useEffect correctly\n□ Style with CSS modules or Tailwind\n□ Deploy to Netlify or Vercel\n\nFOLDER STRUCTURE:\n  src/\n  ├── components/   (reusable UI)\n  ├── pages/        (route-level components)\n  ├── services/     (API calls)\n  ├── hooks/        (custom hooks)\n  └── utils/        (helper functions)",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "fd-mock",
+    "parentId": "fd-root",
+    "sortOrder": 2,
+    "text": "Mock Assessment",
+    "description": "Frontend Mock Assessment after Week-1.\n\nExpected coverage:\n• JavaScript fundamentals (variables, closures, this, event loop)\n• DOM manipulation and event handling\n• ES6+ syntax (arrow functions, destructuring, spread, async/await)\n• Fetch API usage\n• React components, props, state\n• useEffect, useState hooks\n• Simple routing with React Router\n\nFORMAT (typical):\n• MCQ on JS/React concepts\n• Code snippet analysis (what is the output?)\n• Write a React component from requirements\n• Debug a given React component\n\nPREP TIPS:\n• Practice writing components from scratch without IDE help\n• Understand the Event Loop — common MCQ topic\n• Know the difference between == and ===, var/let/const\n• Understand React re-render triggers\n• Be able to implement a basic CRUD UI with React",
+    "protected": true,
+    "completed": false
+  }
+]

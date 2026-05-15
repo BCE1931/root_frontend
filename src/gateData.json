@@ -590,8 +590,7 @@
     "description": "📅 Dec 2–10, 2026\n\nDay 1 Wed Dec 2: Revise DBMS — ER conversion, RA operators, SQL JOINs\nDay 2 Thu Dec 3: Revise DBMS — BCNF violations, candidate keys, conflict serializability\nDay 3 Fri Dec 4: Revise Compiler — FIRST/FOLLOW computation, LL(1) table, LR parsing\nDay 4 Sat Dec 5: Revise SE — cyclomatic complexity, coupling/cohesion, critical path\nDay 5 Sun Dec 6: FULL GATE MOCK TEST #1 (3 hours, 65 questions, all subjects)\n  Treat as real exam: no phone, no breaks, time yourself strictly\nDay 6 Mon Dec 7: Analyze Mock #1 — categorize mistakes, targeted revision\nDay 7 Tue Dec 8: FULL GATE MOCK TEST #2\nDay 8 Wed Dec 9: Analyze Mock #2 + weak area drill\nDay 9 Thu Dec 10: FULL GATE MOCK TEST #3 + Plan Jan-Feb schedule",
     "protected": true,
     "completed": false
-  }
-  ,
+  },
   {
     "id": "gate-ga",
     "parentId": "gate-root",

@@ -6,7 +6,18 @@
       "Bash(mvn dependency:tree)",
       "Bash(mvn compile *)",
       "Bash(mvn clean *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(Get-ChildItem *)",
+      "Bash(npm run *)",
+      "Bash(mvn test *)",
+      "Bash(powershell -Command ' *)",
+      "Bash(node -e ' *)",
+      "Bash(powershell *)",
+      "PowerShell(Get-Content *)",
+      "Bash(node -e \"require\\('./node_modules/vite/dist/node/index.js'\\)\")",
+      "Bash(node --input-type=module --experimental-vm-modules)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)"
     ]
   }
 }

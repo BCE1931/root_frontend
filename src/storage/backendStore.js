@@ -25,6 +25,10 @@ export async function fetchNodes(topic = "ai") {
   return req(`/nodes?topic=${encodeURIComponent(topic)}`);
 }
 
+export async function getNodeById(id) {
+  return req(`/nodes/${encodeURIComponent(id)}`);
+}
+
 export async function createNode({ id, text, description, parentId, topic = "ai" }) {
   return req("/nodes", "POST", { id, text, description, parentId, topic });
 }
@@ -53,3 +57,31 @@ export async function updateStudyTime(id, addSeconds) {
 export async function bulkInsert(nodes, topic) {
   return req(`/nodes/bulk?topic=${encodeURIComponent(topic)}`, "POST", nodes);
 }
+
+// ── Exam results ───────────────────────────────────────────────────────────
+export async function saveExamResult(result) {
+  return req("/exams", "POST", result);
+}
+
+export async function getExamResults(nodeId) {
+  const qs = nodeId ? `?nodeId=${encodeURIComponent(nodeId)}` : "";
+  return req(`/exams${qs}`);
+}
+
+// ── Node visits ────────────────────────────────────────────────────────────
+export async function saveNodeVisit(nodeId, nodeName) {
+  return req("/visits", "POST", { nodeId, nodeName });
+}
+
+export async function getVisitHistory(limit = 100) {
+  return req(`/visits?limit=${limit}`);
+}
+
+// ── AI Responses ───────────────────────────────────────────────────────────
+export async function saveAiResponse(r)         { return req("/ai-responses", "POST", r); }
+export async function getAiResponses(nodeId)    {
+  const qs = nodeId ? `?nodeId=${encodeURIComponent(nodeId)}` : "";
+  return req(`/ai-responses${qs}`);
+}
+export async function getAiResponseNodeIds()    { return req("/ai-responses/node-ids"); }
+export async function getAiStats()              { return req("/ai-responses/stats"); }

@@ -4,6 +4,7 @@ import React, {
   useContext,
   useRef,
   useCallback,
+  useMemo,
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Routes, Route } from "react-router-dom";
@@ -20,9 +21,13 @@ import ProgressDashboard from "./ProgressDashboard";
 import FlashcardMode from "./FlashcardMode";
 import { ThemeContext } from "./ThemeContext";
 import * as api from "./storage/index.js";
-import { getMode, getTopic, setTopic, getTopics, addCustomTopic } from "./storage/index.js";
+import { getMode, getTopic, setTopic, getTopics, addCustomTopic, saveNodeVisit, getAiNodeIds } from "./storage/index.js";
+import ProfilePage from "./ProfilePage";
+import AiModelsPage from "./AiModelsPage";
 import "./App.css";
 import MobileSidebar from "./MobileSidebar";
+import ExamFlow from "./ExamFlow";
+import AiChatPanel from "./AiChatPanel";
 
 function RotateOverlay() {
   return (
@@ -70,9 +75,12 @@ export default function App() {
   const [showFlashcard, setShowFlashcard] = useState(false);
   const [zoom, setZoom]                 = useState(1);
   const [allTopics, setAllTopics]       = useState(getTopics);
+  const [examNode, setExamNode]          = useState(null);
+  const [chatOpen, setChatOpen]          = useState(false);
   const [isMobile, setIsMobile]         = useState(false);
   const [isPortrait, setIsPortrait]     = useState(false);
   const [sidebarOpen, setSidebarOpen]   = useState(false);
+  const [aiNodeIds, setAiNodeIds]       = useState(new Set());
 
   // ── Load data (from whichever store is active) ────────────────────────────
   const loadData = useCallback(() => {
@@ -86,12 +94,20 @@ export default function App() {
 
   useEffect(() => { loadData(); }, [loadData]);
 
-  // Ctrl+K global search shortcut
+  // Global keyboard shortcuts
   useEffect(() => {
     const handler = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
         setShowSearch(v => !v);
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === "ArrowRight") {
+        e.preventDefault();
+        handleGraphScroll("right");
+      }
+      if ((e.ctrlKey || e.metaKey) && e.key === "ArrowLeft") {
+        e.preventDefault();
+        handleGraphScroll("left");
       }
       if (e.key === "Escape") {
         setShowSearch(false);
@@ -101,7 +117,7 @@ export default function App() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Mobile orientation detection ─────────────────────────────────────────
   useEffect(() => {
@@ -121,6 +137,34 @@ export default function App() {
       window.removeEventListener("orientationchange", detect);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── AI node IDs ───────────────────────────────────────────────────────────
+  useEffect(() => {
+    getAiNodeIds().then(ids => setAiNodeIds(new Set(ids))).catch(() => {});
+    const onStorage = (e) => {
+      if (e.key === "ai_node_ids") {
+        try { setAiNodeIds(new Set(JSON.parse(e.newValue || "[]"))); } catch {}
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  // ── Auto-switch topic when node not found in current topic ───────────────
+  useEffect(() => {
+    if (isLoading) return;
+    const match = window.location.pathname.match(/^\/node\/([^/]+)/);
+    if (!match) return;
+    const nodeId = decodeURIComponent(match[1]);
+    if (findNodeById(treeData, nodeId)) return; // already found — nothing to do
+    api.findNodeTopic(nodeId).then(foundTopic => {
+      if (foundTopic && foundTopic !== getTopic()) {
+        setTopic(foundTopic);
+        setTopicState(foundTopic);
+        loadData();
+      }
+    }).catch(() => {});
+  }, [isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Scroll-button logic (unchanged) ──────────────────────────────────────
   const updateScrollState = useCallback(() => {
@@ -356,6 +400,10 @@ export default function App() {
 
   const handleViewNode = (nodeId) => window.open(`/node/${nodeId}`, "_blank");
 
+  const handleVisit = (nodeId, nodeName) => {
+    saveNodeVisit(nodeId, nodeName).catch(() => {});
+  };
+
   // ── Toggle completion ─────────────────────────────────────────────────────
 
   const handleToggleComplete = async (nodeId) => {
@@ -439,11 +487,21 @@ export default function App() {
     return [];
   };
 
+  // ── Node stats for profile panel ─────────────────────────────────────────
+  const nodeStats = useMemo(() => {
+    let total = 0, completed = 0;
+    const walk = nodes => { for (const n of nodes || []) { total++; if (n.completed) completed++; walk(n.children); } };
+    walk(treeData);
+    return { total, completed };
+  }, [treeData]);
+
   // ── Routes ────────────────────────────────────────────────────────────────
   const isMobileLandscape = isMobile && !isPortrait;
   const showRotate        = isMobile && isPortrait;
 
   return (
+    <>
+    <AiChatPanel open={chatOpen} onOpenChange={setChatOpen} />
     <Routes>
       <Route
         path="/"
@@ -468,6 +526,7 @@ export default function App() {
                 allTopics={allTopics}
                 onTopicChange={handleTopicChange}
                 onAddTopic={handleAddTopic}
+                onOpenChat={() => setChatOpen(true)}
               />
             )}
             <Header
@@ -486,6 +545,7 @@ export default function App() {
               zoom={zoom}
               onZoom={handleZoom}
               isMobileLandscape={isMobileLandscape}
+              nodeStats={nodeStats}
             />
             {showSettings && (
               <StorageSettings
@@ -496,10 +556,13 @@ export default function App() {
             <div
               className="page-content"
               style={isMobileLandscape ? {
-                marginLeft: sidebarOpen ? "180px" : "52px",
+                marginLeft: sidebarOpen ? "190px" : "52px",
                 marginTop: 0,
-                transition: "margin-left 0.22s cubic-bezier(0.4,0,0.2,1)"
-              } : {}}
+                transition: "margin-left 0.22s cubic-bezier(0.4,0,0.2,1)",
+              } : {
+                marginRight: chatOpen ? "390px" : "0",
+                transition: "margin-right 0.28s cubic-bezier(0.4,0,0.2,1)",
+              }}
             >
               {/* Layout toggle — hidden on desktop and mobile landscape (sidebar handles it) */}
               <div className="mobile-layout-bar" style={isMobileLandscape ? { display: "none" } : {}}>
@@ -558,6 +621,9 @@ export default function App() {
                           onView={handleViewNode}
                           onToggleComplete={handleToggleComplete}
                           onUpdateTag={handleUpdateTag}
+                          onExam={setExamNode}
+                          onVisit={handleVisit}
+                          aiNodeIds={aiNodeIds}
                           isRoot={true}
                           layout={layout}
                         />
@@ -569,6 +635,10 @@ export default function App() {
                         onClick={() => handleGraphScroll("right")}
                         title="Move right"
                         aria-label="Move graph right"
+                        style={{
+                          right: chatOpen ? "400px" : "10px",
+                          transition: "right 0.28s cubic-bezier(0.4,0,0.2,1)",
+                        }}
                       >
                         <ChevronRight size={24} />
                       </button>
@@ -604,6 +674,12 @@ export default function App() {
                 onClose={() => setShowFlashcard(false)}
               />
             )}
+            {examNode && (
+              <ExamFlow
+                node={examNode}
+                onClose={() => setExamNode(null)}
+              />
+            )}
             <ToastContainer
               theme={isDark ? "dark" : "light"}
               position="bottom-right"
@@ -611,6 +687,8 @@ export default function App() {
           </>
         }
       />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/ai-models" element={<AiModelsPage />} />
       <Route
         path="/node/:nodeId"
         element={
@@ -624,19 +702,25 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              <NodeDetail
-                treeData={treeData}
-                findNodeById={findNodeById}
-                findParentPath={findParentPath}
-                onUpdateDescription={handleUpdateDescription}
-                onToggleComplete={handleToggleComplete}
-                onUpdateStudyTime={handleUpdateStudyTime}
-              />
+              <div style={{
+                marginRight: chatOpen ? "390px" : "0",
+                transition: "margin-right 0.28s cubic-bezier(0.4,0,0.2,1)",
+              }}>
+                <NodeDetail
+                  treeData={treeData}
+                  findNodeById={findNodeById}
+                  findParentPath={findParentPath}
+                  onUpdateDescription={handleUpdateDescription}
+                  onToggleComplete={handleToggleComplete}
+                  onUpdateStudyTime={handleUpdateStudyTime}
+                />
+              </div>
             )}
           </>
         }
       />
     </Routes>
+    </>
   );
 }
 

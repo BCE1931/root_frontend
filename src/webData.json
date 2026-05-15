@@ -1,0 +1,56 @@
+[
+  {
+    "id": "web-root",
+    "parentId": null,
+    "sortOrder": 2,
+    "text": "Web Applications & Services",
+    "description": "Week-3 of the HCL Java CDC program covers Web Applications & Services.\n\nSections:\n1. Web Applications & Services (6 Hours)\n2. Version Control - Git (3 Hours)\n3. Basic of DevOps (4 Hours)\n4. Cloud Computing Services (3 Hours)\n5. Capstone and Hacker Assessment\n\nFaculty:\n• Web Apps: Dr Rajkumar S — rajkumar.s@vit.ac.in\n• Git: Dr. Srisakthi Saravanan\n• Cloud: Dr Priyaadharshini M\n\nGoal: Understand microservices architecture, REST, DevOps toolchain, and Cloud deployment.",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "web-architecture",
+    "parentId": "web-root",
+    "sortOrder": 0,
+    "text": "Web Application Architecture & Microservices",
+    "description": "WEB APPLICATION ARCHITECTURE:\n\nLAYERED ARCHITECTURE:\n  Presentation Layer (React frontend)\n  ↕ HTTP/REST\n  API Gateway\n  ↕\n  Business Logic Layer (Spring Boot services)\n  ↕\n  Data Access Layer (JPA/Hibernate)\n  ↕\n  Database (MySQL / MongoDB)\n\nMONOLITHIC vs MICROSERVICES:\n\nMonolith:\n  • Single deployable unit — all features in one app\n  • Simple to develop and test initially\n  • Hard to scale individual features\n  • One bug can bring down entire app\n  • Suited for small teams, early-stage products\n\nMicroservices:\n  • Each feature is an independent service (user-service, order-service, payment-service)\n  • Independent deployment and scaling\n  • Each service owns its database\n  • Services communicate via REST or messaging (Kafka, RabbitMQ)\n  • Suited for large teams, high-scale systems\n\nMICROSERVICES WITH SPRING BOOT:\n  Service Registry & Discovery (Eureka):\n    All services register with Eureka on startup\n    Client services query Eureka to find server address\n    @EnableEurekaServer (registry) and @EnableDiscoveryClient (each service)\n\n  API Gateway (Spring Cloud Gateway):\n    Single entry point for all clients\n    Routes: /api/users/** → user-service, /api/orders/** → order-service\n    Cross-cutting: auth, rate limiting, logging, CORS\n\n  Load Balancing:\n    Multiple instances of same service\n    Gateway distributes requests (round-robin by default)\n\n  Communication:\n    Synchronous: REST via OpenFeign (declarative HTTP client)\n    Asynchronous: RabbitMQ / Kafka messages (decoupled)\n\nINTRO TO REST:\n  HTTP methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD\n  Status codes: 200 OK, 201 Created, 204 No Content, 400 Bad Request,\n    401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error\n  Richardson Maturity Model: Level 0 → Level 3 (HATEOAS)\n\nBLOCKING vs NON-BLOCKING:\n  Blocking (Servlet): thread per request, waits for I/O\n  Non-blocking (Reactive/WebFlux): event loop, does not block thread on I/O\n  Use WebFlux for high-concurrency, streaming, or event-driven use cases",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "web-git",
+    "parentId": "web-root",
+    "sortOrder": 1,
+    "text": "Version Control — Git",
+    "description": "Instructor-led session — Duration: 3 Hours\nFaculty: Dr. Srisakthi Saravanan\n\nGIT BASICS:\n  Git is a distributed version control system.\n  Every developer has a full copy of the repo (unlike SVN which is centralised).\n\nKEY CONCEPTS:\n  Working Directory → Staging Area → Local Repo → Remote Repo\n  git add     — stage changes\n  git commit  — save staged changes to local repo\n  git push    — upload to remote (GitHub/GitLab)\n  git pull    — fetch + merge from remote\n  git fetch   — download without merging\n\nVERSIONING & STAGING:\n  git init                       # new repo\n  git clone <url>                # copy remote repo\n  git status                     # what changed?\n  git diff                       # unstaged changes\n  git diff --staged              # staged changes\n  git add file.txt               # stage specific file\n  git add .                      # stage all changes\n  git commit -m \"feat: add user login\"\n  git log --oneline --graph      # pretty history\n\nBRANCHING:\n  git branch feature/login       # create branch\n  git checkout feature/login     # switch\n  git checkout -b feature/login  # create + switch (shortcut)\n  git switch -c feature/login    # modern syntax\n\nMERGING vs REBASE:\n  git merge feature/login        # merge commit — preserves history\n  git rebase main                # reapply commits on top of main — clean linear history\n  Prefer merge for shared branches, rebase for local cleanup\n\nROLLBACK:\n  git revert <commit>            # safe — creates new commit undoing changes\n  git reset --soft HEAD~1        # undo commit, keep changes staged\n  git reset --hard HEAD~1        # DESTRUCTIVE — undo commit AND discard changes\n  git stash                      # temporarily shelve changes\n  git stash pop                  # restore stashed changes\n\nGIT SSH:\n  ssh-keygen -t ed25519 -C \"email@example.com\"\n  cat ~/.ssh/id_ed25519.pub      # copy to GitHub Settings → SSH Keys\n  ssh -T git@github.com          # test connection\n\nCOMMIT CONVENTIONS:\n  feat: new feature | fix: bug fix | docs: documentation\n  refactor: code restructure | test: add tests | chore: tooling",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "web-devops",
+    "parentId": "web-root",
+    "sortOrder": 2,
+    "text": "Basic DevOps (Maven, Docker, Kubernetes, CI/CD)",
+    "description": "Mentor-led session — Duration: 4 Hours\n\nMAVEN / GRADLE (Build Automation):\n  Maven uses pom.xml. Gradle uses build.gradle.\n  Phases: validate → compile → test → package → install → deploy\n  mvn clean install    — compile + test + create JAR\n  mvn spring-boot:run  — run Spring Boot app\n  Manages dependencies (like npm for Java)\n\nDOCKER & CONTAINERIZATION:\n  Container = lightweight, isolated process with its own filesystem.\n  Image = blueprint for a container (layers of filesystem changes)\n\n  # Dockerfile for Spring Boot\n  FROM eclipse-temurin:17-jdk-alpine\n  COPY target/app.jar app.jar\n  ENTRYPOINT [\"java\", \"-jar\", \"app.jar\"]\n\n  docker build -t my-app:1.0 .       # build image\n  docker run -p 8080:8080 my-app:1.0 # run container\n  docker ps                           # running containers\n  docker-compose up                   # multi-container (app + db)\n\n  Docker Compose example:\n  services:\n    app:\n      build: .\n      ports: [\"8080:8080\"]\n      depends_on: [db]\n    db:\n      image: mysql:8\n      environment:\n        MYSQL_DATABASE: mydb\n        MYSQL_ROOT_PASSWORD: root\n\nKUBERNETES (K8s) INTRODUCTION:\n  Orchestrates containers at scale.\n  Pod: smallest unit — one or more containers\n  Deployment: manages replicas of pods (rolling updates, rollbacks)\n  Service: stable DNS name + load balancing across pods\n  Ingress: HTTP routing to services\n  kubectl get pods — list running pods\n  kubectl apply -f deployment.yaml — apply config\n\nCI/CD PIPELINES:\n  CI = Continuous Integration: auto build + test on every commit\n  CD = Continuous Deployment: auto deploy to production\n\n  GitHub Actions example (.github/workflows/build.yml):\n  on: push\n  jobs:\n    build:\n      runs-on: ubuntu-latest\n      steps:\n        - uses: actions/checkout@v3\n        - uses: actions/setup-java@v3\n          with: { java-version: '17' }\n        - run: mvn clean install\n        - run: docker build -t my-app .\n        - run: docker push my-app\n\n  Tools: Jenkins (self-hosted), GitHub Actions, GitLab CI/CD",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "web-cloud",
+    "parentId": "web-root",
+    "sortOrder": 3,
+    "text": "Cloud Computing Services",
+    "description": "Mentor-led session — Duration: 3 Hours\nFaculty: Dr Priyaadharshini M\n\nCLOUD SERVICE MODELS:\n  IaaS — Infrastructure as a Service: raw VMs, storage, networking (AWS EC2, Azure VMs)\n  PaaS — Platform as a Service: managed platform, you deploy code (Heroku, AWS Elastic Beanstalk, Google App Engine)\n  SaaS — Software as a Service: ready to use (Gmail, Salesforce)\n\nTYPES OF CLOUD DEPLOYMENT:\n  Public Cloud: AWS, Azure, GCP — shared infrastructure, pay-as-you-go\n  Private Cloud: on-premises, company-owned hardware\n  Hybrid Cloud: mix of public and private\n  Multi-Cloud: using multiple providers to avoid vendor lock-in\n\nKEY CLOUD SERVICES (AWS examples):\n  API Gateway    — managed API endpoint, rate limiting, auth\n  S3             — object/file storage (like a hard drive in the cloud)\n  RDS            — managed relational database (MySQL, PostgreSQL)\n  EC2            — virtual machines\n  Lambda         — serverless functions (no server management)\n  EKS            — managed Kubernetes\n  CloudFront     — CDN (content delivery network)\n\nPaaS - INTRODUCTION:\n  Deploy your Spring Boot JAR — platform handles servers, scaling, OS patching\n  Focus on code, not infrastructure\n  Examples: AWS Elastic Beanstalk, Google App Engine, Heroku, Railway\n\nARCHITECTING FOR SCALABILITY & RELIABILITY:\n  Horizontal scaling: add more instances (vs vertical = bigger machine)\n  Stateless services: no session state → easy to scale\n  Database: read replicas for read-heavy workloads\n  Caching: Redis between app and database\n  Auto-scaling: scale out on high CPU, scale in when idle\n  Health checks: load balancer routes only to healthy instances\n\n  Reliability patterns:\n  • Circuit Breaker — fail fast, avoid cascade failures\n  • Retry with exponential backoff\n  • Bulkhead — isolate failures to one component\n  • Timeout — always set timeouts on external calls\n\n  Security:\n  • IAM roles — least privilege\n  • Secrets Manager — never hardcode passwords\n  • VPC — private network, restrict internet access\n  • WAF — web application firewall",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "web-capstone",
+    "parentId": "web-root",
+    "sortOrder": 4,
+    "text": "Capstone and Hacker Assessment",
+    "description": "End of Week-3 assessment covering Frontend, Backend, and Web Architecture.\n\nCAPSTONE PROJECT REQUIREMENTS:\n• Full-stack application with ReactJS frontend + Spring Boot backend\n• RESTful API with proper HTTP methods and status codes\n• Database integration (MySQL or MongoDB)\n• Authentication with JWT\n• Git version control with proper branching\n• Containerised with Docker\n\nHACKER ASSESSMENT TOPICS:\n• Spring Boot REST API development\n• Microservices concepts (architecture questions)\n• Git commands and workflows\n• Docker commands and Dockerfile\n• Cloud concepts (IaaS/PaaS/SaaS, deployment types)\n• JWT authentication flow\n• Spring Security configuration\n• JPA entity relationships\n\nPREP CHECKLIST:\n□ Build a complete CRUD REST API with Spring Boot\n□ Implement JWT auth from scratch\n□ Write Dockerfile for a Spring Boot app\n□ Set up docker-compose with app + MySQL\n□ Create GitHub Actions workflow for build\n□ Deploy to a PaaS (Railway, Heroku, or Render — free tiers)\n□ Understand Eureka + API Gateway setup at conceptual level",
+    "protected": true,
+    "completed": false
+  }
+]

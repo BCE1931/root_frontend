@@ -1,0 +1,56 @@
+[
+  {
+    "id": "devops-root",
+    "parentId": null,
+    "sortOrder": 4,
+    "text": "Code Quality & DevOps",
+    "description": "Week-5 of the HCL Java CDC program covers Code Quality, Security, and Full-Stack Integration.\n\nSections:\n1. Code Coverage Techniques and Tools (2 Hours)\n2. SonarQube Implementation\n3. Full-Stack Integration (8 Hours)\n4. Security Tools\n5. Deployment\n\nFaculty: Dr. SUVIDHA RUPESH KUMAR — suvidha.rupesh@vit.ac.in\n\nGoal: Write testable, high-quality code. Measure and improve code coverage. Connect React frontend to Spring Boot backend. Deploy the complete application.",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "devops-coverage",
+    "parentId": "devops-root",
+    "sortOrder": 0,
+    "text": "Code Coverage Techniques and Tools",
+    "description": "Duration: 2 Hours\n\nWHAT IS CODE COVERAGE?\nCode coverage = percentage of source code lines/branches/paths executed by tests.\nHigh coverage does NOT mean tests are good — but low coverage guarantees gaps.\n\nHOW IS IT MEASURED?\nTools instrument bytecode at compile time to record which lines execute during tests.\nReports show: covered (green), partially covered (yellow), not covered (red).\n\nCOVERAGE TYPES:\n  Line Coverage     — % of lines executed by tests (most basic)\n  Branch Coverage   — % of decision branches (if/else, switch cases) tested\n  Method Coverage   — % of methods called\n  Class Coverage    — % of classes instantiated\n  Instruction Coverage — % of JVM bytecode instructions (most granular)\n  Path Coverage     — every possible execution path (exponential — impractical)\n\nCODE COVERAGE vs TEST COVERAGE:\n  Code coverage: which lines ran\n  Test coverage: which requirements/scenarios are tested\n  A line can be executed without being properly asserted → 100% coverage, 0% confidence\n\nCOVERAGE TARGETS:\n  Industry standard: 70-80% for production code\n  Don't chase 100%: getters, setters, boilerplate, config classes are low value\n  Focus on: business logic, edge cases, error paths\n\nCOVERAGE TOOLS:\n  JaCoCo — Java Code Coverage (most popular for Spring Boot)\n    Add to pom.xml: jacoco-maven-plugin\n    mvn test jacoco:report → generates HTML report in target/site/jacoco/\n\n  SonarQube — integrates JaCoCo, adds code quality analysis\n  IntelliJ IDEA — built-in coverage runner (Run with Coverage)\n  Cobertura — legacy Java coverage tool\n  Istanbul/nyc — JavaScript/Node.js coverage\n  pytest-cov — Python coverage",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "devops-sonar",
+    "parentId": "devops-root",
+    "sortOrder": 1,
+    "text": "SonarQube Implementation",
+    "description": "Faculty: Dr. SUVIDHA RUPESH KUMAR\n\nWHAT IS SONARQUBE?\nStatic code analysis platform — finds bugs, vulnerabilities, code smells, and duplications before they reach production.\n\nSONARQUBE METRICS:\n  Bugs            — actual or likely runtime errors\n  Vulnerabilities — security issues (SQL injection, XSS, hardcoded passwords)\n  Code Smells     — maintainability issues (long methods, dead code, complex logic)\n  Duplications    — copy-pasted code blocks\n  Technical Debt  — estimated time to fix all issues\n  Security Hotspots — code to review for security\n  Coverage        — from JaCoCo integration\n\nSONARQUBE ARCHITECTURE:\n  SonarQube Server (web, compute engine, search)\n  Database (stores analysis results)\n  SonarScanner (runs in CI, sends results to server)\n\nDOCKERIZED SETUP:\n  docker run -d --name sonarqube \\\n    -p 9000:9000 \\\n    sonarqube:latest\n  # Access: http://localhost:9000 (admin/admin)\n\nMAVEN PROJECT SCANNING:\n  // pom.xml — add sonar properties\n  <properties>\n    <sonar.projectKey>my-project</sonar.projectKey>\n    <sonar.host.url>http://localhost:9000</sonar.host.url>\n    <sonar.login>your-token</sonar.login>\n  </properties>\n\n  mvn clean verify sonar:sonar  // scan + report\n\nSONARQUBE QUALITY GATE:\n  Pass/Fail threshold for:\n  • Coverage > 80%\n  • No new critical bugs\n  • No new vulnerabilities\n  • Duplication < 3%\n  Integrate with CI — fail build if Quality Gate fails\n\nNODE.JS / FRONTEND SCANNING:\n  sonar-scanner -Dsonar.projectKey=react-app \\\n    -Dsonar.sources=src \\\n    -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info\n\nSSL SETUP:\n  Generate SSL cert → configure nginx reverse proxy → sonarqube behind HTTPS\n  Used in production environments",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "devops-fullstack",
+    "parentId": "devops-root",
+    "sortOrder": 2,
+    "text": "Full-Stack Integration",
+    "description": "Duration: 8 Hours\n\nCONNECTING REACT TO SPRING BOOT:\n\n  // Spring Boot — enable CORS for frontend\n  @CrossOrigin(origins = \"http://localhost:5173\")  // Vite dev server\n  @RestController\n  public class UserController { ... }\n\n  // Or globally\n  @Configuration\n  public class CorsConfig implements WebMvcConfigurer {\n    public void addCorsMappings(CorsRegistry registry) {\n      registry.addMapping(\"/api/**\")\n        .allowedOrigins(\"http://localhost:5173\")\n        .allowedMethods(\"GET\",\"POST\",\"PUT\",\"DELETE\")\n        .allowCredentials(true);\n    }\n  }\n\nREST API CONSUMPTION IN REACT:\n  // useEffect + axios in a React component\n  const [users, setUsers] = useState([]);\n  useEffect(() => {\n    axios.get('http://localhost:8080/api/users')\n      .then(res => setUsers(res.data))\n      .catch(err => console.error(err));\n  }, []);\n\nSTATE MANAGEMENT ACROSS FULL STACK:\n  Client state: React useState/Context/Redux\n  Server state: React Query or SWR (automatic caching, refetching, invalidation)\n    const { data, isLoading } = useQuery(['users'], () => axios.get('/api/users'))\n\nDATA FLOW & ERROR HANDLING:\n  React → Axios → Spring Boot Controller → Service → Repository → DB\n  Error flows back: DB error → Spring exception → @RestControllerAdvice → JSON error response → Axios catch → React UI error state\n\nREAL-TIME DATA WITH WEBSOCKETS:\n  Spring Boot WebSocket:\n    @EnableWebSocketMessageBroker\n    STOMP over WebSocket\n    @MessageMapping(\"/chat\") to receive\n    SimpMessagingTemplate to send\n\n  React WebSocket client:\n    const client = new Client({ brokerURL: 'ws://localhost:8080/ws' });\n    client.subscribe('/topic/messages', msg => setMessages(prev => [...prev, msg]));\n    client.publish({ destination: '/app/chat', body: JSON.stringify(payload) });",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "devops-security",
+    "parentId": "devops-root",
+    "sortOrder": 3,
+    "text": "Security Tools",
+    "description": "TRIVY — Container & Filesystem Vulnerability Scanner:\n  Scans Docker images, filesystems, and Git repos for:\n  • CVEs in OS packages and application dependencies\n  • Misconfigurations (Dockerfile, Kubernetes YAML)\n  • Exposed secrets\n\n  trivy image openjdk:17                    # scan Docker image\n  trivy fs ./                               # scan filesystem\n  trivy repo https://github.com/org/repo   # scan git repo\n\n  Integrate in CI:\n  - name: Trivy scan\n    run: trivy image --exit-code 1 --severity CRITICAL my-app:latest\n  # Fails build if CRITICAL vulnerability found\n\nOWASP DEPENDENCY-CHECK:\n  Scans Java (Maven/Gradle) and Node.js dependencies for known CVEs.\n  OWASP Top 10 vulnerabilities to know:\n    A01: Broken Access Control\n    A02: Cryptographic Failures\n    A03: Injection (SQL, LDAP, XSS)\n    A07: Identification/Authentication Failures\n    A08: Software and Data Integrity Failures\n\n  Maven integration:\n  <plugin>\n    <groupId>org.owasp</groupId>\n    <artifactId>dependency-check-maven</artifactId>\n    <version>9.0.0</version>\n  </plugin>\n  mvn dependency-check:check\n\nPROWLER — Cloud Security Tool:\n  Open-source cloud security assessment tool for AWS, Azure, GCP.\n  Checks: IAM policies, S3 bucket permissions, security groups, encryption.\n  prowler aws --profile default --region ap-south-1\n  Generates HTML report with findings by severity.\n\nDOCKLE — Docker Image Linter:\n  Checks Dockerfile for security best practices:\n  • Running as non-root user\n  • Removing shell\n  • Using specific image versions (not :latest)\n  • Minimising layer count\n  dockle my-app:latest",
+    "protected": true,
+    "completed": false
+  },
+  {
+    "id": "devops-deploy",
+    "parentId": "devops-root",
+    "sortOrder": 4,
+    "text": "Deployment",
+    "description": "DEPLOYMENT STRATEGY FOR FULL-STACK JAVA APP:\n\nFRONTEND (React):\n  Build: npm run build  → dist/ folder (static HTML/CSS/JS)\n  Deploy to:\n  • Netlify: drag-and-drop or connect GitHub repo — auto-deploys on push\n  • Vercel: git push → automatic build + CDN deployment\n  • GitHub Pages: for static sites\n  • AWS S3 + CloudFront: production-grade CDN\n\nBACKEND (Spring Boot):\n  Build: mvn clean package  → target/app.jar\n  Deploy to:\n  • Railway (free tier): connect GitHub, auto-deploys Spring Boot\n  • Render: free tier, Docker or Java support\n  • Heroku: easy PaaS, but now paid\n  • AWS Elastic Beanstalk: managed PaaS on AWS\n  • Docker + VPS: full control\n\nVERSION CONTROL WORKFLOW:\n  main branch — production code only\n  develop branch — integration branch\n  feature/login — feature branches\n  Flow: feature → PR → code review → merge to develop → test → merge to main → deploy\n\nMINI PROJECT DEPLOYMENT CHECKLIST:\n  □ Frontend: npm run build, deploy to Netlify\n  □ Backend: jar deployed to Railway/Render\n  □ Database: Railway MySQL or PlanetScale\n  □ Environment variables: never commit secrets\n  □ CORS: production frontend URL whitelisted in Spring Boot\n  □ JWT secret: stored in environment variable, not code\n  □ GitHub Actions: auto-deploy on push to main\n\nSAMPLE GITHUB ACTIONS — Full Deploy:\n  jobs:\n    deploy-backend:\n      runs-on: ubuntu-latest\n      steps:\n        - mvn clean package\n        - docker build + push to Docker Hub\n        - SSH deploy to server (or Railway webhook)\n    deploy-frontend:\n      - npm run build\n      - netlify deploy --prod --dir=dist",
+    "protected": true,
+    "completed": false
+  }
+]

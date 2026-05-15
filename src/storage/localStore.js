@@ -1,8 +1,14 @@
 // Local store — persists to localStorage, works with no backend
 // Factory-based: supports multiple topic trees under separate localStorage keys
 
-import aiDefaultNodes   from "../defaultData.json";
-import gateDefaultNodes from "../gateData.json";
+import aiDefaultNodes     from "../defaultData.json";
+import gateDefaultNodes   from "../gateData.json";
+import fdDefaultNodes     from "../fdData.json";
+import bdDefaultNodes     from "../bdData.json";
+import webDefaultNodes    from "../webData.json";
+import dbDefaultNodes     from "../dbData.json";
+import devopsDefaultNodes from "../devopsData.json";
+import genaiDefaultNodes  from "../genaiData.json";
 
 const AI_DATA_KEY    = "ai_tree_nodes";
 const AI_VERSION_KEY = "ai_tree_version";
@@ -11,6 +17,30 @@ const AI_CURRENT_VER = 4;
 const GATE_DATA_KEY    = "gate_tree_nodes";
 const GATE_VERSION_KEY = "gate_tree_version";
 const GATE_CURRENT_VER = 3;
+
+const FD_DATA_KEY     = "fd_tree_nodes";
+const FD_VERSION_KEY  = "fd_tree_version";
+const FD_CURRENT_VER  = 1;
+
+const BD_DATA_KEY     = "bd_tree_nodes";
+const BD_VERSION_KEY  = "bd_tree_version";
+const BD_CURRENT_VER  = 1;
+
+const WEB_DATA_KEY    = "web_tree_nodes";
+const WEB_VERSION_KEY = "web_tree_version";
+const WEB_CURRENT_VER = 1;
+
+const DB_DATA_KEY     = "db_tree_nodes";
+const DB_VERSION_KEY  = "db_tree_version";
+const DB_CURRENT_VER  = 1;
+
+const DEVOPS_DATA_KEY    = "devops_tree_nodes";
+const DEVOPS_VERSION_KEY = "devops_tree_version";
+const DEVOPS_CURRENT_VER = 1;
+
+const GENAI_DATA_KEY    = "genai_tree_nodes";
+const GENAI_VERSION_KEY = "genai_tree_version";
+const GENAI_CURRENT_VER = 1;
 
 // ── Factory ────────────────────────────────────────────────────────────────
 function createLocalStore(DATA_KEY, VERSION_KEY, defaultNodes, CURRENT_VER) {
@@ -167,6 +197,30 @@ export const aiLocalStore = createLocalStore(
 
 export const gateLocalStore = createLocalStore(
   GATE_DATA_KEY, GATE_VERSION_KEY, gateDefaultNodes, GATE_CURRENT_VER
+);
+
+export const fdLocalStore = createLocalStore(
+  FD_DATA_KEY, FD_VERSION_KEY, fdDefaultNodes, FD_CURRENT_VER
+);
+
+export const bdLocalStore = createLocalStore(
+  BD_DATA_KEY, BD_VERSION_KEY, bdDefaultNodes, BD_CURRENT_VER
+);
+
+export const webLocalStore = createLocalStore(
+  WEB_DATA_KEY, WEB_VERSION_KEY, webDefaultNodes, WEB_CURRENT_VER
+);
+
+export const dbLocalStore = createLocalStore(
+  DB_DATA_KEY, DB_VERSION_KEY, dbDefaultNodes, DB_CURRENT_VER
+);
+
+export const devopsLocalStore = createLocalStore(
+  DEVOPS_DATA_KEY, DEVOPS_VERSION_KEY, devopsDefaultNodes, DEVOPS_CURRENT_VER
+);
+
+export const genaiLocalStore = createLocalStore(
+  GENAI_DATA_KEY, GENAI_VERSION_KEY, genaiDefaultNodes, GENAI_CURRENT_VER
 );
 
 export function getGateLocalStore() { return gateLocalStore; }
