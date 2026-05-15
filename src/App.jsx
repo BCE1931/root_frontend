@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ChevronLeft, ChevronRight, ArrowRight, ArrowDown } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, ArrowDown, Smartphone, RotateCcw } from "lucide-react";
 import TreeNode from "./TreeNode";
 import NodeDetail from "./NodeDetail";
 import Header from "./Header";
@@ -22,6 +22,28 @@ import { ThemeContext } from "./ThemeContext";
 import * as api from "./storage/index.js";
 import { getMode, getTopic, setTopic, getTopics, addCustomTopic } from "./storage/index.js";
 import "./App.css";
+import MobileSidebar from "./MobileSidebar";
+
+function RotateOverlay() {
+  return (
+    <div className="rotate-overlay">
+      <div className="rotate-overlay-content">
+        <div className="rotate-phone-icon">
+          <Smartphone size={68} />
+        </div>
+        <h2 className="rotate-title">Rotate Your Device</h2>
+        <p className="rotate-desc">
+          TreeFlow works best in landscape mode.
+          <br />
+          Please rotate your phone horizontally.
+        </p>
+        <div className="rotate-hint-icon">
+          <RotateCcw size={32} />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const { isDark } = useContext(ThemeContext);
@@ -48,6 +70,9 @@ export default function App() {
   const [showFlashcard, setShowFlashcard] = useState(false);
   const [zoom, setZoom]                 = useState(1);
   const [allTopics, setAllTopics]       = useState(getTopics);
+  const [isMobile, setIsMobile]         = useState(false);
+  const [isPortrait, setIsPortrait]     = useState(false);
+  const [sidebarOpen, setSidebarOpen]   = useState(false);
 
   // ── Load data (from whichever store is active) ────────────────────────────
   const loadData = useCallback(() => {
@@ -77,6 +102,25 @@ export default function App() {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  // ── Mobile orientation detection ─────────────────────────────────────────
+  useEffect(() => {
+    const detect = () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const mobile = w <= 900;
+      setIsMobile(mobile);
+      setIsPortrait(h > w);
+      if (mobile && w > h) setLayout("horizontal");
+    };
+    detect();
+    window.addEventListener("resize", detect);
+    window.addEventListener("orientationchange", detect);
+    return () => {
+      window.removeEventListener("resize", detect);
+      window.removeEventListener("orientationchange", detect);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Scroll-button logic (unchanged) ──────────────────────────────────────
   const updateScrollState = useCallback(() => {
@@ -396,6 +440,8 @@ export default function App() {
   };
 
   // ── Routes ────────────────────────────────────────────────────────────────
+  const isMobileLandscape = isMobile && !isPortrait;
+  const showRotate        = isMobile && isPortrait;
 
   return (
     <Routes>
@@ -403,6 +449,27 @@ export default function App() {
         path="/"
         element={
           <>
+            {showRotate && <RotateOverlay />}
+            {isMobileLandscape && (
+              <MobileSidebar
+                isOpen={sidebarOpen}
+                onToggle={() => setSidebarOpen((v) => !v)}
+                onSearch={() => setShowSearch(true)}
+                onProgress={() => setShowProgress(true)}
+                onFlashcard={() => setShowFlashcard(true)}
+                zoom={zoom}
+                onZoom={handleZoom}
+                layout={layout}
+                onLayoutChange={setLayout}
+                onExport={handleExport}
+                storageMode={storageMode}
+                onOpenSettings={() => setShowSettings(true)}
+                topic={topic}
+                allTopics={allTopics}
+                onTopicChange={handleTopicChange}
+                onAddTopic={handleAddTopic}
+              />
+            )}
             <Header
               onExport={handleExport}
               layout={layout}
@@ -418,6 +485,7 @@ export default function App() {
               onFlashcard={() => setShowFlashcard(true)}
               zoom={zoom}
               onZoom={handleZoom}
+              isMobileLandscape={isMobileLandscape}
             />
             {showSettings && (
               <StorageSettings
@@ -425,9 +493,15 @@ export default function App() {
                 onModeChange={(m) => { setStorageMode(m); loadData(); }}
               />
             )}
-            <div className="page-content">
-              {/* Layout toggle — hidden on desktop, shown on mobile */}
-              <div className="mobile-layout-bar">
+            <div
+              className="page-content"
+              style={isMobileLandscape ? {
+                marginLeft: sidebarOpen ? "180px" : "52px",
+                transition: "margin-left 0.22s cubic-bezier(0.4,0,0.2,1)"
+              } : {}}
+            >
+              {/* Layout toggle — hidden on desktop and mobile landscape (sidebar handles it) */}
+              <div className="mobile-layout-bar" style={isMobileLandscape ? { display: "none" } : {}}>
                 <div className="layout-pill">
                   <button
                     className={`pill-btn${layout === "horizontal" ? " active" : ""}`}

@@ -148,6 +148,7 @@ function createLocalStore(DATA_KEY, VERSION_KEY, defaultNodes, CURRENT_VER) {
       throw new Error(`Node ${id} not found`);
     },
 
+    getRawFlat()      { return load(); },
     resetToDefaults() { seed(); },
     exportJSON()      { return JSON.stringify(load(), null, 2); },
     importJSON(jsonStr) {

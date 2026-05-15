@@ -2209,3 +2209,291 @@ button:hover {
   color: var(--text-light);
   font-size: 14px;
 }
+
+/* ==========================================
+   ROTATE OVERLAY  (mobile portrait mode)
+========================================== */
+.rotate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  touch-action: none;
+}
+
+.rotate-overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+  max-width: 280px;
+}
+
+.rotate-phone-icon {
+  color: var(--primary);
+  animation: rotatePhoneAnim 2.6s ease-in-out infinite;
+  will-change: transform;
+  filter: drop-shadow(0 8px 24px rgba(37, 99, 235, 0.3));
+}
+
+@keyframes rotatePhoneAnim {
+  0%   { transform: rotate(0deg);   }
+  20%  { transform: rotate(0deg);   }
+  45%  { transform: rotate(-90deg); }
+  75%  { transform: rotate(-90deg); }
+  95%  { transform: rotate(0deg);   }
+  100% { transform: rotate(0deg);   }
+}
+
+.rotate-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-color);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.rotate-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.rotate-hint-icon {
+  color: var(--primary);
+  opacity: 0.55;
+  animation: rotatePulse 1.9s ease-in-out infinite;
+}
+
+@keyframes rotatePulse {
+  0%, 100% { opacity: 0.5;  transform: scale(1);    }
+  50%       { opacity: 0.95; transform: scale(1.2);  }
+}
+
+/* ==========================================
+   MOBILE SIDEBAR  (mobile landscape)
+========================================== */
+.mobile-sidebar {
+  position: fixed;
+  left: 0;
+  top: var(--header-height);
+  bottom: 0;
+  z-index: 600;
+  width: 180px;
+  background: var(--box-bg);
+  border-right: 1.5px solid var(--line-color);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+:root.dark .mobile-sidebar {
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.38);
+}
+
+.mobile-sidebar-collapsed {
+  width: 52px;
+}
+
+.sidebar-toggle-btn {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  border-bottom: 1px solid var(--line-color);
+  flex-shrink: 0;
+  transition: background 0.18s, color 0.18s;
+}
+
+.sidebar-toggle-btn:hover {
+  background: rgba(37, 99, 235, 0.07);
+  color: var(--primary);
+}
+
+.sidebar-inner {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 0;
+  scrollbar-width: none;
+}
+
+.sidebar-inner::-webkit-scrollbar { display: none; }
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 17px;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
+}
+
+.sidebar-item:hover {
+  background: rgba(37, 99, 235, 0.07);
+  color: var(--text-color);
+}
+
+.sidebar-item:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.sidebar-item-active {
+  background: rgba(37, 99, 235, 0.11);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.sidebar-item-active:hover {
+  background: rgba(37, 99, 235, 0.17);
+  color: var(--primary);
+}
+
+.sidebar-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-sep {
+  height: 1px;
+  background: var(--line-color);
+  margin: 5px 10px;
+  flex-shrink: 0;
+}
+
+.sidebar-topic-wrap { position: relative; }
+
+.sidebar-item-topic { width: 100%; }
+
+.sidebar-topic-dropdown {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 4px);
+  min-width: 200px;
+  background: var(--box-bg);
+  border: 1px solid var(--line-color);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+  z-index: 800;
+  animation: panelFadeIn 0.14s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.sidebar-topic-dropdown-right { left: 56px; }
+
+.sidebar-topic-opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: left;
+  transition: all 0.14s;
+}
+
+.sidebar-topic-opt:hover,
+.sidebar-topic-opt.active {
+  background: rgba(37, 99, 235, 0.09);
+  color: var(--primary);
+}
+
+.sidebar-zoom-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 6px;
+}
+
+.sidebar-zoom-btn {
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-zoom-pct {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* ==========================================
+   MOBILE LANDSCAPE — compact header + layout
+========================================== */
+@media (max-width: 900px) and (orientation: landscape) {
+  :root { --header-height: 50px; }
+
+  .glass-header { z-index: 650; }
+
+  .header-inner { padding: 0 12px; gap: 8px; }
+
+  .app-logo-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .app-name { font-size: 15px; }
+
+  .app-container { padding: 8px 12px 24px; }
+
+  .tree-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safe-area support for notched phones */
+@supports (padding: max(0px)) {
+  .glass-header {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+  .mobile-sidebar {
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+  .page-content {
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}

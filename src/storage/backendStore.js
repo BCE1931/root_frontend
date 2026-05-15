@@ -1,4 +1,4 @@
-// Backend store — talks to Spring Boot REST API
+// Backend store — talks to Spring Boot REST API at /api/*
 let BASE = "http://localhost:8080/api";
 
 export function setBaseUrl(url) {
@@ -9,46 +9,47 @@ export function getBaseUrl() {
   return BASE;
 }
 
-export async function fetchNodes() {
-  const res = await fetch(`${BASE}/nodes`);
+async function req(path, method = "GET", body) {
+  const opts = { method, headers: {} };
+  if (body !== undefined) {
+    opts.headers["Content-Type"] = "application/json";
+    opts.body = JSON.stringify(body);
+  }
+  const res = await fetch(BASE + path, opts);
   if (!res.ok) throw new Error(`Server error ${res.status}`);
+  if (res.status === 204) return null;
   return res.json();
 }
 
-export async function createNode({ id, text, description, parentId }) {
-  const res = await fetch(`${BASE}/nodes`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, text, description, parentId }),
-  });
-  if (!res.ok) throw new Error(`Server error ${res.status}`);
-  return res.json();
+export async function fetchNodes(topic = "ai") {
+  return req(`/nodes?topic=${encodeURIComponent(topic)}`);
+}
+
+export async function createNode({ id, text, description, parentId, topic = "ai" }) {
+  return req("/nodes", "POST", { id, text, description, parentId, topic });
 }
 
 export async function updateNode(id, { text, description }) {
-  const res = await fetch(`${BASE}/nodes/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text, description }),
-  });
-  if (!res.ok) throw new Error(`Server error ${res.status}`);
-  return res.json();
+  return req(`/nodes/${id}`, "PUT", { text, description });
 }
 
 export async function deleteNode(id) {
-  const res = await fetch(`${BASE}/nodes/${id}`, { method: "DELETE" });
-  if (!res.ok) throw new Error(`Server error ${res.status}`);
+  return req(`/nodes/${id}`, "DELETE");
 }
 
 export async function toggleComplete(id) {
-  const getRes = await fetch(`${BASE}/nodes/${id}`);
-  if (!getRes.ok) throw new Error(`Server error ${getRes.status}`);
-  const node = await getRes.json();
-  const res = await fetch(`${BASE}/nodes/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: node.text, description: node.description, completed: !node.completed }),
-  });
-  if (!res.ok) throw new Error(`Server error ${res.status}`);
-  return res.json();
+  return req(`/nodes/${id}/complete`, "PATCH");
+}
+
+export async function updateTag(id, tag) {
+  return req(`/nodes/${id}/tag`, "PATCH", { tag });
+}
+
+export async function updateStudyTime(id, addSeconds) {
+  return req(`/nodes/${id}/study-time`, "PATCH", { addSeconds });
+}
+
+/** Bulk-insert a flat array of nodes for a topic (used for first-time sync from localStorage). */
+export async function bulkInsert(nodes, topic) {
+  return req(`/nodes/bulk?topic=${encodeURIComponent(topic)}`, "POST", nodes);
 }

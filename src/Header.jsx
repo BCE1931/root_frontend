@@ -14,6 +14,7 @@ export default function Header({
   onSearch, onProgress, onFlashcard,
   zoom, onZoom,
   onAddTopic,
+  isMobileLandscape,
 }) {
   const { isDark, toggleTheme } = useContext(ThemeContext);
   const [profileOpen,  setProfileOpen]  = useState(false);
@@ -122,8 +123,8 @@ export default function Header({
         {/* RIGHT — Actions */}
         <div className="header-right">
 
-          {/* Zoom controls */}
-          {onZoom && (
+          {/* Zoom controls — hidden on mobile landscape (sidebar handles it) */}
+          {!isMobileLandscape && onZoom && (
             <div className="zoom-controls">
               <button className="hdr-icon-btn" onClick={() => onZoom(-0.1)} title="Zoom out" disabled={zoom <= 0.4}><ZoomOut size={16} /></button>
               <span className="zoom-label">{Math.round(zoom * 100)}%</span>
@@ -131,18 +132,18 @@ export default function Header({
             </div>
           )}
 
-          {/* Feature buttons */}
-          {onSearch    && <button className="hdr-icon-btn" onClick={onSearch}    title="Search (Ctrl+K)"><Search   size={17} /></button>}
-          {onFlashcard && <button className="hdr-icon-btn" onClick={onFlashcard} title="Flashcard Revision"><Layers  size={17} /></button>}
-          {onProgress  && <button className="hdr-icon-btn" onClick={onProgress}  title="Progress Dashboard"><BarChart2 size={17} /></button>}
+          {/* Feature buttons — hidden on mobile landscape (sidebar handles them) */}
+          {!isMobileLandscape && onSearch    && <button className="hdr-icon-btn" onClick={onSearch}    title="Search (Ctrl+K)"><Search   size={17} /></button>}
+          {!isMobileLandscape && onFlashcard && <button className="hdr-icon-btn" onClick={onFlashcard} title="Flashcard Revision"><Layers  size={17} /></button>}
+          {!isMobileLandscape && onProgress  && <button className="hdr-icon-btn" onClick={onProgress}  title="Progress Dashboard"><BarChart2 size={17} /></button>}
 
-          {onExport && (
+          {!isMobileLandscape && onExport && (
             <button className="hdr-icon-btn" onClick={handleExport} title="Export JSON">
               <Download size={17} />
             </button>
           )}
 
-          {onOpenSettings && (
+          {!isMobileLandscape && onOpenSettings && (
             <button className="hdr-icon-btn storage-mode-btn" onClick={onOpenSettings}
               title={storageMode === "local" ? "Frontend Storage" : "Backend Storage"}>
               {storageMode === "local" ? <Laptop size={17} /> : <Database size={17} />}
