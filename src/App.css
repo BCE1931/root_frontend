@@ -2459,29 +2459,105 @@ button:hover {
 }
 
 /* ==========================================
-   MOBILE LANDSCAPE — compact header + layout
+   MOBILE LANDSCAPE — no header, full sidebar
 ========================================== */
 @media (max-width: 900px) and (orientation: landscape) {
-  :root { --header-height: 50px; }
+  /* Sidebar fills from top since header is hidden */
+  .mobile-sidebar { top: 0; }
 
-  .glass-header { z-index: 650; }
-
-  .header-inner { padding: 0 12px; gap: 8px; }
-
-  .app-logo-icon {
-    width: 30px;
-    height: 30px;
-    font-size: 13px;
-    border-radius: 8px;
-  }
-
-  .app-name { font-size: 15px; }
+  /* Page content has no header offset */
+  .page-content { min-height: 100vh; }
 
   .app-container { padding: 8px 12px 24px; }
 
-  .tree-wrapper {
-    -webkit-overflow-scrolling: touch;
-  }
+  .tree-wrapper { -webkit-overflow-scrolling: touch; }
+}
+
+/* ── Sidebar profile section ── */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 10px;
+  flex-shrink: 0;
+}
+
+.sidebar-profile-collapsed {
+  justify-content: center;
+  padding: 14px 0 10px;
+}
+
+.sidebar-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #14b8a6 58%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.32);
+}
+
+.sidebar-profile-info {
+  overflow: hidden;
+  flex: 1;
+}
+
+.sidebar-profile-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-profile-email {
+  font-size: 10.5px;
+  color: var(--text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-profile-actions {
+  display: flex;
+  gap: 6px;
+  padding: 0 10px 6px;
+}
+
+.sidebar-profile-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid var(--line-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-light);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.sidebar-profile-btn:hover {
+  background: rgba(37, 99, 235, 0.07);
+  color: var(--text-color);
+  border-color: var(--primary);
+}
+
+.sidebar-profile-btn-danger:hover {
+  background: rgba(239, 68, 68, 0.07);
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 /* Safe-area support for notched phones */

@@ -16,6 +16,8 @@ export default function Header({
   onAddTopic,
   isMobileLandscape,
 }) {
+  if (isMobileLandscape) return null;
+
   const { isDark, toggleTheme } = useContext(ThemeContext);
   const [profileOpen,  setProfileOpen]  = useState(false);
   const [topicDropOpen, setTopicDropOpen] = useState(false);

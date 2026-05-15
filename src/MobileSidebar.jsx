@@ -3,7 +3,7 @@ import {
   ChevronLeft, ChevronRight, Search, Layers, BarChart2,
   ArrowRight, ArrowDown, ZoomIn, ZoomOut, Moon, Sun,
   Download, Laptop, Database, BookOpen, Brain, ChevronDown,
-  Plus, Check,
+  Plus, Check, Settings, LogOut,
 } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 
@@ -57,12 +57,33 @@ export default function MobileSidebar({
 
   return (
     <div className={`mobile-sidebar${isOpen ? "" : " mobile-sidebar-collapsed"}`}>
+      {/* Toggle button */}
       <button className="sidebar-toggle-btn" onClick={onToggle} title={isOpen ? "Collapse" : "Expand"}>
         {isOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
       </button>
 
       <div className="sidebar-inner">
-        {/* Topic selector */}
+
+        {/* ── ACCOUNT ─────────────────────────────── */}
+        <div className={`sidebar-profile${isOpen ? "" : " sidebar-profile-collapsed"}`}>
+          <div className="sidebar-avatar">S</div>
+          {isOpen && (
+            <div className="sidebar-profile-info">
+              <div className="sidebar-profile-name">Sasan</div>
+              <div className="sidebar-profile-email">sasankreddy2211@gmail.com</div>
+            </div>
+          )}
+        </div>
+        {isOpen && (
+          <div className="sidebar-profile-actions">
+            <button className="sidebar-profile-btn"><Settings size={13} /> Settings</button>
+            <button className="sidebar-profile-btn sidebar-profile-btn-danger"><LogOut size={13} /> Sign Out</button>
+          </div>
+        )}
+
+        <div className="sidebar-sep" />
+
+        {/* ── CONTENT SWITCH (topic) ───────────────── */}
         <div className="sidebar-topic-wrap" ref={topicRef}>
           <button
             className="sidebar-item sidebar-item-topic"
@@ -129,7 +150,15 @@ export default function MobileSidebar({
 
         <div className="sidebar-sep" />
 
-        {/* Main actions */}
+        {/* ── BG / THEME TOGGLE ────────────────────── */}
+        <button className="sidebar-item" onClick={toggleTheme} title="Toggle theme">
+          {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          {isOpen && <span className="sidebar-label">{isDark ? "Light Mode" : "Dark Mode"}</span>}
+        </button>
+
+        <div className="sidebar-sep" />
+
+        {/* ── ACTIONS ──────────────────────────────── */}
         <button className="sidebar-item" onClick={onSearch} title="Search (Ctrl+K)">
           <Search size={18} />
           {isOpen && <span className="sidebar-label">Search</span>}
@@ -145,7 +174,7 @@ export default function MobileSidebar({
 
         <div className="sidebar-sep" />
 
-        {/* Layout toggle */}
+        {/* ── LAYOUT ───────────────────────────────── */}
         <button
           className={`sidebar-item${layout === "horizontal" ? " sidebar-item-active" : ""}`}
           onClick={() => onLayoutChange("horizontal")}
@@ -165,7 +194,7 @@ export default function MobileSidebar({
 
         <div className="sidebar-sep" />
 
-        {/* Zoom */}
+        {/* ── ZOOM ─────────────────────────────────── */}
         <div className="sidebar-zoom-group">
           <button
             className="sidebar-item sidebar-zoom-btn"
@@ -188,11 +217,7 @@ export default function MobileSidebar({
 
         <div className="sidebar-sep" />
 
-        {/* Theme, Export, Storage */}
-        <button className="sidebar-item" onClick={toggleTheme} title="Toggle theme">
-          {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          {isOpen && <span className="sidebar-label">Theme</span>}
-        </button>
+        {/* ── EXPORT / STORAGE ─────────────────────── */}
         <button className="sidebar-item" onClick={onExport} title="Export JSON">
           <Download size={18} />
           {isOpen && <span className="sidebar-label">Export</span>}
@@ -203,6 +228,7 @@ export default function MobileSidebar({
             {isOpen && <span className="sidebar-label">{storageMode === "local" ? "Local" : "API"}</span>}
           </button>
         )}
+
       </div>
     </div>
   );

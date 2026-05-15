@@ -497,6 +497,7 @@ export default function App() {
               className="page-content"
               style={isMobileLandscape ? {
                 marginLeft: sidebarOpen ? "180px" : "52px",
+                marginTop: 0,
                 transition: "margin-left 0.22s cubic-bezier(0.4,0,0.2,1)"
               } : {}}
             >
