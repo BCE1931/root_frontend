@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle, Play, Pause, Clock, Send } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, Edit2, Check, X, CheckCircle2, Circle, Play, Pause, Clock, Send, MessageCircle } from "lucide-react";
 import { Sparkles, RefreshCw, ChevronLeft, ChevronRight, Cpu, Hash } from "lucide-react";
+
+const DIFF_LEVELS = ["easy", "medium", "hard"];
+const DIFF_COLORS = { easy: "#10b981", medium: "#f59e0b", hard: "#ef4444" };
+function getNodeDifficulty(id) { try { return localStorage.getItem(`node_diff_${id}`) || ""; } catch { return ""; } }
+function setNodeDifficulty(id, d) { try { localStorage.setItem(`node_diff_${id}`, d); } catch {} }
 import { ThemeContext } from "./ThemeContext";
 import { askAiAboutTopic, getAiProvider } from "./aiService";
 import * as storage from "./storage/index.js";
@@ -267,8 +272,11 @@ export default function NodeDetail({
 }) {
   const { isDark } = useContext(ThemeContext);
   const { nodeId } = useParams();
+  const navigate   = useNavigate();
   const node = findNodeById(treeData, nodeId);
   const parentPath = findParentPath(treeData, nodeId);
+
+  const [difficulty, setDifficulty] = useState(() => getNodeDifficulty(nodeId));
 
   const [isEditingDesc, setIsEditingDesc]       = useState(false);
   const [editedDescription, setEditedDescription] = useState(node?.description || "");
@@ -436,6 +444,33 @@ export default function NodeDetail({
                 </button>
               )}
             </div>
+          </div>
+
+          {/* Difficulty + Ask in Chat */}
+          <div className="detail-meta-row">
+            <div className="detail-diff-group">
+              <span className="detail-diff-label">Difficulty:</span>
+              {DIFF_LEVELS.map(d => (
+                <button
+                  key={d}
+                  className={`detail-diff-btn${difficulty === d ? " active" : ""}`}
+                  style={difficulty === d ? { background: DIFF_COLORS[d], color: "#fff", borderColor: DIFF_COLORS[d] } : {}}
+                  onClick={() => { const next = difficulty === d ? "" : d; setDifficulty(next); setNodeDifficulty(nodeId, next); }}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+            <button
+              className="detail-chat-btn"
+              onClick={() => {
+                localStorage.setItem("pending_chat_context", JSON.stringify({ nodeId, nodeName: node.text }));
+                navigate("/?openChat=1");
+              }}
+              title="Ask AI about this topic in chat"
+            >
+              <MessageCircle size={14} /> Ask in Chat
+            </button>
           </div>
 
           {/* Description section */}

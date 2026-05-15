@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   Bot, X, Plus, Send, Trash2, History,
-  MessageSquare, AlertCircle, Loader2, ChevronLeft,
+  MessageSquare, AlertCircle, Loader2, ChevronLeft, Bookmark, BookmarkCheck, Pencil,
 } from "lucide-react";
 import { chatWithAi, getAiProvider, getChatModelPuter, getChatModelOpenRouter } from "./aiService";
 import { getMode, getBackendUrl } from "./storage/index.js";
@@ -111,6 +111,9 @@ function activeModelLabel() {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
+function getPinnedNotes() { try { return JSON.parse(localStorage.getItem("ai_pinned_notes") || "[]"); } catch { return []; } }
+function savePinnedNotes(notes) { localStorage.setItem("ai_pinned_notes", JSON.stringify(notes)); }
+
 export default function AiChatPanel({ open: propOpen, onOpenChange }) {
   const [localOpen, setLocalOpen] = useState(false);
   const open    = propOpen    !== undefined ? propOpen    : localOpen;
@@ -126,6 +129,9 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
   const [showConfirm,   setShowConfirm]   = useState(false);
   const [pendingDelete, setPendingDelete] = useState(null);
   const [loadingMsgs,   setLoadingMsgs]   = useState(false);
+  const [pinnedIds,     setPinnedIds]     = useState(() => new Set(getPinnedNotes().map(n => n.id)));
+  const [editingConvId, setEditingConvId] = useState(null);
+  const [editingTitle,  setEditingTitle]  = useState("");
 
   const bottomRef = useRef(null);
   const inputRef  = useRef(null);
@@ -134,6 +140,25 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
   useEffect(() => {
     if (!open) return;
     loadConversations();
+    // Check for pending context from NodeDetail "Ask in Chat"
+    try {
+      const ctx = localStorage.getItem("pending_chat_context");
+      if (ctx) {
+        const { nodeName } = JSON.parse(ctx);
+        localStorage.removeItem("pending_chat_context");
+        if (nodeName) {
+          setTimeout(() => {
+            if (inputRef.current) {
+              const text = `Tell me about: ${nodeName}`;
+              setInput(text);
+              inputRef.current.focus();
+              inputRef.current.style.height = "auto";
+              inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 180) + "px";
+            }
+          }, 200);
+        }
+      }
+    } catch {}
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function loadConversations() {
@@ -241,6 +266,24 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
     backendPatch(`/chats/${id}`, { title });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Manual rename ─────────────────────────────────────────────────────────
+  const startRename = (id, currentTitle) => {
+    setEditingConvId(id);
+    setEditingTitle(currentTitle);
+  };
+
+  const saveRename = useCallback((id) => {
+    const title = (editingTitle || "").trim() || "New Conversation";
+    const updated = getLocalConvs().map(c => c.id === id ? { ...c, title } : c);
+    saveLocalConvs(updated);
+    setConversations(updated);
+    backendPatch(`/chats/${id}`, { title });
+    setEditingConvId(null);
+    setEditingTitle("");
+  }, [editingTitle]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const cancelRename = () => { setEditingConvId(null); setEditingTitle(""); };
+
   // ── Send ──────────────────────────────────────────────────────────────────
   const handleSend = useCallback(async () => {
     const text = input.trim();
@@ -336,6 +379,20 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
     }, 0);
   };
 
+  const handlePinMessage = useCallback((msg) => {
+    const notes = getPinnedNotes();
+    const alreadyPinned = notes.some(n => n.id === msg.id);
+    let updated;
+    if (alreadyPinned) {
+      updated = notes.filter(n => n.id !== msg.id);
+      setPinnedIds(prev => { const s = new Set(prev); s.delete(msg.id); return s; });
+    } else {
+      updated = [{ id: msg.id, content: msg.content, model: msg.model, pinnedAt: new Date().toISOString() }, ...notes];
+      setPinnedIds(prev => new Set([...prev, msg.id]));
+    }
+    savePinnedNotes(updated);
+  }, []);
+
   return (
     <>
       {/* ── FAB ── */}
@@ -351,10 +408,35 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
       {/* ── Panel ── */}
       <div className={`aichat-panel${open ? " aichat-panel-open" : ""}`}>
 
-        {/* Header — minimal, icon + actions only */}
+        {/* Header — icon + editable conversation title + actions */}
         <div className="aichat-header">
           <div className="aichat-header-brand">
             <div className="aichat-header-avatar"><Bot size={14} /></div>
+            {activeConv && (
+              editingConvId === activeId && !showHistory ? (
+                <input
+                  className="aichat-conv-name-input"
+                  value={editingTitle}
+                  onChange={e => setEditingTitle(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === "Enter")  saveRename(activeId);
+                    if (e.key === "Escape") cancelRename();
+                  }}
+                  onBlur={() => saveRename(activeId)}
+                  autoFocus
+                  maxLength={80}
+                />
+              ) : (
+                <button
+                  className="aichat-conv-title-btn"
+                  onClick={() => startRename(activeId, activeConv.title)}
+                  title="Rename conversation"
+                >
+                  <span className="aichat-conv-title-text">{activeConv.title}</span>
+                  <Pencil size={10} className="aichat-conv-title-pencil" />
+                </button>
+              )
+            )}
           </div>
           <div className="aichat-header-actions">
             <button
@@ -393,20 +475,46 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
                 <button className="aichat-history-item-btn" onClick={() => switchConvById(c.id)}>
                   <MessageSquare size={13} className="aichat-history-item-icon" />
                   <div className="aichat-history-item-info">
-                    <span className="aichat-history-item-title">{c.title}</span>
+                    {editingConvId === c.id ? (
+                      <input
+                        className="aichat-conv-name-input aichat-conv-name-input-list"
+                        value={editingTitle}
+                        onChange={e => setEditingTitle(e.target.value)}
+                        onKeyDown={e => {
+                          e.stopPropagation();
+                          if (e.key === "Enter")  saveRename(c.id);
+                          if (e.key === "Escape") cancelRename();
+                        }}
+                        onBlur={() => saveRename(c.id)}
+                        onClick={e => e.stopPropagation()}
+                        autoFocus
+                        maxLength={80}
+                      />
+                    ) : (
+                      <span className="aichat-history-item-title">{c.title}</span>
+                    )}
                     <span className="aichat-history-item-meta">
                       {c.messageCount > 0 ? `${c.messageCount} messages · ` : ""}
                       {timeAgo(c.updatedAt || c.createdAt)}
                     </span>
                   </div>
                 </button>
-                <button
-                  className="aichat-conv-del"
-                  onClick={e => { e.stopPropagation(); setPendingDelete(c.id); }}
-                  title="Delete"
-                >
-                  <Trash2 size={12} />
-                </button>
+                <div className="aichat-conv-actions">
+                  <button
+                    className="aichat-conv-edit"
+                    onClick={e => { e.stopPropagation(); startRename(c.id, c.title); }}
+                    title="Rename"
+                  >
+                    <Pencil size={12} />
+                  </button>
+                  <button
+                    className="aichat-conv-del"
+                    onClick={e => { e.stopPropagation(); setPendingDelete(c.id); }}
+                    title="Delete"
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -447,8 +555,17 @@ export default function AiChatPanel({ open: propOpen, onOpenChange }) {
                       ? <ChatText text={msg.content} />
                       : <p className="chat-md-p">{msg.content}</p>
                     }
-                    {msg.role === "assistant" && msg.model && (
-                      <div className="aichat-msg-model">{msg.model}</div>
+                    {msg.role === "assistant" && (
+                      <div className="aichat-msg-footer">
+                        {msg.model && <div className="aichat-msg-model">{msg.model}</div>}
+                        <button
+                          className={`aichat-pin-btn${pinnedIds.has(msg.id) ? " pinned" : ""}`}
+                          onClick={() => handlePinMessage(msg)}
+                          title={pinnedIds.has(msg.id) ? "Unpin note" : "Pin as note"}
+                        >
+                          {pinnedIds.has(msg.id) ? <BookmarkCheck size={11} /> : <Bookmark size={11} />}
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>

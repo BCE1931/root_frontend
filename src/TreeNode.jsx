@@ -93,14 +93,16 @@ export default function TreeNode({
             </span>
 
             <div className="node-actions">
-              {/* Completion */}
-              <button
-                className={`btn-complete${node.completed ? " btn-complete-done" : ""}`}
-                onClick={() => onToggleComplete(node.id)}
-                title={node.completed ? "Mark incomplete" : "Mark complete"}
-              >
-                {node.completed ? <CheckCircle2 size={14} /> : <Circle size={14} />}
-              </button>
+              {/* Completion — only for user-created nodes */}
+              {!isRoot && !node.protected && (
+                <button
+                  className={`btn-complete${node.completed ? " btn-complete-done" : ""}`}
+                  onClick={() => onToggleComplete(node.id)}
+                  title={node.completed ? "Mark incomplete" : "Mark complete"}
+                >
+                  {node.completed ? <CheckCircle2 size={14} /> : <Circle size={14} />}
+                </button>
+              )}
 
               {/* Tag picker */}
               {onUpdateTag && (

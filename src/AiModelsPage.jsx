@@ -167,238 +167,186 @@ export default function AiModelsPage() {
         <Toast toast={toast} />
       </div>
 
-      <div className="amp-body">
+      <div className="amp-layout">
 
-        {/* ── Provider cards ── */}
-        <section className="amp-section">
-          <h2 className="amp-section-title"><Zap size={15} /> Choose AI Provider</h2>
-          <p className="amp-section-sub">Powers both the "Ask AI" button on node pages and the floating AI Chat panel.</p>
+        {/* ── LEFT PANEL ── */}
+        <div className="amp-left">
 
-          <div className="amp-provider-grid">
-            {PROVIDERS.map(p => {
-              const isActive = provider === p.id;
-              return (
-                <button
-                  key={p.id}
-                  className={`amp-provider-card${isActive ? " amp-provider-card-active" : ""}`}
-                  style={{ "--pcolor": p.color }}
-                  onClick={() => switchProvider(p.id)}
-                >
-                  <div className="amp-card-header">
+          {/* Provider picker */}
+          <section className="amp-section">
+            <h2 className="amp-section-title"><Zap size={15} /> Choose AI Provider</h2>
+            <p className="amp-section-sub">Powers "Ask AI" on node pages and the AI Chat panel.</p>
+            <div className="amp-provider-grid">
+              {PROVIDERS.map(p => {
+                const isActive = provider === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    className={`amp-provider-card${isActive ? " amp-provider-card-active" : ""}`}
+                    style={{ "--pcolor": p.color }}
+                    onClick={() => switchProvider(p.id)}
+                  >
                     <div className="amp-card-icon" style={{ background: `${p.color}18`, color: p.color }}>
-                      <p.Icon size={22} />
+                      <p.Icon size={20} />
                     </div>
-                    <span className="amp-badge" style={{ background: `${p.badgeColor}18`, color: p.badgeColor }}>
-                      {p.badge}
-                    </span>
+                    <div className="amp-card-text">
+                      <div className="amp-card-name">{p.name}</div>
+                      <div className="amp-card-tagline">{p.tagline}</div>
+                    </div>
+                    <div className="amp-card-right">
+                      <span className="amp-badge" style={{ background: `${p.badgeColor}18`, color: p.badgeColor }}>
+                        {p.badge}
+                      </span>
+                      {isActive && <div className="amp-card-check"><Check size={11} /> Active</div>}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Free model reference */}
+          <section className="amp-section">
+            <h2 className="amp-section-title"><Sparkles size={15} /> Free Model Reference</h2>
+            <p className="amp-section-sub">All models available to use right now.</p>
+            <div className="amp-ref-list">
+              {FREE_MODELS.map(m => (
+                <div key={m.name} className="amp-ref-item">
+                  <div className="amp-ref-item-top">
+                    <code className="amp-ref-code">{m.name}</code>
+                    <div className="amp-ref-badges">
+                      <span className="amp-ref-via-badge">{m.via}</span>
+                      <span className="amp-ref-ctx-badge">{m.ctx}</span>
+                      {m.tag && <span className="amp-ref-tag">{m.tag}</span>}
+                    </div>
                   </div>
-                  <div className="amp-card-name">{p.name}</div>
-                  <div className="amp-card-tagline">{p.tagline}</div>
-                  {isActive && (
-                    <div className="amp-card-check">
-                      <Check size={13} /> Active
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ── Active provider details ── */}
-        <section className="amp-section amp-detail-section" style={{ "--pcolor": active.color }}>
-          <div className="amp-detail-header">
-            <div className="amp-detail-icon" style={{ background: `${active.color}14`, color: active.color }}>
-              <active.Icon size={24} />
-            </div>
-            <div>
-              <h2 className="amp-detail-name">{active.name}</h2>
-              <p className="amp-detail-desc">{active.description}</p>
-            </div>
-          </div>
-
-          <div className="amp-detail-grid">
-            <div className="amp-detail-card">
-              <Globe size={14} style={{ color: active.color }} />
-              <div>
-                <div className="amp-dc-label">Context Window</div>
-                <div className="amp-dc-val">{active.context}</div>
-              </div>
-            </div>
-            <div className="amp-detail-card">
-              <Shield size={14} style={{ color: active.color }} />
-              <div>
-                <div className="amp-dc-label">Pricing</div>
-                <div className="amp-dc-val">{active.cost}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="amp-best-for">
-            <div className="amp-best-label"><Sparkles size={13} /> Best for</div>
-            <div className="amp-best-list">
-              {active.bestFor.map(b => (
-                <span key={b} className="amp-best-item"><Check size={11} /> {b}</span>
+                  <div className="amp-ref-desc">{m.best}</div>
+                </div>
               ))}
             </div>
-          </div>
+          </section>
 
-          {/* Config */}
-          <div className="amp-config-block">
-            <p className="amp-config-note">{active.configNote}</p>
+        </div>
 
-            {active.id === "gemini" && (
-              <div className="amp-field-group">
-                <label className="amp-field-label">{active.keyLabel}</label>
-                <div className="amp-field-row">
-                  <KeyInput
-                    value={geminiKey}
-                    onChange={e => setGeminiKeyState(e.target.value)}
-                    placeholder={active.keyPlaceholder}
-                    show={showGKey}
-                    onToggleShow={() => setShowGKey(v => !v)}
-                  />
-                  <button className="amp-save-btn" onClick={() => { setGeminiKey(geminiKey.trim()); flash("Gemini key saved"); }}>
-                    <Check size={15} /> Save
-                  </button>
-                </div>
-                {!geminiKey && (
-                  <p className="amp-warn"><AlertTriangle size={12} /> No key set — Ask AI will fail until you add a valid key.</p>
-                )}
+        {/* ── RIGHT PANEL ── */}
+        <div className="amp-right">
+
+          {/* Active provider details + config */}
+          <section className="amp-section amp-detail-section" style={{ "--pcolor": active.color }}>
+            <div className="amp-detail-header">
+              <div className="amp-detail-icon" style={{ background: `${active.color}14`, color: active.color }}>
+                <active.Icon size={24} />
               </div>
-            )}
+              <div>
+                <h2 className="amp-detail-name">{active.name}</h2>
+                <p className="amp-detail-desc">{active.description}</p>
+              </div>
+            </div>
 
-            {active.id === "openrouter" && (
-              <>
+            <div className="amp-detail-grid">
+              <div className="amp-detail-card">
+                <Globe size={14} style={{ color: active.color }} />
+                <div>
+                  <div className="amp-dc-label">Context Window</div>
+                  <div className="amp-dc-val">{active.context}</div>
+                </div>
+              </div>
+              <div className="amp-detail-card">
+                <Shield size={14} style={{ color: active.color }} />
+                <div>
+                  <div className="amp-dc-label">Pricing</div>
+                  <div className="amp-dc-val">{active.cost}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="amp-best-for">
+              <div className="amp-best-label"><Sparkles size={13} /> Best for</div>
+              <div className="amp-best-list">
+                {active.bestFor.map(b => (
+                  <span key={b} className="amp-best-item"><Check size={11} /> {b}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="amp-config-block">
+              <p className="amp-config-note">{active.configNote}</p>
+              {active.id === "gemini" && (
                 <div className="amp-field-group">
                   <label className="amp-field-label">{active.keyLabel}</label>
                   <div className="amp-field-row">
-                    <KeyInput
-                      value={orKey}
-                      onChange={e => setOrKeyState(e.target.value)}
-                      placeholder={active.keyPlaceholder}
-                      show={showOrKey}
-                      onToggleShow={() => setShowOrKey(v => !v)}
-                    />
-                    <button className="amp-save-btn" onClick={() => { setOpenRouterKey(orKey.trim()); flash("OpenRouter key saved"); }}>
-                      <Check size={15} /> Save
-                    </button>
+                    <KeyInput value={geminiKey} onChange={e => setGeminiKeyState(e.target.value)} placeholder={active.keyPlaceholder} show={showGKey} onToggleShow={() => setShowGKey(v => !v)} />
+                    <button className="amp-save-btn" onClick={() => { setGeminiKey(geminiKey.trim()); flash("Gemini key saved"); }}><Check size={15} /> Save</button>
                   </div>
-                  {!orKey && (
-                    <p className="amp-warn"><AlertTriangle size={12} /> No key set — Ask AI will fail until you add a valid key.</p>
-                  )}
+                  {!geminiKey && <p className="amp-warn"><AlertTriangle size={12} /> No key set — Ask AI will fail.</p>}
                 </div>
-                <div className="amp-field-group">
-                  <label className="amp-field-label">{active.modelLabel} <span className="amp-field-hint">for Ask AI on node pages</span></label>
-                  <div className="amp-field-row">
-                    <input className="amp-input" type="text" value={orModel} onChange={e => setOrModelState(e.target.value)} placeholder={active.modelPlaceholder} />
-                    <button className="amp-save-btn" onClick={() => { setOpenRouterModel(orModel.trim()); flash("Model saved"); }}>
-                      <Check size={15} /> Save
-                    </button>
+              )}
+              {active.id === "openrouter" && (
+                <>
+                  <div className="amp-field-group">
+                    <label className="amp-field-label">{active.keyLabel}</label>
+                    <div className="amp-field-row">
+                      <KeyInput value={orKey} onChange={e => setOrKeyState(e.target.value)} placeholder={active.keyPlaceholder} show={showOrKey} onToggleShow={() => setShowOrKey(v => !v)} />
+                      <button className="amp-save-btn" onClick={() => { setOpenRouterKey(orKey.trim()); flash("OpenRouter key saved"); }}><Check size={15} /> Save</button>
+                    </div>
+                    {!orKey && <p className="amp-warn"><AlertTriangle size={12} /> No key set — Ask AI will fail.</p>}
                   </div>
+                  <div className="amp-field-group">
+                    <label className="amp-field-label">{active.modelLabel} <span className="amp-field-hint">for Ask AI on node pages</span></label>
+                    <div className="amp-field-row">
+                      <input className="amp-input" type="text" value={orModel} onChange={e => setOrModelState(e.target.value)} placeholder={active.modelPlaceholder} />
+                      <button className="amp-save-btn" onClick={() => { setOpenRouterModel(orModel.trim()); flash("Model saved"); }}><Check size={15} /> Save</button>
+                    </div>
+                  </div>
+                </>
+              )}
+              {active.id === "puter" && (
+                <div className="amp-puter-note"><Check size={14} style={{ color: "#10b981" }} /> Ready to use — no configuration required.</div>
+              )}
+            </div>
+          </section>
+
+          {/* Chat panel models */}
+          <section className="amp-section">
+            <h2 className="amp-section-title"><MessageSquare size={15} /> AI Chat Panel Models</h2>
+            <p className="amp-section-sub">The floating chat button uses these for multi-turn conversations — separate from Ask AI on node pages.</p>
+            <div className="amp-chat-models-grid">
+              <div className="amp-chat-model-card">
+                <div className="amp-cm-header">
+                  <Bot size={16} style={{ color: "#6366f1" }} />
+                  <span className="amp-cm-title">Puter Chat Model</span>
+                  <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
                 </div>
-              </>
-            )}
-
-            {active.id === "puter" && (
-              <div className="amp-puter-note">
-                <Check size={14} style={{ color: "#10b981" }} />
-                Ready to use — no configuration required.
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* ── Chat panel models ── */}
-        <section className="amp-section">
-          <h2 className="amp-section-title"><MessageSquare size={15} /> AI Chat Panel Models</h2>
-          <p className="amp-section-sub">
-            The floating <strong>AI Chat</strong> button uses these for multi-turn conversations.
-            These are separate from the Ask AI feature on node pages.
-          </p>
-
-          <div className="amp-chat-models-grid">
-            {/* Puter chat model */}
-            <div className="amp-chat-model-card">
-              <div className="amp-cm-header">
-                <Bot size={16} style={{ color: "#6366f1" }} />
-                <span className="amp-cm-title">Puter Chat Model</span>
-                <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
-              </div>
-              <div className="amp-cm-quickpick">
-                {PROVIDERS[0].chatModels.map(m => (
-                  <button
-                    key={m.id}
-                    className={`amp-cm-pill${chatPuter === m.id ? " active" : ""}`}
-                    onClick={() => { setChatModelPuter(m.id); setChatPuterState(m.id); flash(`Puter chat → ${m.label}`); }}
-                    title={m.note}
-                  >
-                    {m.label}
-                  </button>
-                ))}
-              </div>
-              <div className="amp-field-row" style={{ marginTop: 10 }}>
-                <input className="amp-input" type="text" value={chatPuter} onChange={e => setChatPuterState(e.target.value)} placeholder="e.g. gpt-4o" />
-                <button className="amp-save-btn" onClick={() => { setChatModelPuter(chatPuter.trim()); flash("Puter chat model saved"); }}>
-                  <Check size={15} /> Save
-                </button>
-              </div>
-            </div>
-
-            {/* OpenRouter chat model */}
-            <div className="amp-chat-model-card">
-              <div className="amp-cm-header">
-                <Key size={16} style={{ color: "#8b5cf6" }} />
-                <span className="amp-cm-title">OpenRouter Chat Model</span>
-                <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
-              </div>
-              <div className="amp-cm-quickpick">
-                {PROVIDERS[2].chatModels.map(m => (
-                  <button
-                    key={m.id}
-                    className={`amp-cm-pill${chatOr === m.id ? " active" : ""}`}
-                    onClick={() => { setChatModelOpenRouter(m.id); setChatOrState(m.id); flash(`OpenRouter chat → ${m.label}`); }}
-                    title={m.note}
-                  >
-                    {m.label}
-                  </button>
-                ))}
-              </div>
-              <div className="amp-field-row" style={{ marginTop: 10 }}>
-                <input className="amp-input" type="text" value={chatOr} onChange={e => setChatOrState(e.target.value)} placeholder="deepseek/deepseek-chat:free" />
-                <button className="amp-save-btn" onClick={() => { setChatModelOpenRouter(chatOr.trim()); flash("OpenRouter chat model saved"); }}>
-                  <Check size={15} /> Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Free model reference ── */}
-        <section className="amp-section">
-          <h2 className="amp-section-title"><Sparkles size={15} /> Free Model Reference</h2>
-          <p className="amp-section-sub">Copy any model ID above to use it.</p>
-          <div className="amp-ref-table">
-            <div className="amp-ref-thead">
-              <span>Model</span>
-              <span>Via</span>
-              <span>Context</span>
-              <span>Best for</span>
-            </div>
-            {FREE_MODELS.map(m => (
-              <div key={m.name} className="amp-ref-row">
-                <div className="amp-ref-name">
-                  <code>{m.name}</code>
-                  {m.tag && <span className="amp-ref-tag">{m.tag}</span>}
+                <div className="amp-cm-quickpick">
+                  {PROVIDERS[0].chatModels.map(m => (
+                    <button key={m.id} className={`amp-cm-pill${chatPuter === m.id ? " active" : ""}`} onClick={() => { setChatModelPuter(m.id); setChatPuterState(m.id); flash(`Puter chat → ${m.label}`); }} title={m.note}>{m.label}</button>
+                  ))}
                 </div>
-                <span className="amp-ref-via">{m.via}</span>
-                <span className="amp-ref-ctx">{m.ctx}</span>
-                <span className="amp-ref-best">{m.best}</span>
+                <div className="amp-field-row" style={{ marginTop: 10 }}>
+                  <input className="amp-input" type="text" value={chatPuter} onChange={e => setChatPuterState(e.target.value)} placeholder="e.g. gpt-4o" />
+                  <button className="amp-save-btn" onClick={() => { setChatModelPuter(chatPuter.trim()); flash("Saved"); }}><Check size={15} /> Save</button>
+                </div>
               </div>
-            ))}
-          </div>
-        </section>
+              <div className="amp-chat-model-card">
+                <div className="amp-cm-header">
+                  <Key size={16} style={{ color: "#8b5cf6" }} />
+                  <span className="amp-cm-title">OpenRouter Chat Model</span>
+                  <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
+                </div>
+                <div className="amp-cm-quickpick">
+                  {PROVIDERS[2].chatModels.map(m => (
+                    <button key={m.id} className={`amp-cm-pill${chatOr === m.id ? " active" : ""}`} onClick={() => { setChatModelOpenRouter(m.id); setChatOrState(m.id); flash(`OpenRouter → ${m.label}`); }} title={m.note}>{m.label}</button>
+                  ))}
+                </div>
+                <div className="amp-field-row" style={{ marginTop: 10 }}>
+                  <input className="amp-input" type="text" value={chatOr} onChange={e => setChatOrState(e.target.value)} placeholder="deepseek/deepseek-chat:free" />
+                  <button className="amp-save-btn" onClick={() => { setChatModelOpenRouter(chatOr.trim()); flash("Saved"); }}><Check size={15} /> Save</button>
+                </div>
+              </div>
+            </div>
+          </section>
 
+        </div>
       </div>
     </div>
   );

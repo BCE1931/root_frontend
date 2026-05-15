@@ -11,6 +11,8 @@ import { Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ChevronLeft, ChevronRight, ArrowRight, ArrowDown, Smartphone, RotateCcw } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import PomodoroWidget from "./PomodoroWidget";
 import TreeNode from "./TreeNode";
 import NodeDetail from "./NodeDetail";
 import Header from "./Header";
@@ -52,6 +54,16 @@ function RotateOverlay() {
 
 export default function App() {
   const { isDark } = useContext(ThemeContext);
+  const location = useLocation();
+
+  // Handle ?openChat=1 from NodeDetail "Ask in Chat"
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("openChat") === "1") {
+      setChatOpen(true);
+      window.history.replaceState({}, "", "/");
+    }
+  }, [location.search]); // eslint-disable-line react-hooks/exhaustive-deps
   const treeWrapperRef = useRef(null);
   const scrollUpdateFrameRef = useRef(null);
 
@@ -502,6 +514,7 @@ export default function App() {
   return (
     <>
     <AiChatPanel open={chatOpen} onOpenChange={setChatOpen} />
+    <PomodoroWidget />
     <Routes>
       <Route
         path="/"
