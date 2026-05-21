@@ -56,7 +56,7 @@ export function setMode(mode) {
   localStorage.setItem(MODE_KEY, mode);
 }
 export function getBackendUrl() {
-  return localStorage.getItem(URL_KEY) || "http://localhost:8080/api";
+  return localStorage.getItem(URL_KEY) || "https://root-backend-2.onrender.com/api";
 }
 export function setBackendUrl(url) {
   localStorage.setItem(URL_KEY, url);

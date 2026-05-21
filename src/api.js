@@ -1,4 +1,4 @@
-const BASE = "http://localhost:8080/api";
+const BASE = "https://root-backend-2.onrender.com/api";
 
 export async function fetchNodes() {
   const res = await fetch(`${BASE}/nodes`);

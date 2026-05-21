@@ -1,5 +1,5 @@
 // Backend store — talks to Spring Boot REST API at /api/*
-let BASE = "http://localhost:8080/api";
+let BASE = "https://root-backend-2.onrender.com/api";
 
 export function setBaseUrl(url) {
   BASE = url.replace(/\/$/, "");
