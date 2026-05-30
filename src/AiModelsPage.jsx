@@ -12,10 +12,33 @@ import {
   getOpenRouterModel, setOpenRouterModel,
   getChatModelPuter, setChatModelPuter,
   getChatModelOpenRouter, setChatModelOpenRouter,
+  getPollinationsModel, setPollinationsModel,
 } from "./aiService.js";
 
 // ── Provider definitions ────────────────────────────────────────────────────
 const PROVIDERS = [
+  {
+    id:          "pollinations",
+    Icon:        Zap,
+    color:       "#10b981",
+    name:        "Pollinations AI",
+    tagline:     "Zero signup · Zero API key · Always free",
+    badge:       "NO SIGNUP",
+    badgeColor:  "#10b981",
+    description: "Pollinations gives you instant access to GPT-4o, Llama 3.3 70B, Mistral, and DeepSeek R1 — completely free, no account needed. Best choice for diet & gym AI coaching.",
+    bestFor:     ["Diet & gym AI coaching", "No signup needed", "Instant setup", "Health & fitness advice (Llama)"],
+    context:     "128k tokens",
+    cost:        "Always free — no account or card",
+    configNote:  "No configuration required. Just pick your preferred model below and start using.",
+    needsKey:    false,
+    chatModels:  [
+      { id: "openai",            label: "GPT-4o mini",        note: "Fast, reliable — default"     },
+      { id: "openai-large",      label: "GPT-4o",             note: "Best quality — recommended for fitness" },
+      { id: "llama",             label: "Llama 3.3 70B",      note: "Best for health & fitness advice" },
+      { id: "mistral",           label: "Mistral Nemo",       note: "Good general purpose"         },
+      { id: "deepseek-reasoner", label: "DeepSeek R1",        note: "Chain-of-thought reasoning"   },
+    ],
+  },
   {
     id:          "puter",
     Icon:        Bot,
@@ -84,14 +107,16 @@ const PROVIDERS = [
 
 // ── Free model reference data ───────────────────────────────────────────────
 const FREE_MODELS = [
-  { name: "gpt-4o",                                 via: "Puter",      ctx: "128k", best: "Best overall free chat, general Q&A",      tag: "⭐ Top pick" },
-  { name: "deepseek/deepseek-chat-v3-0324:free",    via: "OpenRouter", ctx: "128k", best: "Best free long-context reasoning, coding",  tag: "⭐ Top pick" },
-  { name: "deepseek/deepseek-r1:free",              via: "OpenRouter", ctx: "64k",  best: "Chain-of-thought reasoning, math, logic",    tag: "Reasoning" },
-  { name: "google/gemini-2.0-flash-exp:free",       via: "OpenRouter", ctx: "1M",   best: "Ultra-long context, code, multimodal",      tag: "1M context" },
-  { name: "meta-llama/llama-3.3-70b-instruct:free", via: "OpenRouter", ctx: "128k", best: "Reliable open-source, good for teaching",   tag: "" },
-  { name: "microsoft/phi-4-reasoning:free",         via: "OpenRouter", ctx: "16k",  best: "Logic, math, step-by-step reasoning",       tag: "" },
-  { name: "mistral-large-latest",                   via: "Puter",      ctx: "128k", best: "Current Ask AI default, solid quality",     tag: "" },
-  { name: "gemini-2.0-flash-lite",                  via: "Gemini API", ctx: "1M",   best: "Structured explanations, fast responses",   tag: "" },
+  { name: "llama (Llama 3.3 70B)",    via: "Pollinations", ctx: "128k", best: "Best for diet & gym fitness advice — no signup",     tag: "🏋️ Fitness AI" },
+  { name: "openai-large (GPT-4o)",    via: "Pollinations", ctx: "128k", best: "Best overall quality — no signup required",         tag: "⭐ Top pick" },
+  { name: "openai (GPT-4o mini)",     via: "Pollinations", ctx: "128k", best: "Fast, free, no signup — great for daily tracking",  tag: "No signup" },
+  { name: "deepseek-reasoner (R1)",   via: "Pollinations", ctx: "64k",  best: "Reasoning model, detailed health analysis",         tag: "No signup" },
+  { name: "gpt-4o",                                 via: "Puter",      ctx: "128k", best: "Free via Puter (needs Google login)",         tag: "" },
+  { name: "deepseek/deepseek-chat-v3-0324:free",    via: "OpenRouter", ctx: "128k", best: "Best free long-context reasoning, coding",    tag: "" },
+  { name: "deepseek/deepseek-r1:free",              via: "OpenRouter", ctx: "64k",  best: "Chain-of-thought reasoning, math, logic",     tag: "Reasoning" },
+  { name: "google/gemini-2.0-flash-exp:free",       via: "OpenRouter", ctx: "1M",   best: "Ultra-long context, code, multimodal",        tag: "1M context" },
+  { name: "meta-llama/llama-3.3-70b-instruct:free", via: "OpenRouter", ctx: "128k", best: "Reliable open-source, good for teaching",     tag: "" },
+  { name: "gemini-2.0-flash-lite",                  via: "Gemini API", ctx: "1M",   best: "Structured explanations, fast responses",     tag: "" },
 ];
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -126,15 +151,16 @@ function Toast({ toast }) {
 export default function AiModelsPage() {
   const navigate = useNavigate();
 
-  const [provider,    setProviderState]   = useState(getAiProvider);
-  const [geminiKey,   setGeminiKeyState]  = useState(getGeminiKey);
-  const [showGKey,    setShowGKey]        = useState(false);
-  const [orKey,       setOrKeyState]      = useState(getOpenRouterKey);
-  const [showOrKey,   setShowOrKey]       = useState(false);
-  const [orModel,     setOrModelState]    = useState(getOpenRouterModel);
-  const [chatPuter,   setChatPuterState]  = useState(getChatModelPuter);
-  const [chatOr,      setChatOrState]     = useState(getChatModelOpenRouter);
-  const [toast,       setToast]           = useState(null);
+  const [provider,       setProviderState]      = useState(getAiProvider);
+  const [geminiKey,      setGeminiKeyState]     = useState(getGeminiKey);
+  const [showGKey,       setShowGKey]           = useState(false);
+  const [orKey,          setOrKeyState]         = useState(getOpenRouterKey);
+  const [showOrKey,      setShowOrKey]          = useState(false);
+  const [orModel,        setOrModelState]       = useState(getOpenRouterModel);
+  const [chatPuter,      setChatPuterState]     = useState(getChatModelPuter);
+  const [chatOr,         setChatOrState]        = useState(getChatModelOpenRouter);
+  const [pollModel,      setPollModelState]     = useState(getPollinationsModel);
+  const [toast,          setToast]              = useState(null);
 
   function flash(msg, type = "ok") {
     setToast({ msg, type });
@@ -144,7 +170,7 @@ export default function AiModelsPage() {
   function switchProvider(p) {
     setAiProvider(p);
     setProviderState(p);
-    const labels = { puter: "Puter / GPT-4o", gemini: "Google Gemini", openrouter: "OpenRouter" };
+    const labels = { pollinations: "Pollinations AI", puter: "Puter / GPT-4o", gemini: "Google Gemini", openrouter: "OpenRouter" };
     flash(`Provider switched to ${labels[p]}`);
   }
 
@@ -297,6 +323,26 @@ export default function AiModelsPage() {
                       <input className="amp-input" type="text" value={orModel} onChange={e => setOrModelState(e.target.value)} placeholder={active.modelPlaceholder} />
                       <button className="amp-save-btn" onClick={() => { setOpenRouterModel(orModel.trim()); flash("Model saved"); }}><Check size={15} /> Save</button>
                     </div>
+                  </div>
+                </>
+              )}
+              {active.id === "pollinations" && (
+                <>
+                  <div className="amp-puter-note"><Check size={14} style={{ color: "#10b981" }} /> Ready — no key needed. Pick a model below.</div>
+                  <div className="amp-field-group" style={{ marginTop: 12 }}>
+                    <label className="amp-field-label">Model <span className="amp-field-hint">used for Diet AI, Gym AI, and Chat</span></label>
+                    <div className="amp-cm-quickpick" style={{ marginBottom: 8 }}>
+                      {PROVIDERS[0].chatModels.map(m => (
+                        <button key={m.id} className={`amp-cm-pill${pollModel === m.id ? " active" : ""}`}
+                          onClick={() => { setPollinationsModel(m.id); setPollModelState(m.id); flash(`Model → ${m.label}`); }}
+                          title={m.note}>{m.label}</button>
+                      ))}
+                    </div>
+                    <div className="amp-field-row">
+                      <input className="amp-input" type="text" value={pollModel} onChange={e => setPollModelState(e.target.value)} placeholder="openai" />
+                      <button className="amp-save-btn" onClick={() => { setPollinationsModel(pollModel.trim()); flash("Model saved"); }}><Check size={15} /> Save</button>
+                    </div>
+                    <p style={{ fontSize: 12, color: "#94a3b8", marginTop: 6 }}>💡 Use <strong>llama</strong> or <strong>openai-large</strong> for best diet & gym AI suggestions.</p>
                   </div>
                 </>
               )}

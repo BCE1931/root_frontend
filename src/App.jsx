@@ -27,6 +27,7 @@ import { getMode, getTopic, setTopic, getTopics, addCustomTopic, saveNodeVisit, 
 import ProfilePage from "./ProfilePage";
 import AiModelsPage from "./AiModelsPage";
 import DietPage from "./DietPage";
+import GymPage from "./GymPage";
 import "./App.css";
 import MobileSidebar from "./MobileSidebar";
 import ExamFlow from "./ExamFlow";
@@ -704,6 +705,7 @@ export default function App() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/ai-models" element={<AiModelsPage />} />
       <Route path="/diet" element={<DietPage />} />
+      <Route path="/gym" element={<GymPage />} />
       <Route
         path="/node/:nodeId"
         element={

@@ -1,16 +1,19 @@
 const AI_PROVIDER_KEY         = "aiProvider";
-const GEMINI_KEY_KEY       = "geminiApiKey";
-const OPENROUTER_KEY_KEY   = "openRouterApiKey";
-const OPENROUTER_MODEL_KEY = "openRouterModel";
+const GEMINI_KEY_KEY          = "geminiApiKey";
+const OPENROUTER_KEY_KEY      = "openRouterApiKey";
+const OPENROUTER_MODEL_KEY    = "openRouterModel";
+const POLLINATIONS_MODEL_KEY  = "pollinationsModel";
 
-export function getAiProvider()         { return localStorage.getItem(AI_PROVIDER_KEY)      || "puter"; }
-export function setAiProvider(p)        { localStorage.setItem(AI_PROVIDER_KEY, p); }
-export function getGeminiKey()          { return localStorage.getItem(GEMINI_KEY_KEY)        || ""; }
-export function setGeminiKey(k)         { localStorage.setItem(GEMINI_KEY_KEY, k); }
-export function getOpenRouterKey()      { return localStorage.getItem(OPENROUTER_KEY_KEY)    || ""; }
-export function setOpenRouterKey(k)     { localStorage.setItem(OPENROUTER_KEY_KEY, k); }
-export function getOpenRouterModel()    { return localStorage.getItem(OPENROUTER_MODEL_KEY)  || "meta-llama/llama-3.3-70b-instruct:free"; }
-export function setOpenRouterModel(m)   { localStorage.setItem(OPENROUTER_MODEL_KEY, m); }
+export function getAiProvider()            { return localStorage.getItem(AI_PROVIDER_KEY)         || "puter"; }
+export function setAiProvider(p)           { localStorage.setItem(AI_PROVIDER_KEY, p); }
+export function getGeminiKey()             { return localStorage.getItem(GEMINI_KEY_KEY)           || ""; }
+export function setGeminiKey(k)            { localStorage.setItem(GEMINI_KEY_KEY, k); }
+export function getOpenRouterKey()         { return localStorage.getItem(OPENROUTER_KEY_KEY)       || ""; }
+export function setOpenRouterKey(k)        { localStorage.setItem(OPENROUTER_KEY_KEY, k); }
+export function getOpenRouterModel()       { return localStorage.getItem(OPENROUTER_MODEL_KEY)     || "meta-llama/llama-3.3-70b-instruct:free"; }
+export function setOpenRouterModel(m)      { localStorage.setItem(OPENROUTER_MODEL_KEY, m); }
+export function getPollinationsModel()     { return localStorage.getItem(POLLINATIONS_MODEL_KEY)   || "openai"; }
+export function setPollinationsModel(m)    { localStorage.setItem(POLLINATIONS_MODEL_KEY, m); }
 
 function buildPrompt(node, customQuestion) {
   const desc    = (node.description || "").trim().slice(0, 600);
@@ -124,10 +127,32 @@ async function askViaGemini(node, customQuestion) {
   };
 }
 
+// ── Pollinations AI (free, no signup) ──────────────────────────────────────
+// API: https://text.pollinations.ai/ — returns raw text, no API key needed
+async function askViaPollinations(node, customQuestion) {
+  const model  = getPollinationsModel();
+  const prompt = buildPrompt(node, customQuestion);
+  const res = await fetch("https://text.pollinations.ai/", {
+    method:  "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: [{ role: "user", content: prompt }],
+      model,
+      seed:    Math.floor(Math.random() * 9999),
+      private: true,
+    }),
+  });
+  if (!res.ok) throw new Error(`Pollinations error ${res.status}`);
+  const text = await res.text();
+  if (!text.trim()) throw new Error("Empty response from Pollinations. Try again.");
+  return { response: text.trim(), inputTokens: 0, outputTokens: 0, model, prompt };
+}
+
 export async function askAiAboutTopic(node, customQuestion = "") {
   const provider = getAiProvider();
-  if (provider === "gemini")     return askViaGemini(node, customQuestion);
-  if (provider === "openrouter") return askViaOpenRouter(node, customQuestion);
+  if (provider === "gemini")       return askViaGemini(node, customQuestion);
+  if (provider === "openrouter")   return askViaOpenRouter(node, customQuestion);
+  if (provider === "pollinations") return askViaPollinations(node, customQuestion);
   return askViaPuter(node, customQuestion);
 }
 
@@ -207,10 +232,29 @@ async function chatViaGemini(messages) {
   return { text: text.trim(), model: "gemini-2.0-flash-lite" };
 }
 
+async function chatViaPollinations(messages) {
+  const model = getPollinationsModel();
+  const res = await fetch("https://text.pollinations.ai/", {
+    method:  "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages: [{ role: "system", content: CHAT_SYSTEM }, ...messages],
+      model,
+      seed:    Math.floor(Math.random() * 9999),
+      private: true,
+    }),
+  });
+  if (!res.ok) throw new Error(`Pollinations error ${res.status}`);
+  const text = await res.text();
+  if (!text.trim()) throw new Error("Empty response from Pollinations.");
+  return { text: text.trim(), model };
+}
+
 // messages = [{role:"user"|"assistant", content:"..."}]
 export async function chatWithAi(messages) {
   const provider = getAiProvider();
-  if (provider === "gemini")     return chatViaGemini(messages);
-  if (provider === "openrouter") return chatViaOpenRouter(messages);
+  if (provider === "gemini")       return chatViaGemini(messages);
+  if (provider === "openrouter")   return chatViaOpenRouter(messages);
+  if (provider === "pollinations") return chatViaPollinations(messages);
   return chatViaPuter(messages);
 }
