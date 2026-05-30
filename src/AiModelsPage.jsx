@@ -364,7 +364,7 @@ export default function AiModelsPage() {
                   <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
                 </div>
                 <div className="amp-cm-quickpick">
-                  {PROVIDERS[0].chatModels.map(m => (
+                  {PROVIDERS.find(p => p.id === "puter").chatModels.map(m => (
                     <button key={m.id} className={`amp-cm-pill${chatPuter === m.id ? " active" : ""}`} onClick={() => { setChatModelPuter(m.id); setChatPuterState(m.id); flash(`Puter chat → ${m.label}`); }} title={m.note}>{m.label}</button>
                   ))}
                 </div>
@@ -380,7 +380,7 @@ export default function AiModelsPage() {
                   <span className="amp-badge" style={{ background: "rgba(16,185,129,0.12)", color: "#10b981" }}>FREE</span>
                 </div>
                 <div className="amp-cm-quickpick">
-                  {PROVIDERS[2].chatModels.map(m => (
+                  {PROVIDERS.find(p => p.id === "openrouter").chatModels.map(m => (
                     <button key={m.id} className={`amp-cm-pill${chatOr === m.id ? " active" : ""}`} onClick={() => { setChatModelOpenRouter(m.id); setChatOrState(m.id); flash(`OpenRouter → ${m.label}`); }} title={m.note}>{m.label}</button>
                   ))}
                 </div>
