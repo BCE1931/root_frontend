@@ -28,6 +28,7 @@ import ProfilePage from "./ProfilePage";
 import AiModelsPage from "./AiModelsPage";
 import DietPage from "./DietPage";
 import GymPage from "./GymPage";
+import MoneyPage from "./MoneyPage";
 import "./App.css";
 import MobileSidebar from "./MobileSidebar";
 import ExamFlow from "./ExamFlow";
@@ -706,6 +707,7 @@ export default function App() {
       <Route path="/ai-models" element={<AiModelsPage />} />
       <Route path="/diet" element={<DietPage />} />
       <Route path="/gym" element={<GymPage />} />
+      <Route path="/money" element={<MoneyPage />} />
       <Route
         path="/node/:nodeId"
         element={
