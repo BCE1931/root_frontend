@@ -5,7 +5,7 @@ import {
   BookOpen, Brain, Search, BarChart2, Layers, ZoomIn, ZoomOut,
   Plus, Check, History, Pencil, Phone, Mail, Flame, Target,
   Keyboard, X, Award, GraduationCap, Code2, Server, Globe,
-  GitBranch, Cpu, Bot,
+  GitBranch, Cpu, Bot, Utensils,
 } from "lucide-react";
 import { ThemeContext } from "./ThemeContext";
 import { toast } from "react-toastify";
@@ -244,6 +244,7 @@ export default function Header({
             {!isMobileLandscape && onSearch    && <button className="hdr-icon-btn" onClick={onSearch}    title="Search (Ctrl+K)"><Search   size={17} /></button>}
             {!isMobileLandscape && onFlashcard && <button className="hdr-icon-btn" onClick={onFlashcard} title="Flashcard Revision"><Layers  size={17} /></button>}
             {!isMobileLandscape && onProgress  && <button className="hdr-icon-btn" onClick={onProgress}  title="Progress Dashboard"><BarChart2 size={17} /></button>}
+            {!isMobileLandscape && <button className="hdr-icon-btn" onClick={() => navigate("/diet")} title="Diet Tracker"><Utensils size={17} /></button>}
             {!isMobileLandscape && onExport && (
               <button className="hdr-icon-btn" onClick={onExport} title="Export JSON"><Download size={17} /></button>
             )}
@@ -341,6 +342,9 @@ export default function Header({
                   <div className="panel-divider" />
 
                   {/* ── Actions ── */}
+                  <button className="panel-item" onClick={() => { setProfileOpen(false); navigate("/diet"); }}>
+                    <Utensils size={14} /> Diet Tracker
+                  </button>
                   <button className="panel-item" onClick={() => { setProfileOpen(false); navigate("/profile"); }}>
                     <History size={14} /> History
                   </button>

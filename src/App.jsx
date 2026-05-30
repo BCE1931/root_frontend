@@ -26,6 +26,7 @@ import * as api from "./storage/index.js";
 import { getMode, getTopic, setTopic, getTopics, addCustomTopic, saveNodeVisit, getAiNodeIds } from "./storage/index.js";
 import ProfilePage from "./ProfilePage";
 import AiModelsPage from "./AiModelsPage";
+import DietPage from "./DietPage";
 import "./App.css";
 import MobileSidebar from "./MobileSidebar";
 import ExamFlow from "./ExamFlow";
@@ -702,6 +703,7 @@ export default function App() {
       />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/ai-models" element={<AiModelsPage />} />
+      <Route path="/diet" element={<DietPage />} />
       <Route
         path="/node/:nodeId"
         element={
